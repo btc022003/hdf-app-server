@@ -1,8 +1,10 @@
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
+import * as cookieParser from 'cookie-parser';
 import { AllResponseInterceptor } from './all-response.interceptor';
 import { AppModule } from './app.module';
+import { AnyExceptionFilter } from './any-exception.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -19,6 +21,10 @@ async function bootstrap() {
   app.useGlobalInterceptors(new AllResponseInterceptor()); // 拦截格式化处理所有的服务器响应
 
   app.useGlobalPipes(new ValidationPipe()); // 使用验证插件
+
+  app.use(cookieParser()); // cookie 格式化插件
+
+  app.useGlobalFilters(new AnyExceptionFilter()); // 全局异常处理
 
   await app.listen(3000);
 }
