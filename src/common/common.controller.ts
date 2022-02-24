@@ -37,7 +37,7 @@ export class CommonController {
     if (files == undefined) {
       throw new BadRequestException('请选择需要上传的文件');
     } else {
-      return files?.filename;
+      return '/uploads/' + files?.filename;
     }
   }
 }
