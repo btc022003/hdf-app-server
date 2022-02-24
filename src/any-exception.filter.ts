@@ -9,6 +9,7 @@ import {
 import { Prisma } from '@prisma/client';
 
 @Catch(Prisma.PrismaClientKnownRequestError)
+@Catch()
 export class AnyExceptionFilter implements ExceptionFilter {
   private readonly logger = new Logger(AnyExceptionFilter.name); // 日志实例
   catch(exception: any, host: ArgumentsHost) {
