@@ -26,8 +26,7 @@ export class DepartmentsController extends BaseController {
   })
   @Post()
   async create(@Body() createData: CreateDepartmentDto) {
-    const data = await this.departmentsService.create(createData); // 新增的数据进行保存
-    return data;
+    return this.departmentsService.create(createData); // 新增的数据进行保存
   }
 
   @ApiHeader({

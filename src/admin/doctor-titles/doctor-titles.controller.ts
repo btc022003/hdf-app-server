@@ -13,9 +13,8 @@ export class DoctorTitlesController extends BaseController {
   }
 
   @Post()
-  async create(@Body() createData: CreateDoctorTitleDto) {
-    const data = await this.doctorTitleService.create(createData); // 新增的数据进行保存
-    return data;
+  create(@Body() createData: CreateDoctorTitleDto) {
+    return this.doctorTitleService.create(createData); // 新增的数据进行保存
   }
 
   @Patch(':id')
