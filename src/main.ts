@@ -12,7 +12,7 @@ async function bootstrap() {
 
   const config = new DocumentBuilder()
     .setTitle('HDF')
-    .setDescription('The cats API description')
+    .setDescription('好大夫服务器端API接口')
     .setVersion('1.0')
     // .addTag('cats')
     .build();

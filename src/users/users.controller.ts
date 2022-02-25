@@ -1,10 +1,12 @@
 import { Body, Controller, Post, Res } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 import { CreateUserDto } from 'src/admin/users/dto/create-user.dto';
 import { LoginDto } from './dto/login.dto';
 import { UsersService } from './users.service';
 
-@Controller('users')
+@ApiTags('登录注册')
+@Controller('auth')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
   @Post('login')

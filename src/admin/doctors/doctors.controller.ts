@@ -7,11 +7,13 @@ import {
   Get,
   Query,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { BaseController } from 'src/base/base.controller';
 import { DoctorsService } from './doctors.service';
 import { CreateDoctorDto } from './dto/create-doctor.dto';
 import { UpdateDoctorDto } from './dto/update-doctor.dto';
 
+@ApiTags('医生信息')
 @Controller('admin/doctors')
 export class DoctorsController extends BaseController {
   constructor(private readonly doctorsService: DoctorsService) {

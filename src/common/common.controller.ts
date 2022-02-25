@@ -6,6 +6,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { ApiTags } from '@nestjs/swagger';
 import * as multer from 'multer';
 import * as path from 'path';
 
@@ -22,6 +23,7 @@ const storage = multer.diskStorage({
   },
 });
 
+@ApiTags('通用操作')
 @Controller('common')
 export class CommonController {
   @Post('upload')
