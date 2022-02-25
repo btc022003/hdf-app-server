@@ -1,8 +1,41 @@
-import { Controller, Post, Body, Patch, Param } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Get,
+  Query,
+} from '@nestjs/common';
 import { BaseController } from 'src/base/base.controller';
 import { DoctorsService } from './doctors.service';
 import { CreateDoctorDto } from './dto/create-doctor.dto';
 import { UpdateDoctorDto } from './dto/update-doctor.dto';
+
+@Controller('admin/doctors')
+export class DoctorsController extends BaseController {
+  constructor(private readonly doctorsService: DoctorsService) {
+    super(doctorsService);
+  }
+
+  // 重写默认的分页方法，传递需要关联查询的数据
+  @Get()
+  index(@Query() query) {
+    return this.doctorsService.findAll({}, query.page, query.per, {
+      doctorTitleInfo: true,
+    });
+  }
+
+  @Post()
+  create(@Body() createDoctorDto: CreateDoctorDto) {
+    return this.doctorsService.create(createDoctorDto);
+  }
+
+  @Patch(':id')
+  update(@Param('id') id: string, @Body() updateDoctorDto: UpdateDoctorDto) {
+    return this.doctorsService.update(id, updateDoctorDto);
+  }
+}
 
 // @Controller('admin/doctors')
 // export class DoctorsController {
@@ -33,20 +66,3 @@ import { UpdateDoctorDto } from './dto/update-doctor.dto';
 //     return this.doctorsService.remove(id);
 //   }
 // }
-
-@Controller('admin/doctors')
-export class DoctorsController extends BaseController {
-  constructor(private readonly doctorsService: DoctorsService) {
-    super(doctorsService);
-  }
-
-  @Post()
-  create(@Body() createDoctorDto: CreateDoctorDto) {
-    return this.doctorsService.create(createDoctorDto);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateDoctorDto: UpdateDoctorDto) {
-    return this.doctorsService.update(id, updateDoctorDto);
-  }
-}

@@ -30,13 +30,14 @@ export class BaseService {
    * @param per   每页显示的数量
    * @returns
    */
-  async findAll(where = {}, page = 1, per = 10) {
+  async findAll(where = {}, page = 1, per = 10, include = null) {
     page = isNaN(page) ? 1 : page * 1;
     per = isNaN(page) ? 10 : per * 1;
     const list = await this.model.findMany({
       where,
       skip: (page - 1) * per,
       take: per * 1,
+      include,
     });
     const total = await this.model.count({ where });
     return {
