@@ -71,6 +71,7 @@ export class UsersService {
    * @returns
    */
   update(id: string, updateUserDto: UpdateUserDto) {
+    delete updateUserDto.userName; // 删除用户名，限制用户名不能修改
     return this.prisma.user.update({
       where: { id },
       data: {

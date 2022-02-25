@@ -8,9 +8,18 @@ import { UsersModule } from './users/users.module';
 import { UsersModule as AdminUsersModule } from './admin/users/users.module';
 import { ValidateLoginMiddleware } from './validate-login.middleware';
 import { CommonController } from './common/common.controller';
+import { DoctorsModule as AdminDoctorsModule } from './admin/doctors/doctors.module';
+import { DoctorTitlesModule as AdminDoctorTitlesModule } from './admin/doctor-titles/doctor-titles.module';
+import { DepartmentsModule as AdminDepartmentsModule } from './admin/departments/departments.module';
 
 @Module({
-  imports: [UsersModule, AdminUsersModule],
+  imports: [
+    UsersModule,
+    AdminUsersModule,
+    AdminDoctorsModule,
+    AdminDoctorTitlesModule,
+    AdminDepartmentsModule,
+  ],
   controllers: [AppController, CommonController],
   providers: [AppService, PrismaService],
 })

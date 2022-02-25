@@ -12,10 +12,10 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = "postgresql://postgres:123456@127.0.0.1:5432/hys-app"
+  url      = env("DATABASE_PgSQL_URL")
 }
 
-model User {
+model user {
   id        String   @id @default(uuid())
   userName  String   @unique @map("user_name")
   password  String
@@ -24,4 +24,52 @@ model User {
   updatedAt DateTime @updatedAt @map("updated_at")
 
   @@map("users")
+}
+
+// 找医生部分
+model doctor {
+  id        String   @id @default(uuid())
+  name      String
+  desc      String
+  tags      String
+  content   String
+  avatar    String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  // 建立关联的模型中使用到的名字
+  //  fields 当前表中的字段
+  //  references 关联表中的字段
+  //  通过设置关联字段为可选，可以在关联数据为空时查询不报错
+
+  departmentInfo  department?  @relation(fields: [departmentId], references: [id])
+  departmentId    String?      @map("department_id")
+  doctorTitleInfo doctorTitle? @relation(fields: [doctorTitleId], references: [id])
+  doctorTitleId   String?      @map("doctor_title_id")
+
+  @@map("doctors")
+}
+
+model department {
+  id        String   @id @default(uuid())
+  name      String
+  desc      String
+  content   String
+  image     String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  doctors   doctor[]
+
+  @@map("departments")
+}
+
+model doctorTitle {
+  id        String   @id @default(uuid())
+  name      String
+  desc      String
+  image     String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  doctors doctor[]
+  @@map("doctor_titls")
 }
