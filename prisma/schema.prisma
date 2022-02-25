@@ -29,11 +29,11 @@ model user {
 // 找医生部分
 model doctor {
   id        String   @id @default(uuid())
-  name      String
-  desc      String
-  tags      String
-  content   String
-  avatar    String
+  name      String   @default("")
+  desc      String   @default("")
+  tags      String   @default("")
+  content   String   @default("")
+  avatar    String   @default("")
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
   // 建立关联的模型中使用到的名字
@@ -51,10 +51,10 @@ model doctor {
 
 model department {
   id        String   @id @default(uuid())
-  name      String
-  desc      String
-  content   String
-  image     String
+  name      String   @default("")
+  desc      String   @default("")
+  content   String   @default("")
+  image     String   @default("")
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
   doctors   doctor[]
@@ -64,9 +64,9 @@ model department {
 
 model doctorTitle {
   id        String   @id @default(uuid())
-  name      String
-  desc      String
-  image     String
+  name      String   @default("")
+  desc      String   @default("")
+  image     String   @default("")
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
