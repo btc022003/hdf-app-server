@@ -7,4 +7,8 @@ export class DepartmentsService extends BaseService {
   constructor(private readonly prisma: PrismaService) {
     super(prisma.department);
   }
+
+  all() {
+    return this.prisma.department.findMany({});
+  }
 }

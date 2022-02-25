@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Patch, Param } from '@nestjs/common';
+import { Controller, Post, Body, Patch, Param, Get } from '@nestjs/common';
 import { ApiHeader, ApiTags } from '@nestjs/swagger';
 import { BaseController } from 'src/base/base.controller';
 import { DepartmentsService } from './departments.service';
@@ -10,6 +10,14 @@ import { UpdateDepartmentDto } from './dto/update-department.dto';
 export class DepartmentsController extends BaseController {
   constructor(private readonly departmentsService: DepartmentsService) {
     super(departmentsService);
+  }
+
+  @ApiHeader({
+    name: '获取所有的数据',
+  })
+  @Get('all')
+  loadAll() {
+    return this.departmentsService.all();
   }
 
   @ApiHeader({
