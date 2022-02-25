@@ -22,6 +22,9 @@ model user {
   nickName  String   @map("nick_name")
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
+  hospital  String   @default("")
+  address   String   @default("")
+  mobile    String   @default("")
 
   @@map("users")
 }
@@ -72,4 +75,16 @@ model doctorTitle {
 
   doctors doctor[]
   @@map("doctor_titls")
+}
+
+// 医生标签关键词，主要用于录入医生标签信息的时候作为参考
+model doctorTag {
+  id        String   @id @default(uuid())
+  name      String   @default("")
+  desc      String   @default("")
+  image     String   @default("")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("doctor_tags")
 }

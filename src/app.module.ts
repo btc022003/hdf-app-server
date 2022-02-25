@@ -11,6 +11,7 @@ import { CommonController } from './common/common.controller';
 import { DoctorsModule as AdminDoctorsModule } from './admin/doctors/doctors.module';
 import { DoctorTitlesModule as AdminDoctorTitlesModule } from './admin/doctor-titles/doctor-titles.module';
 import { DepartmentsModule as AdminDepartmentsModule } from './admin/departments/departments.module';
+import { DoctorTagsModule as AdminDoctorTagsModule } from './admin/doctor-tags/doctor-tags.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { DepartmentsModule as AdminDepartmentsModule } from './admin/departments
     AdminDoctorsModule,
     AdminDoctorTitlesModule,
     AdminDepartmentsModule,
+    AdminDoctorTagsModule,
   ],
   controllers: [AppController, CommonController],
   providers: [AppService, PrismaService],
