@@ -9,18 +9,19 @@ import { PrismaService } from './prisma/prisma.service';
 export class ValidateLoginMiddleware implements NestMiddleware {
   constructor(private readonly prisma: PrismaService) {}
   async use(req: any, res: any, next: () => void) {
-    if (req.cookies?.token) {
-      const user = await this.prisma.user.count({
-        where: { id: req.cookies.token },
-      });
-      if (user > 0) {
-        next();
-      } else {
-        throw new UnauthorizedException();
-      }
-    } else {
-      // next();
-      throw new UnauthorizedException();
-    }
+    // 暂时注释验证部分代码
+    next();
+    //   if (req.cookies?.token) {
+    //     const user = await this.prisma.user.count({
+    //       where: { id: req.cookies.token },
+    //     });
+    //     if (user > 0) {
+    //       next();
+    //     } else {
+    //       throw new UnauthorizedException();
+    //     }
+    //   } else {
+    //     throw new UnauthorizedException();
+    //   }
   }
 }

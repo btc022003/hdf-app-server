@@ -20,12 +20,12 @@ export class AnyExceptionFilter implements ExceptionFilter {
       exception instanceof HttpException
         ? exception.getStatus()
         : HttpStatus.INTERNAL_SERVER_ERROR;
-    // this.logger.error(JSON.stringify(exception.message));
+    this.logger.error(exception?.message); // 打印错误内容
     response.status(status).json({
       statusCode: status,
       timestamp: new Date().toISOString(),
       path: request.url,
-      errorMessage: exception?.message,
+      errorMessage: exception?.message.split('\n').pop().trim(),
       data: {},
       success: false,
     });
