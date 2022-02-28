@@ -13,6 +13,7 @@ import { DoctorTitlesModule as AdminDoctorTitlesModule } from './admin/doctor-ti
 import { DepartmentsModule as AdminDepartmentsModule } from './admin/departments/departments.module';
 import { DoctorTagsModule as AdminDoctorTagsModule } from './admin/doctor-tags/doctor-tags.module';
 import { DoctorCommentsModule as AdminDoctorCommentsModule } from './admin/doctor-comments/doctor-comments.module';
+import { HospitalsModule as AdminHospitalsModule } from './admin/hospitals/hospitals.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { DoctorCommentsModule as AdminDoctorCommentsModule } from './admin/docto
     AdminDepartmentsModule,
     AdminDoctorTagsModule,
     AdminDoctorCommentsModule,
+    AdminHospitalsModule,
   ],
   controllers: [AppController, CommonController],
   providers: [AppService, PrismaService],

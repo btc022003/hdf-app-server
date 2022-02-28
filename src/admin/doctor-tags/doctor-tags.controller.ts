@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param } from '@nestjs/common';
+import { Controller, Post, Body, Patch, Param } from '@nestjs/common';
 import { ApiHeader, ApiTags } from '@nestjs/swagger';
 import { BaseController } from 'src/base/base.controller';
 import { DoctorTagsService } from './doctor-tags.service';
