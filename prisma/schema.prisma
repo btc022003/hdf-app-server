@@ -15,7 +15,7 @@ datasource db {
   url      = env("DATABASE_PgSQL_URL")
 }
 
-model user {
+model User {
   id        String   @id @default(uuid())
   userName  String   @unique @map("user_name")
   password  String
@@ -30,7 +30,7 @@ model user {
 }
 
 // 找医生部分
-model doctor {
+model Doctor {
   id        String   @id @default(uuid())
   name      String   @default("")
   desc      String   @default("")
@@ -44,15 +44,15 @@ model doctor {
   //  references 关联表中的字段
   //  通过设置关联字段为可选，可以在关联数据为空时查询不报错
 
-  departmentInfo  department?  @relation(fields: [departmentId], references: [id])
+  departmentInfo  Department?  @relation(fields: [departmentId], references: [id])
   departmentId    String?      @map("department_id")
-  doctorTitleInfo doctorTitle? @relation(fields: [doctorTitleId], references: [id])
+  doctorTitleInfo DoctorTitle? @relation(fields: [doctorTitleId], references: [id])
   doctorTitleId   String?      @map("doctor_title_id")
 
   @@map("doctors")
 }
 
-model department {
+model Department {
   id        String   @id @default(uuid())
   name      String   @default("")
   desc      String   @default("")
@@ -60,12 +60,12 @@ model department {
   image     String   @default("")
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
-  doctors   doctor[]
+  doctors   Doctor[]
 
   @@map("departments")
 }
 
-model doctorTitle {
+model DoctorTitle {
   id        String   @id @default(uuid())
   name      String   @default("")
   desc      String   @default("")
@@ -73,12 +73,12 @@ model doctorTitle {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  doctors doctor[]
+  doctors Doctor[]
   @@map("doctor_titls")
 }
 
 // 医生标签关键词，主要用于录入医生标签信息的时候作为参考
-model doctorTag {
+model DoctorTag {
   id        String   @id @default(uuid())
   name      String   @default("")
   desc      String   @default("")
