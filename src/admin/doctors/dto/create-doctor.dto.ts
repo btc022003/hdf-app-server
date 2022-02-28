@@ -37,4 +37,9 @@ export class CreateDoctorDto {
     description: '部门id',
   })
   departmentId: string;
+
+  @ApiProperty({
+    description: '医院id',
+  })
+  hospitalId: string;
 }

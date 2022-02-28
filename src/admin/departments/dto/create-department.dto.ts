@@ -7,4 +7,19 @@ export class CreateDepartmentDto {
   })
   @IsNotEmpty()
   name: string;
+
+  @ApiProperty({
+    description: '描述',
+  })
+  desc: string;
+
+  @ApiProperty({
+    description: '详细信息',
+  })
+  content: string;
+
+  @ApiProperty({
+    description: '部门图标',
+  })
+  image: string;
 }

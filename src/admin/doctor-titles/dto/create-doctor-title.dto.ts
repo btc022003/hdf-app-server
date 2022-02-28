@@ -6,4 +6,14 @@ export class CreateDoctorTitleDto {
   })
   @IsNotEmpty()
   name: string;
+
+  @ApiProperty({
+    description: '描述',
+  })
+  desc: string;
+
+  @ApiProperty({
+    description: '图片',
+  })
+  image: string;
 }

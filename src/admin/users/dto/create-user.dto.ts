@@ -18,4 +18,19 @@ export class CreateUserDto {
     description: '昵称',
   })
   nickName: string;
+
+  @ApiProperty({
+    description: '头像',
+  })
+  avatar: string;
+
+  @ApiProperty({
+    description: '地址',
+  })
+  address: string;
+
+  @ApiProperty({
+    description: '手机号',
+  })
+  mobile: string;
 }
