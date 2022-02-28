@@ -17,7 +17,7 @@ export class BaseController {
     name: '获取单条记录',
     description: '根据id获取单条记录',
   })
-  @Get('/:id')
+  @Get(':id')
   one(@Param() params) {
     return this.service.findOne(params.id);
   }
