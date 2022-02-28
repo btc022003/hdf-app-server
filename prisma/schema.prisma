@@ -172,7 +172,7 @@ model Medicine {
   createdAt          DateTime          @default(now()) @map("created_at")
   updatedAt          DateTime          @updatedAt @map("updated_at")
   category           MedicineCategory? @relation(fields: [medicineCategoryId], references: [id])
-  medicineCategoryId String?
+  medicineCategoryId String?           @default("") @map("medicine_category_id")
 
   @@map("medicines")
 }

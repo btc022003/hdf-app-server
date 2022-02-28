@@ -16,6 +16,7 @@ import { DoctorCommentsModule as AdminDoctorCommentsModule } from './admin/docto
 import { HospitalsModule as AdminHospitalsModule } from './admin/hospitals/hospitals.module';
 import { ConsultationsModule as AdminConsultationsModule } from './admin/consultations/consultations.module';
 import { MedicineCategoriesModule as AdminMedicineCategoriesModule } from './admin/medicine-categories/medicine-categories.module';
+import { MedicinesModule } from './admin/medicines/medicines.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { MedicineCategoriesModule as AdminMedicineCategoriesModule } from './adm
     AdminHospitalsModule,
     AdminConsultationsModule,
     AdminMedicineCategoriesModule,
+    MedicinesModule,
   ],
   controllers: [AppController, CommonController],
   providers: [AppService, PrismaService],
