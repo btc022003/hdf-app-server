@@ -151,6 +151,7 @@ model MedicineCategory {
   id        String   @id @default(uuid())
   name      String   @default("")
   desc      String   @default("")
+  image     String   @default("")
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
