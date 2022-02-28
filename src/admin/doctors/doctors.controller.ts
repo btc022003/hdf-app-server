@@ -9,6 +9,7 @@ import {
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { BaseController } from 'src/base/base.controller';
+import { PrismaService } from 'src/prisma/prisma.service';
 import { DoctorsService } from './doctors.service';
 import { CreateDoctorDto } from './dto/create-doctor.dto';
 import { UpdateDoctorDto } from './dto/update-doctor.dto';
@@ -16,7 +17,10 @@ import { UpdateDoctorDto } from './dto/update-doctor.dto';
 @ApiTags('医生信息')
 @Controller('admin/doctors')
 export class DoctorsController extends BaseController {
-  constructor(private readonly doctorsService: DoctorsService) {
+  constructor(
+    private readonly doctorsService: DoctorsService,
+    private readonly prisma: PrismaService,
+  ) {
     super(doctorsService);
   }
 
@@ -25,6 +29,18 @@ export class DoctorsController extends BaseController {
   index(@Query() query) {
     return this.doctorsService.findAll({}, query.page, query.per, {
       doctorTitleInfo: true,
+      departmentInfo: true,
+      hospitalInfo: true,
+    });
+  }
+
+  @Get('comments/:doctor_id')
+  comments(@Param('doctor_id') doctor_id: string) {
+    // return this.doctorsServic
+    return this.prisma.doctorComment.findMany({
+      where: {
+        doctorId: doctor_id,
+      },
     });
   }
 
