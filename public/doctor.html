@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h3>医生端</h3>
+    <button onclick="toWork()">上线</button>
+    <ul></ul>
+    <script src="https://cdn.jsdelivr.net/npm/socket.io-client@4.4.1/dist/socket.io.min.js"></script>
+    <script>
+      const socket = io();
+      function toWork() {
+        socket.emit('to_work', {
+          doctor: 'f60c7211-9ce2-4f8b-a573-4bdc87e42a85',
+        });
+      }
+    </script>
+  </body>
+</html>

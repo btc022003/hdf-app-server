@@ -75,17 +75,14 @@
     </style>
   </head>
   <body class="container">
-    <div class="left">
-      <div class="on-item">
+    <div class="left" id="doctorsInfo">
+      <!-- <div class="on-item">
         <img class="avatar" src="" alt="" />
         <h3>小一</h3>
-      </div>
-      <div class="on-item checked">
-        <img class="avatar" src="./images/avatar-6.jpg" alt="" />
-        <h3>小二</h3>
-      </div>
+      </div> -->
     </div>
     <div class="right">
+      <!-- <button>刷新医生列表</button> -->
       <div class="chat-content" id="chatContent">
         <!-- <div class="chat-item d">医生：注意休息</div>
         <div class="chat-item m">我：知道了。</div>
@@ -97,12 +94,18 @@
           id="txt"
           cols="30"
           rows="10"
+          onkeyup="sendHandle(event)"
         ></textarea>
       </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/socket.io-client@4.4.1/dist/socket.io.min.js"></script>
     <script>
+      const socket = io();
       const txt = document.querySelector('#txt');
       const chatContent = document.querySelector('#chatContent');
+      const doctorsInfo = document.querySelector('#doctorsInfo');
+      var doctorId = ''; // 当前选择要咨询的医生
+      const userId = 'a66adb62-3410-4fda-8e1c-476a95415ffe'; // 先设置一个固定的用户，以后集成系统的时候需要先登录
       function sendMsg() {
         if (txt.value) {
           // 发送消息
@@ -111,9 +114,37 @@
         }
       }
 
+      socket.on('send_doctor_list', (doctors) => {
+        // console.log(doctors);
+        doctors.forEach((item) => {
+          doctorsInfo.innerHTML += `<div class="on-item">
+        <img class="avatar" src="" alt="" />
+        <h3 data-id='${item.id}' onclick="selDoctor('${item.id}')">${item.name}</h3>
+      </div>`;
+        });
+      });
+
       function initHtml(msg) {
         // 根据消息拼接字符串进行展示
         chatContent.innerHTML += `<div class="chat-item m">${msg.from}：${msg.content}</div>`;
+      }
+
+      function sendHandle(e) {
+        if (e.keyCode === 13 && e.target.value) {
+          if (doctorId) {
+            socket.emit('ask', {
+              doctor: doctorId,
+              user: userId,
+              content: e.target.value,
+            });
+            e.target.value = '';
+          } else {
+            alert('请选择医生');
+          }
+        }
+      }
+      function selDoctor(id) {
+        doctorId = id;
       }
     </script>
   </body>

@@ -5,9 +5,9 @@ import {
   WebSocketGateway,
   SubscribeMessage,
   MessageBody,
+  ConnectedSocket,
 } from '@nestjs/websockets';
-import { Server } from 'http';
-import { Socket } from 'socket.io';
+import { Socket, Server } from 'socket.io';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { ChatsService } from './chats.service';
 import {
@@ -29,10 +29,11 @@ export class ChatsGateway implements OnGatewayConnection, OnGatewayDisconnect {
     private readonly prisma: PrismaService,
   ) {}
 
-  handleConnection(socket: Socket): void {
+  async handleConnection(socket: Socket) {
     const socketId = socket.id;
     console.log(`New connecting... socket id:`, socketId);
     // ChatWebsocketGateway.participants.set(socketId, '');
+    this.broadCastOnLineDoctors();
   }
 
   handleDisconnect(socket: Socket): void {
@@ -41,36 +42,54 @@ export class ChatsGateway implements OnGatewayConnection, OnGatewayDisconnect {
     ChatsGateway.onLineDoctors.delete(socketId);
   }
 
-  // 获取在线的医生
-  @SubscribeMessage('load_online_doctors')
-  loadOneLineDoctors() {
-    // 获取在线的医生列表
-    // 查询数据库，获取在线的医生信息
+  async broadCastOnLineDoctors() {
     const doctorIds = [];
     ChatsGateway.onLineDoctors.forEach((item) => doctorIds.push(item.doctorId));
-    return this.prisma.doctor.findMany({
+    const doctors = await this.prisma.doctor.findMany({
       where: {
         id: {
           in: doctorIds,
         },
       },
     });
+    this.server.emit('send_doctor_list', doctors);
   }
+
+  // 获取在线的医生
+  // @SubscribeMessage('load_online_doctors')
+  // loadOneLineDoctors() {
+  //   // 获取在线的医生列表
+  //   // 查询数据库，获取在线的医生信息
+  //   const doctorIds = [];
+  //   ChatsGateway.onLineDoctors.forEach((item) => doctorIds.push(item.doctorId));
+  //   return this.prisma.doctor.findMany({
+  //     where: {
+  //       id: {
+  //         in: doctorIds,
+  //       },
+  //     },
+  //   });
+  // }
 
   // 医生上线
   @SubscribeMessage('to_work')
-  toWork(socket: Socket, @MessageBody() createChatDto: CreateChatDto) {
+  toWork(
+    @ConnectedSocket() socket: Socket,
+    @MessageBody() createChatDto: CreateChatDto,
+  ) {
     //
     console.log('医生上线, socketId: %s, info: %s', socket.id, createChatDto);
     ChatsGateway.onLineDoctors.set(socket.id, {
       socketId: socket.id,
       doctorId: createChatDto.doctor,
     });
+    this.broadCastOnLineDoctors();
   }
 
   // 提问，从用户发给医生
   @SubscribeMessage('ask')
   async ask(@MessageBody() createChatDto: CreateChatDto) {
+    // console.log(createChatDto.user);
     // 提问了，把问题转移给对应的医生
     const from = await this.prisma.user.findFirst({
       where: { id: createChatDto.user },
@@ -78,6 +97,16 @@ export class ChatsGateway implements OnGatewayConnection, OnGatewayDisconnect {
     const to = await this.prisma.doctor.findFirst({
       where: { id: createChatDto.doctor },
     });
+
+    // console.log(1111);
+
+    //
+    ChatsGateway.onLineDoctors.get('');
+    // 需要优化一下，向单个被提问的人发送消息
+    // this.server.fetchSockets().then((d) => {
+    //   // console.log(d.find(item => item.id == ));
+    // });
+
     this.server.emit('ask/' + getSocketTypeKey(createChatDto), {
       from: from.nickName ? from.nickName : from.userName,
       to: to.name,
