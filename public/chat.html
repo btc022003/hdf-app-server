@@ -86,20 +86,35 @@
       </div>
     </div>
     <div class="right">
-      <div class="chat-content">
-        <div class="chat-item d">医生：注意休息</div>
+      <div class="chat-content" id="chatContent">
+        <!-- <div class="chat-item d">医生：注意休息</div>
         <div class="chat-item m">我：知道了。</div>
-        <div class="chat-item m">我：还有其他需要注意的吗。</div>
+        <div class="chat-item m">我：还有其他需要注意的吗。</div> -->
       </div>
       <div class="msg">
         <textarea
           placeholder="请输入内容，按下回车键进行发送"
-          name=""
-          id=""
+          id="txt"
           cols="30"
           rows="10"
         ></textarea>
       </div>
     </div>
+    <script>
+      const txt = document.querySelector('#txt');
+      const chatContent = document.querySelector('#chatContent');
+      function sendMsg() {
+        if (txt.value) {
+          // 发送消息
+          chatContent.innerHTML += `<div class="chat-item m">我：${txt.value}</div>`;
+          txt.value = '';
+        }
+      }
+
+      function initHtml(msg) {
+        // 根据消息拼接字符串进行展示
+        chatContent.innerHTML += `<div class="chat-item m">${msg.from}：${msg.content}</div>`;
+      }
+    </script>
   </body>
 </html>

@@ -81,6 +81,7 @@ export class ChatsGateway implements OnGatewayConnection, OnGatewayDisconnect {
     this.server.emit('ask/' + getSocketTypeKey(createChatDto), {
       from: from.nickName ? from.nickName : from.userName,
       to: to.name,
+      user: createChatDto.user,
       content: createChatDto.content,
       date: Date.now(),
     });
@@ -100,6 +101,7 @@ export class ChatsGateway implements OnGatewayConnection, OnGatewayDisconnect {
     this.server.emit('reply/' + getSocketTypeKey(createChatDto), {
       from: from.name,
       to: to.nickName ? to.nickName : to.userName,
+      doctor: createChatDto.doctor,
       content: createChatDto.content,
       date: Date.now(),
     });
