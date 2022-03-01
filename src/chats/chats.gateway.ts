@@ -103,10 +103,6 @@ export class ChatsGateway implements OnGatewayConnection, OnGatewayDisconnect {
       content: '',
       date: Date.now(),
     });
-    this.server.emit('ask/' + getSocketTypeKey(createChatDto), {
-      content: '',
-      date: Date.now(),
-    });
     return { code: 1, data: '回答完成' };
   }
 }
