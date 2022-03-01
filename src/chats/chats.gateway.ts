@@ -101,13 +101,23 @@ export class ChatsGateway implements OnGatewayConnection, OnGatewayDisconnect {
     // console.log(1111);
 
     //
-    ChatsGateway.onLineDoctors.get('');
+    // ChatsGateway.onLineDoctors.get('');
     // 需要优化一下，向单个被提问的人发送消息
     // this.server.fetchSockets().then((d) => {
     //   // console.log(d.find(item => item.id == ));
     // });
-
-    this.server.emit('ask/' + getSocketTypeKey(createChatDto), {
+    let toSocketId = ''; // 需要接收消息的客户端的id
+    const clients = await this.server.fetchSockets(); // 所有连接的客户端
+    // 根据医生id获取医生的客户端socket id
+    ChatsGateway.onLineDoctors.forEach((dItem, dKey) => {
+      if (dItem.doctorId == to.id) {
+        //
+        toSocketId = dKey;
+      }
+    });
+    const client = clients.find((item) => item.id == toSocketId); // 接收消息的客户端信息
+    // client.emit('')
+    client.emit('ask/' + getSocketTypeKey(createChatDto), {
       from: from.nickName ? from.nickName : from.userName,
       to: to.name,
       user: createChatDto.user,
