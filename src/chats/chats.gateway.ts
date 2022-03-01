@@ -86,11 +86,19 @@ export class ChatsGateway implements OnGatewayConnection, OnGatewayDisconnect {
     }
   }
 
-  // 提问
+  // 提问，从用户发给医生
   @SubscribeMessage('ask')
-  ask(@MessageBody() createChatDto: CreateChatDto) {
+  async ask(@MessageBody() createChatDto: CreateChatDto) {
     // 提问了，把问题转移给对应的医生
+    const from = await this.prisma.user.findFirst({
+      where: { id: createChatDto.user },
+    });
+    const to = await this.prisma.doctor.findFirst({
+      where: { id: createChatDto.doctor },
+    });
     this.server.emit('ask/' + getSocketTypeKey(createChatDto), {
+      from: from.nickName ? from.nickName : from.userName,
+      to: to.name,
       content: '',
       date: Date.now(),
     });
@@ -98,9 +106,21 @@ export class ChatsGateway implements OnGatewayConnection, OnGatewayDisconnect {
     return { code: 1, data: '提问完成' };
   }
 
-  // 回复
+  // 回复，从医生发给用户
   @SubscribeMessage('reply')
-  reply(@MessageBody() createChatDto: CreateChatDto) {
+  async reply(@MessageBody() createChatDto: CreateChatDto) {
+    const to = await this.prisma.user.findFirst({
+      where: { id: createChatDto.user },
+    });
+    const from = await this.prisma.doctor.findFirst({
+      where: { id: createChatDto.doctor },
+    });
+    this.server.emit('ask/' + getSocketTypeKey(createChatDto), {
+      from: from.name,
+      to: to.nickName ? to.nickName : to.userName,
+      content: '',
+      date: Date.now(),
+    });
     this.server.emit('ask/' + getSocketTypeKey(createChatDto), {
       content: '',
       date: Date.now(),
