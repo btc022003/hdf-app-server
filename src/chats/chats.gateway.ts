@@ -18,7 +18,8 @@ import {
 
 @WebSocketGateway()
 export class ChatsGateway implements OnGatewayConnection, OnGatewayDisconnect {
-  private static onLineDoctors: OnLineDoctor[] = [];
+  // private static onLineDoctors: OnLineDoctor[] = [];
+  private static onLineDoctors: Map<string, OnLineDoctor> = new Map();
 
   @WebSocketServer()
   server: Server;
@@ -37,21 +38,7 @@ export class ChatsGateway implements OnGatewayConnection, OnGatewayDisconnect {
   handleDisconnect(socket: Socket): void {
     const socketId = socket.id;
     console.log(`Disconnection... socket id:`, socketId);
-    const index = ChatsGateway.onLineDoctors.findIndex(
-      (item) => item.socketId == socketId,
-    );
-    if (index > -1) {
-      ChatsGateway.onLineDoctors.splice(index, 1); // 断开连接的时候，从在线列表中删除信息
-    }
-    // const roomId = ChatWebsocketGateway.participants.get(socketId);
-    // const room = ChatWebsocketGateway.rooms.get(roomId);
-    // if (room) {
-    //   room.participants.get(socketId).connected = false;
-    //   this.server.emit(
-    //     `participants/${roomId}`,
-    //     Array.from(room.participants.values()),
-    //   );
-    // }
+    ChatsGateway.onLineDoctors.delete(socketId);
   }
 
   // 获取在线的医生
@@ -59,10 +46,12 @@ export class ChatsGateway implements OnGatewayConnection, OnGatewayDisconnect {
   loadOneLineDoctors() {
     // 获取在线的医生列表
     // 查询数据库，获取在线的医生信息
+    const doctorIds = [];
+    ChatsGateway.onLineDoctors.forEach((item) => doctorIds.push(item.doctorId));
     return this.prisma.doctor.findMany({
       where: {
         id: {
-          in: ChatsGateway.onLineDoctors.map((item) => item.doctorId),
+          in: doctorIds,
         },
       },
     });
@@ -73,17 +62,10 @@ export class ChatsGateway implements OnGatewayConnection, OnGatewayDisconnect {
   toWork(socket: Socket, @MessageBody() createChatDto: CreateChatDto) {
     //
     console.log('医生上线, socketId: %s, info: %s', socket.id, createChatDto);
-    if (
-      ChatsGateway.onLineDoctors.findIndex(
-        (item) => item.socketId == socket.id,
-      ) < 0
-    ) {
-      // 医生上线
-      ChatsGateway.onLineDoctors.push({
-        socketId: socket.id,
-        doctorId: createChatDto.doctor,
-      });
-    }
+    ChatsGateway.onLineDoctors.set(socket.id, {
+      socketId: socket.id,
+      doctorId: createChatDto.doctor,
+    });
   }
 
   // 提问，从用户发给医生
