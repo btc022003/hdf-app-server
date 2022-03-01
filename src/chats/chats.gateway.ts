@@ -81,7 +81,7 @@ export class ChatsGateway implements OnGatewayConnection, OnGatewayDisconnect {
     this.server.emit('ask/' + getSocketTypeKey(createChatDto), {
       from: from.nickName ? from.nickName : from.userName,
       to: to.name,
-      content: '',
+      content: createChatDto.content,
       date: Date.now(),
     });
     // 如果需要，可以存储聊天内容
@@ -97,10 +97,10 @@ export class ChatsGateway implements OnGatewayConnection, OnGatewayDisconnect {
     const from = await this.prisma.doctor.findFirst({
       where: { id: createChatDto.doctor },
     });
-    this.server.emit('ask/' + getSocketTypeKey(createChatDto), {
+    this.server.emit('reply/' + getSocketTypeKey(createChatDto), {
       from: from.name,
       to: to.nickName ? to.nickName : to.userName,
-      content: '',
+      content: createChatDto.content,
       date: Date.now(),
     });
     return { code: 1, data: '回答完成' };
