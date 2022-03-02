@@ -100,22 +100,21 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/socket.io-client@4.4.1/dist/socket.io.min.js"></script>
     <script>
-      const socket = io();
+      const socket = io({
+        query: {
+          id: 'a66adb62-3410-4fda-8e1c-476a95415ffe',
+          type: 'c',
+        },
+      });
       const txt = document.querySelector('#txt');
       const chatContent = document.querySelector('#chatContent');
       const doctorsInfo = document.querySelector('#doctorsInfo');
       var doctorId = ''; // 当前选择要咨询的医生
       const userId = 'a66adb62-3410-4fda-8e1c-476a95415ffe'; // 先设置一个固定的用户，以后集成系统的时候需要先登录
-      function sendMsg() {
-        if (txt.value) {
-          // 发送消息
-          chatContent.innerHTML += `<div class="chat-item m">我：${txt.value}</div>`;
-          txt.value = '';
-        }
-      }
 
       socket.on('send_doctor_list', (doctors) => {
         // console.log(doctors);
+        doctorsInfo.innerHTML = '';
         doctors.forEach((item) => {
           doctorsInfo.innerHTML += `<div class="on-item">
         <img class="avatar" src="" alt="" />
@@ -123,6 +122,8 @@
       </div>`;
         });
       });
+
+      socket.on('reply', initHtml);
 
       function initHtml(msg) {
         // 根据消息拼接字符串进行展示
@@ -137,6 +138,8 @@
               user: userId,
               content: e.target.value,
             });
+            // 填充消息框
+            chatContent.innerHTML += `<div class="chat-item m">我：${txt.value}</div>`;
             e.target.value = '';
           } else {
             alert('请选择医生');

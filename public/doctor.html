@@ -5,17 +5,83 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <style>
+      .left {
+        background-color: aqua;
+      }
+      .right {
+        background-color: khaki;
+      }
+    </style>
   </head>
   <body>
     <h3>医生端</h3>
+    <input type="text" placeholder="请输入医生信息" id="txtDoctor" />
     <button onclick="toWork()">上线</button>
-    <ul></ul>
+    <textarea id="txtContent" placeholder="" cols="30" rows="10"></textarea>
+    <button onclick="reply()">回复</button>
+    <div class="list">
+      <div class="left"></div>
+      <div class="right"></div>
+    </div>
     <script src="https://cdn.jsdelivr.net/npm/socket.io-client@4.4.1/dist/socket.io.min.js"></script>
     <script>
-      const socket = io();
+      const txtDoctor = document.querySelector('#txtDoctor');
+      const txtContent = document.querySelector('#txtContent');
+      const userMsgList = []; //  { name: '患者名字', id: '患者id', list: []}
+      const socket = io({
+        query: {
+          id: txtDoctor.value,
+          type: 'd',
+        },
+      });
       function toWork() {
-        socket.emit('to_work', {
-          doctor: 'f60c7211-9ce2-4f8b-a573-4bdc87e42a85',
+        if (txtDoctor.value) {
+          socket.emit('to_work', {
+            doctor: txtDoctor.value,
+          });
+        } else {
+          alert('请输入医生信息');
+        }
+      }
+      socket.on('ask', (data) => {
+        console.log(data);
+        const index = userMsgList.findIndex((item) => item.user == data.user);
+        const { content, ...user } = data;
+        if (index < 0) {
+          userMsgList.push({
+            ...user,
+            list: [content],
+          });
+        } else {
+          userMsgList[index].list.push(content);
+        }
+        setAskListHtml(); // 展示数据在页面上
+      });
+
+      var tagUsers = document.querySelector('.left');
+      var tagMsgs = document.querySelector('.right');
+      function setAskListHtml() {
+        tagUsers.innerHTML = '';
+        userMsgList.forEach((item) => {
+          tagUsers.innerHTML += `<p onclick="selUser('${item.user}')">${item.from}</p>`;
+        });
+      }
+
+      // 选择用户之后获取需要发送消息的用户id
+      var selUserId = '';
+      function selUser(id) {
+        selUserId = id;
+        tagMsgs.innerHTML = '';
+        userMsgList
+          .find((item) => item.user == id)
+          .list.forEach((item) => (tagMsgs.innerHTML += `<p>${item}</p>`));
+      }
+      function reply() {
+        socket.emit('reply', {
+          user: selUserId,
+          doctor: txtDoctor.value,
+          content: txtContent.value,
         });
       }
     </script>
