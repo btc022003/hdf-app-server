@@ -12,7 +12,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { ChatsService } from './chats.service';
 import { CreateChatDto } from './dto/create-chat.dto';
 
-@WebSocketGateway()
+@WebSocketGateway({ cors: true })
 export class ChatsGateway implements OnGatewayConnection, OnGatewayDisconnect {
   // 类型中 c表示客户(患者) d表示医生
   private static allClients = new Map(); // 设置所有在线的客户端列表 { t: '类型', id: '' }
@@ -40,6 +40,10 @@ export class ChatsGateway implements OnGatewayConnection, OnGatewayDisconnect {
   handleDisconnect(socket: Socket): void {
     const socketId = socket.id;
     console.log(`Disconnection... socket id:`, socketId);
+    // 如果是医生下线，那么向外广播要求更新在线医生列表
+    if (ChatsGateway.allClients.get(socketId)?.t == 'd') {
+      this.broadCastOnLineDoctors();
+    }
     ChatsGateway.allClients.delete(socketId); // 从在线列表中删除客户端信息
   }
 
@@ -67,7 +71,7 @@ export class ChatsGateway implements OnGatewayConnection, OnGatewayDisconnect {
     @MessageBody() createChatDto: CreateChatDto,
   ) {
     //
-    console.log('医生上线, socketId: %s, info: %s', socket.id, createChatDto);
+    // console.log('医生上线, socketId: %s, info: %s', socket.id, createChatDto);
     ChatsGateway.allClients.set(socket.id, {
       type: 'd',
       id: createChatDto.doctor,
@@ -98,7 +102,7 @@ export class ChatsGateway implements OnGatewayConnection, OnGatewayDisconnect {
     const client = clients.find((item) => item.id == toSocketId); // 接收消息的客户端信息
     // client.emit('')
     // 获取当前需要接收消息的客户端信息，向其派发消息
-    client.emit('ask', {
+    client?.emit('ask', {
       from: from.nickName ? from.nickName : from.userName,
       to: to.name,
       user: createChatDto.user,
@@ -128,7 +132,7 @@ export class ChatsGateway implements OnGatewayConnection, OnGatewayDisconnect {
       }
     });
     const client = clients.find((item) => item.id == toSocketId); // 接收消息的客户端信息
-    client.emit('reply', {
+    client?.emit('reply', {
       from: from.name,
       to: to.nickName ? to.nickName : to.userName,
       doctor: createChatDto.doctor,

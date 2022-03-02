@@ -10,6 +10,8 @@ import { AnyExceptionFilter } from './any-exception.filter';
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
+  app.enableCors({ origin: true, credentials: true }); // 允许跨域和传递cookie
+
   const config = new DocumentBuilder()
     .setTitle('HDF')
     .setDescription('好大夫服务器端API接口')
