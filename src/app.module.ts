@@ -16,8 +16,10 @@ import { DoctorCommentsModule as AdminDoctorCommentsModule } from './admin/docto
 import { HospitalsModule as AdminHospitalsModule } from './admin/hospitals/hospitals.module';
 import { ConsultationsModule as AdminConsultationsModule } from './admin/consultations/consultations.module';
 import { MedicineCategoriesModule as AdminMedicineCategoriesModule } from './admin/medicine-categories/medicine-categories.module';
-import { MedicinesModule } from './admin/medicines/medicines.module';
+import { MedicinesModule as AdminMedicinesModule } from './admin/medicines/medicines.module';
 import { ChatsModule } from './chats/chats.module';
+import { ArticleCategoriesModule as AdminArticleCategoriesModule } from './admin/article-categories/article-categories.module';
+import { ArticlesModule as AdminArticlesModule } from './admin/articles/articles.module';
 
 @Module({
   imports: [
@@ -31,8 +33,10 @@ import { ChatsModule } from './chats/chats.module';
     AdminHospitalsModule,
     AdminConsultationsModule,
     AdminMedicineCategoriesModule,
-    MedicinesModule,
+    AdminMedicinesModule,
     ChatsModule,
+    AdminArticleCategoriesModule,
+    AdminArticlesModule,
   ],
   controllers: [AppController, CommonController],
   providers: [AppService, PrismaService],

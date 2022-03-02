@@ -155,7 +155,7 @@ model MedicineCategory {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  Medicine Medicine[]
+  medicines Medicine[]
 
   @@map("medicine_categories")
 }
@@ -175,4 +175,35 @@ model Medicine {
   medicineCategoryId String?           @default("") @map("medicine_category_id")
 
   @@map("medicines")
+}
+
+// 文章资讯类
+model ArticleCategory {
+  id        String   @id @default(uuid())
+  name      String   @default("")
+  desc      String   @default("")
+  image     String   @default("")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  articles Article[]
+
+  @@map("article_categories")
+}
+
+// 文章资讯数据
+model Article {
+  id        String   @id @default(uuid())
+  name      String   @default("")
+  desc      String   @default("")
+  tags      String   @default("") // 主治的症状标签，多个用,分割
+  image     String   @default("")
+  content   String   @default("")
+  views     Decimal  @default(0) // 浏览次数
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  category          ArticleCategory? @relation(fields: [articleCategoryId], references: [id])
+  articleCategoryId String?          @default("") @map("article_category_id")
+  @@map("articles")
 }
