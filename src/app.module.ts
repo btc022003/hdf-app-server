@@ -20,6 +20,9 @@ import { MedicinesModule as AdminMedicinesModule } from './admin/medicines/medic
 import { ChatsModule } from './chats/chats.module';
 import { ArticleCategoriesModule as AdminArticleCategoriesModule } from './admin/article-categories/article-categories.module';
 import { ArticlesModule as AdminArticlesModule } from './admin/articles/articles.module';
+import { ManagersModule as AdminManagersModule } from './admin/managers/managers.module';
+import { RolesModule as AdminRolesModule } from './admin/roles/roles.module';
+import { PermissionsModule as AdminPermissionsModule } from './admin/permissions/permissions.module';
 
 @Module({
   imports: [
@@ -37,6 +40,9 @@ import { ArticlesModule as AdminArticlesModule } from './admin/articles/articles
     ChatsModule,
     AdminArticleCategoriesModule,
     AdminArticlesModule,
+    AdminManagersModule,
+    AdminRolesModule,
+    AdminPermissionsModule,
   ],
   controllers: [AppController, CommonController],
   providers: [AppService, PrismaService],

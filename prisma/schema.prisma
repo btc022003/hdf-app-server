@@ -207,3 +207,44 @@ model Article {
   articleCategoryId String?          @default("") @map("article_category_id")
   @@map("articles")
 }
+
+// 管理员
+model Manager {
+  id        String   @id @default(uuid())
+  userName  String   @unique @map("user_name")
+  password  String
+  avatar    String   @default("")
+  nickName  String   @map("nick_name")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  role   Role?   @relation(fields: [roleId], references: [id])
+  roleId String? @map("role_id")
+
+  @@map("managers")
+}
+
+// 角色
+model Role {
+  id          String       @id @default(uuid())
+  name        String       @unique
+  desc        String       @default("")
+  permissions Permission[]
+
+  managers Manager[]
+  @@map("roles")
+}
+
+// 权限
+model Permission {
+  id     String      @id @default(uuid())
+  name   String
+  desc   String      @default("")
+  role   Role?       @relation(fields: [roleId], references: [id])
+  roleId String?     @map("role_id")
+  parent Permission? @relation("PermissionToPermission", fields: [permissionId], references: [id])
+
+  permissionId String?      @map("permission_id")
+  permissions  Permission[] @relation("PermissionToPermission")
+  @@map("permissions")
+}

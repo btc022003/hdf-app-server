@@ -53,11 +53,12 @@ export class BaseService {
    * @param id
    * @returns
    */
-  findOne(id: string) {
+  findOne(id: string, include = null) {
     return this.model.findUnique({
       where: {
         id,
       },
+      include,
     });
   }
 

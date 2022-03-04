@@ -1,5 +1,5 @@
 import { Body, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
-import { ApiBody, ApiHeader, ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiHeader, ApiParam, ApiTags } from '@nestjs/swagger';
 import { BaseService } from './base.service';
 export class BaseController {
   constructor(private readonly service: BaseService) {}
@@ -16,6 +16,9 @@ export class BaseController {
   @ApiHeader({
     name: '获取单条记录',
     description: '根据id获取单条记录',
+  })
+  @ApiParam({
+    name: 'id',
   })
   @Get(':id')
   one(@Param() params) {
