@@ -28,6 +28,8 @@ model User {
   doctorComments DoctorComment[] // 对医生的评价
   consultations  Consultation[] // 向医生提出的咨询
 
+  doctorCollections  DoctorCollection[]
+  articleCollections ArticleCollection[]
   @@map("users")
 }
 
@@ -55,7 +57,9 @@ model Doctor {
   hospitalInfo    Hospital?       @relation(fields: [hospitalId], references: [id])
   hospitalId      String?
 
-  consultations Consultation[]
+  consultations     Consultation[]
+  DoctorCollection  DoctorCollection[]
+  ArticleCollection ArticleCollection[]
   @@map("doctors")
 }
 
@@ -231,7 +235,9 @@ model Role {
   desc        String       @default("")
   permissions Permission[]
 
-  managers Manager[]
+  managers  Manager[]
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
   @@map("roles")
 }
 
@@ -246,5 +252,38 @@ model Permission {
 
   permissionId String?      @map("permission_id")
   permissions  Permission[] @relation("PermissionToPermission")
+  createdAt    DateTime     @default(now()) @map("created_at")
+  updatedAt    DateTime     @updatedAt @map("updated_at")
   @@map("permissions")
+}
+
+// 用户关注的医生
+model DoctorCollection {
+  id String @id @default(uuid())
+
+  user     User   @relation(fields: [userId], references: [id])
+  doctor   Doctor @relation(fields: [doctorId], references: [id])
+  userId   String @map("user_id")
+  doctorId String @map("doctor_id")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+
+  @@map("doctor_collections")
+}
+
+// 用户收藏的文章
+model ArticleCollection {
+  id String @id @default(uuid())
+
+  user     User   @relation(fields: [userId], references: [id])
+  doctor   Doctor @relation(fields: [doctorId], references: [id])
+  userId   String @map("user_id")
+  doctorId String @map("doctor_id")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("article_collections")
 }

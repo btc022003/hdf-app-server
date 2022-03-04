@@ -61,7 +61,13 @@ export class UsersService {
    * @returns
    */
   findOne(id: string) {
-    return this.prisma.user.findUnique({ where: { id } });
+    return this.prisma.user.findUnique({
+      where: { id },
+      include: {
+        doctorCollections: true, // 关注的医生
+        articleCollections: true, // 收藏的文章
+      },
+    });
   }
 
   /**

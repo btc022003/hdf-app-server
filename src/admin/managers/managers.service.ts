@@ -33,11 +33,13 @@ export class ManagersService extends BaseService {
    */
   update(id: string, updateManagerDto: UpdateManagerDto) {
     delete updateManagerDto.userName; // 删除用户名，限制用户名不能修改
-    return this.prisma.user.update({
+    delete updateManagerDto.password;
+    console.log(id, updateManagerDto);
+    return this.model.update({
       where: { id },
       data: {
         ...updateManagerDto,
-        password: encodePwd(updateManagerDto.password),
+        // updateManagerDto.password?password: encodePwd(updateManagerDto.password),
       },
     });
   }
