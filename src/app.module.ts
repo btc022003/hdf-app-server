@@ -25,6 +25,7 @@ import { RolesModule as AdminRolesModule } from './admin/roles/roles.module';
 import { PermissionsModule as AdminPermissionsModule } from './admin/permissions/permissions.module';
 import { IllnessesModule as AdminIllnessesModule } from './admin/illnesses/illnesses.module';
 import { IllnessCategoriesModule as AdminIllnessCategoriesModule } from './admin/illness-categories/illness-categories.module';
+import { MembersModule } from './members/members.module';
 
 @Module({
   imports: [
@@ -47,12 +48,15 @@ import { IllnessCategoriesModule as AdminIllnessCategoriesModule } from './admin
     AdminPermissionsModule,
     AdminIllnessesModule,
     AdminIllnessCategoriesModule,
+    MembersModule,
   ],
   controllers: [AppController, CommonController],
   providers: [AppService, PrismaService],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(ValidateLoginMiddleware).forRoutes(...['admin/*']); // 使用中间件
+    consumer
+      .apply(ValidateLoginMiddleware)
+      .forRoutes(...['admin/*', 'members/*']); // 使用中间件
   }
 }

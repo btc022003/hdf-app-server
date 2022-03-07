@@ -20,7 +20,7 @@ model User {
   userName       String          @unique @map("user_name")
   password       String
   avatar         String          @default("")
-  nickName       String          @map("nick_name")
+  nickName       String          @default("") @map("nick_name")
   createdAt      DateTime        @default(now()) @map("created_at")
   updatedAt      DateTime        @updatedAt @map("updated_at")
   address        String          @default("")
@@ -58,7 +58,7 @@ model Doctor {
   hospitalId      String?
 
   consultations     Consultation[]
-  DoctorCollection  DoctorCollection[]
+  doctorCollections DoctorCollection[]
   ArticleCollection ArticleCollection[]
   @@map("doctors")
 }
@@ -209,6 +209,8 @@ model Article {
 
   category          ArticleCategory? @relation(fields: [articleCategoryId], references: [id])
   articleCategoryId String?          @default("") @map("article_category_id")
+
+  articleCollections ArticleCollection[]
   @@map("articles")
 }
 
@@ -261,10 +263,10 @@ model Permission {
 model DoctorCollection {
   id String @id @default(uuid())
 
-  user     User   @relation(fields: [userId], references: [id])
-  doctor   Doctor @relation(fields: [doctorId], references: [id])
-  userId   String @map("user_id")
-  doctorId String @map("doctor_id")
+  user     User?   @relation(fields: [userId], references: [id])
+  doctor   Doctor? @relation(fields: [doctorId], references: [id])
+  userId   String? @map("user_id")
+  doctorId String? @map("doctor_id")
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
@@ -277,14 +279,16 @@ model DoctorCollection {
 model ArticleCollection {
   id String @id @default(uuid())
 
-  user     User   @relation(fields: [userId], references: [id])
-  doctor   Doctor @relation(fields: [doctorId], references: [id])
-  userId   String @map("user_id")
-  doctorId String @map("doctor_id")
+  user     User?   @relation(fields: [userId], references: [id])
+  doctor   Doctor? @relation(fields: [doctorId], references: [id])
+  userId   String? @map("user_id")
+  doctorId String? @map("doctor_id")
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
+  article   Article? @relation(fields: [articleId], references: [id])
+  articleId String?  @map("article_id")
   @@map("article_collections")
 }
 
