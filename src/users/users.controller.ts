@@ -34,4 +34,19 @@ export class UsersController {
     response.cookie('token', data.id);
     return data;
   }
+
+  @Post('admin_login')
+  async adminLogin(
+    @Body() body: LoginDto,
+    @Res({ passthrough: true })
+    response: Response,
+  ) {
+    const data = await this.usersService.adminLogin(
+      body.userName,
+      body.password,
+    );
+    // 写用户id到cookie中，调用接口的时候直接传递cookie就好
+    data.success ? response.cookie('token', data.data, { httpOnly: true }) : '';
+    return data;
+  }
 }

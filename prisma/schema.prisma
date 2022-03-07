@@ -220,7 +220,7 @@ model Manager {
   userName  String   @unique @map("user_name")
   password  String
   avatar    String   @default("")
-  nickName  String   @map("nick_name")
+  nickName  String   @default("") @map("nick_name")
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 

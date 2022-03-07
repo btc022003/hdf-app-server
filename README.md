@@ -18,6 +18,12 @@ npm run build
 pm2 start dist/main.js --name hdf-app
 ```
 
+## seed 数据生成
+
+```
+https://www.prisma.io/docs/guides/database/seed-database
+```
+
 ## 数据表
 
 #### 找医生
@@ -61,4 +67,3 @@ pm2 start dist/main.js --name hdf-app
 #### 提问
 
 #### 医药知识
-
