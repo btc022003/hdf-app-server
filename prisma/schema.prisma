@@ -287,3 +287,39 @@ model ArticleCollection {
 
   @@map("article_collections")
 }
+
+// 疾病分类
+model IllnessCategory {
+  id    String @id @default(uuid())
+  name  String @default("")
+  desc  String @default("")
+  image String @default("")
+
+  illnesses Illness[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("illness_categories")
+}
+
+// 疾病信息
+model Illness {
+  id         String   @id @default(uuid())
+  name       String   @default("")
+  desc       String   @default("")
+  tags       String   @default("") // 疾病的标签信息
+  image      String   @default("")
+  content    String   @default("")
+  isStanding Boolean  @default(false) @map("is_standing") // 是否常见病
+  views      Decimal  @default(0) // 浏览次数
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  // 疾病分类信息
+  illnessCategory   IllnessCategory? @relation(fields: [illnessCategoryId], references: [id])
+  illnessCategoryId String?          @map("illness_category_id")
+
+
+  @@map("illnesses")
+}

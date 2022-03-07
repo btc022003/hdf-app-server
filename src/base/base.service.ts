@@ -1,7 +1,15 @@
 export class BaseService {
   model: any;
-  constructor(model: any) {
+  includes: any;
+
+  /**
+   *
+   * @param model 当前的需要查询的数据模型
+   * @param includes 外键关联，是一个对象
+   */
+  constructor(model: any, includes = null) {
     this.model = model;
+    this.includes = includes;
   }
 
   /**
@@ -33,6 +41,7 @@ export class BaseService {
   async findAll(where = {}, page = 1, per = 10, include = null) {
     page = isNaN(page) ? 1 : page * 1;
     per = isNaN(page) ? 10 : per * 1;
+    include = include || this.includes;
     const list = await this.model.findMany({
       where,
       skip: (page - 1) * per,
@@ -54,6 +63,7 @@ export class BaseService {
    * @returns
    */
   findOne(id: string, include = null) {
+    include = include || this.includes;
     return this.model.findUnique({
       where: {
         id,
