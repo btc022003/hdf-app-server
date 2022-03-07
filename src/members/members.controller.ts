@@ -1,13 +1,4 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-  Req,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Req } from '@nestjs/common';
 import { ApiTags, ApiHeader } from '@nestjs/swagger';
 import { MembersService } from './members.service';
 import {

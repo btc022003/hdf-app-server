@@ -1,5 +1,5 @@
 import { Body, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
-import { ApiBody, ApiHeader, ApiParam, ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiHeader, ApiParam } from '@nestjs/swagger';
 import { BaseService } from './base.service';
 export class BaseController {
   constructor(private readonly service: BaseService) {}
