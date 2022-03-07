@@ -85,7 +85,7 @@ model DoctorTitle {
   updatedAt DateTime @updatedAt @map("updated_at")
 
   doctors Doctor[]
-  @@map("doctor_titls")
+  @@map("doctor_titles")
 }
 
 // 医生标签关键词(擅长的疾病)，主要用于录入医生标签信息的时候作为参考。
