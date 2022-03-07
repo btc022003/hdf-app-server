@@ -13,7 +13,7 @@ import { UpdatePermissionDto } from './dto/update-permission.dto';
 import { BaseController } from 'src/base/base.controller';
 import { ApiHeader, ApiParam, ApiTags } from '@nestjs/swagger';
 
-@ApiTags('权限信息')
+@ApiTags('后台-权限信息')
 @Controller('admin/permissions')
 export class PermissionsController extends BaseController {
   constructor(private readonly permissionsService: PermissionsService) {

@@ -5,7 +5,7 @@ import { CreateIllnessDto } from './dto/create-illness.dto';
 import { UpdateIllnessDto } from './dto/update-illness.dto';
 import { BaseController } from 'src/base/base.controller';
 
-@ApiTags('疾病信息')
+@ApiTags('后台-疾病信息')
 @Controller('admin/illnesses')
 export class IllnessesController extends BaseController {
   constructor(private readonly illnessesService: IllnessesService) {

@@ -13,7 +13,7 @@ import { ConsultationsService } from './consultations.service';
 import { CreateConsultationDto } from './dto/create-consultation.dto';
 import { UpdateConsultationDto } from './dto/update-consultation.dto';
 
-@ApiTags('咨询数据')
+@ApiTags('后台-咨询数据')
 @Controller('admin/consultations')
 export class ConsultationsController extends BaseController {
   constructor(private readonly consultationsService: ConsultationsService) {

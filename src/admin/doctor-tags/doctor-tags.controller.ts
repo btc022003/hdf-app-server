@@ -5,7 +5,7 @@ import { DoctorTagsService } from './doctor-tags.service';
 import { CreateDoctorTagDto } from './dto/create-doctor-tag.dto';
 import { UpdateDoctorTagDto } from './dto/update-doctor-tag.dto';
 
-@ApiTags('医生标签')
+@ApiTags('后台-医生标签')
 @Controller('admin/doctor_tags')
 export class DoctorTagsController extends BaseController {
   constructor(private readonly doctorTagsService: DoctorTagsService) {

@@ -5,7 +5,7 @@ import { UpdateManagerDto } from './dto/update-manager.dto';
 import { BaseController } from 'src/base/base.controller';
 import { ApiHeader, ApiTags } from '@nestjs/swagger';
 
-@ApiTags('管理员信息')
+@ApiTags('后台-管理员信息')
 @Controller('admin/managers')
 export class ManagersController extends BaseController {
   constructor(private readonly managersService: ManagersService) {

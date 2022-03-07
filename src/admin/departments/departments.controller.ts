@@ -5,7 +5,7 @@ import { DepartmentsService } from './departments.service';
 import { CreateDepartmentDto } from './dto/create-department.dto';
 import { UpdateDepartmentDto } from './dto/update-department.dto';
 
-@ApiTags('科室信息')
+@ApiTags('后台-科室信息')
 @Controller('admin/departments')
 export class DepartmentsController extends BaseController {
   constructor(private readonly departmentsService: DepartmentsService) {

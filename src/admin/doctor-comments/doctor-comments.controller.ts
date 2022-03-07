@@ -5,7 +5,7 @@ import { DoctorCommentsService } from './doctor-comments.service';
 import { CreateDoctorCommentDto } from './dto/create-doctor-comment.dto';
 import { UpdateDoctorCommentDto } from './dto/update-doctor-comment.dto';
 
-@ApiTags('对医生的评价')
+@ApiTags('后台-对医生的评价')
 @Controller('admin/doctor_comments')
 export class DoctorCommentsController extends BaseController {
   constructor(private readonly doctorCommentsService: DoctorCommentsService) {

@@ -5,7 +5,7 @@ import { CreateArticleDto } from './dto/create-article.dto';
 import { UpdateArticleDto } from './dto/update-article.dto';
 import { ApiHeader, ApiTags } from '@nestjs/swagger';
 
-@ApiTags('文章信息')
+@ApiTags('后台-文章信息')
 @Controller('admin/articles')
 export class ArticlesController extends BaseController {
   constructor(private readonly articlesService: ArticlesService) {

@@ -5,7 +5,7 @@ import { UpdateArticleCategoryDto } from './dto/update-article-category.dto';
 import { ApiHeader, ApiTags } from '@nestjs/swagger';
 import { BaseController } from 'src/base/base.controller';
 
-@ApiTags('文章分类')
+@ApiTags('后台-文章分类')
 @Controller('admin/article_categories')
 export class ArticleCategoriesController extends BaseController {
   constructor(

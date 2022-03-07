@@ -34,8 +34,9 @@ export class MembersService {
    * @param id
    * @param info
    */
-  modifyInfo(id: string, info: CreateMemberDto) {
-    this.prisma.user.update({
+  async modifyInfo(id: string, info: CreateMemberDto) {
+    // console.log(info, id);
+    await this.prisma.user.update({
       where: { id },
       data: info,
     });

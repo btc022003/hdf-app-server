@@ -5,7 +5,7 @@ import { UpdateMedicineDto } from './dto/update-medicine.dto';
 import { BaseController } from 'src/base/base.controller';
 import { ApiHeader, ApiTags } from '@nestjs/swagger';
 
-@ApiTags('药品信息')
+@ApiTags('后台-药品信息')
 @Controller('admin/medicines')
 export class MedicinesController extends BaseController {
   constructor(private readonly medicinesService: MedicinesService) {

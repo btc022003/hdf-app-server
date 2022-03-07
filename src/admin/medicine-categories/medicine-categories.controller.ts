@@ -5,7 +5,7 @@ import { UpdateMedicineCategoryDto } from './dto/update-medicine-category.dto';
 import { BaseController } from 'src/base/base.controller';
 import { ApiHeader, ApiTags } from '@nestjs/swagger';
 
-@ApiTags('药品分类')
+@ApiTags('后台-药品分类')
 @Controller('admin/medicine_categories')
 export class MedicineCategoriesController extends BaseController {
   constructor(

@@ -5,7 +5,7 @@ import { CreateIllnessCategoryDto } from './dto/create-illness-category.dto';
 import { UpdateIllnessCategoryDto } from './dto/update-illness-category.dto';
 import { BaseController } from 'src/base/base.controller';
 
-@ApiTags('疾病分类')
+@ApiTags('后台-疾病分类')
 @Controller('admin/illness_categories')
 export class IllnessCategoriesController extends BaseController {
   constructor(

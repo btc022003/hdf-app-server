@@ -6,7 +6,7 @@ import { ApiHeader, ApiTags } from '@nestjs/swagger';
 import { BaseController } from 'src/base/base.controller';
 import { PrismaService } from 'src/prisma/prisma.service';
 
-@ApiTags('医院信息')
+@ApiTags('后台-医院信息')
 @Controller('admin/hospitals')
 export class HospitalsController extends BaseController {
   constructor(
