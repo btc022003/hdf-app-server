@@ -47,6 +47,9 @@ export class BaseService {
       skip: (page - 1) * per,
       take: per * 1,
       include,
+      orderBy: {
+        id: 'desc',
+      },
     });
     const total = await this.model.count({ where });
     return {

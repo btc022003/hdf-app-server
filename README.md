@@ -20,11 +20,19 @@ pm2 start dist/main.js --name hdf-app
 
 ## seed 数据生成
 
-```
-https://www.prisma.io/docs/guides/database/seed-database
+```bash
+# https://www.prisma.io/docs/guides/database/seed-database
+# 修改配置文件
+npx prisma db seed # 执行编写的数据生成代码
 ```
 
 ## 数据表
+
+> 数据库表结构简单说明
+
+<details>
+
+<summary>数据库表说明</summary>
 
 #### 找医生
 
@@ -67,3 +75,5 @@ https://www.prisma.io/docs/guides/database/seed-database
 #### 提问
 
 #### 医药知识
+
+</details>
