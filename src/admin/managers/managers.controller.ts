@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Patch, Param } from '@nestjs/common';
+import { Controller, Post, Body, Patch, Param, Get, Req } from '@nestjs/common';
 import { ManagersService } from './managers.service';
 import { CreateManagerDto } from './dto/create-manager.dto';
 import { UpdateManagerDto } from './dto/update-manager.dto';
@@ -28,5 +28,10 @@ export class ManagersController extends BaseController {
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateManagerDto: UpdateManagerDto) {
     return this.managersService.update(id, updateManagerDto);
+  }
+
+  @Get('info')
+  loadInfo(@Req() req) {
+    return this.managersService.findOne(req.user.id);
   }
 }

@@ -22,12 +22,16 @@ import { Observable, map } from 'rxjs';
 export class AllResponseInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     return next.handle().pipe(
-      map((data) => {
-        return {
-          data,
-          success: true,
-          errorMessage: '',
-        };
+      map((data: any) => {
+        if (data?.errorMessage) {
+          return data;
+        } else {
+          return {
+            data,
+            success: true,
+            errorMessage: '',
+          };
+        }
       }),
     );
   }

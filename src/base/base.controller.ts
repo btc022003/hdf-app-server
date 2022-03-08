@@ -10,7 +10,11 @@ export class BaseController {
   })
   @Get()
   index(@Query() query) {
-    return this.service.findAll({}, query.page, query.per);
+    const where: any = {};
+    if (query.name) {
+      where.name = { contains: query.name };
+    }
+    return this.service.findAll(where, query.page, query.per);
   }
 
   @ApiHeader({

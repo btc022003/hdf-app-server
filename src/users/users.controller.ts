@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Res } from '@nestjs/common';
+import { Body, Controller, Get, Post, Res } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 import { CreateUserDto } from 'src/admin/users/dto/create-user.dto';
@@ -47,6 +47,16 @@ export class UsersController {
     );
     // 写用户id到cookie中，调用接口的时候直接传递cookie就好
     data.success ? response.cookie('token', data.data, { httpOnly: true }) : '';
+    // console.log(data);
     return data;
+  }
+
+  @Get('manager_logout')
+  async adminLogOut(
+    @Res({ passthrough: true })
+    response: Response,
+  ) {
+    response.cookie('token', '');
+    return '退出登录成功';
   }
 }
