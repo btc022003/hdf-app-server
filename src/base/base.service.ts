@@ -48,7 +48,7 @@ export class BaseService {
       take: per * 1,
       include,
       orderBy: {
-        id: 'desc',
+        createdAt: 'desc',
       },
     });
     const total = await this.model.count({ where });
