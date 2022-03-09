@@ -27,11 +27,7 @@ export class PermissionsController extends BaseController {
   })
   @Get()
   index(@Query() query) {
-    return this.permissionsService.findAll({}, query.page, query.per, {
-      parent: true, // 关联父级信息
-      role: true, // 获取角色信息
-      permissions: true, // 关联所有的子集
-    });
+    return this.permissionsService.findAll({}, query.page, query.per);
   }
 
   @ApiHeader({

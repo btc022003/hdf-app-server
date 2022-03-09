@@ -28,7 +28,7 @@ export class RolesController extends BaseController {
   @Get()
   index(@Query() query) {
     return this.rolesService.findAll({}, query.page, query.per, {
-      permissions: true, // 关联所有的权限信息
+      permissionOnRoles: true,
     });
   }
 
@@ -42,9 +42,7 @@ export class RolesController extends BaseController {
   @Get(':id')
   one(@Param() params) {
     console.log(params);
-    return this.rolesService.findOne(params.id, {
-      permissions: true, // 关联所有的权限信息
-    });
+    return this.rolesService.findOne(params.id);
   }
 
   @ApiHeader({
@@ -52,7 +50,8 @@ export class RolesController extends BaseController {
     description: '数据新增',
   })
   @Post()
-  create(@Body() createRoleDto: CreateRoleDto) {
+  async create(@Body() createRoleDto: CreateRoleDto) {
+    // createRoleDto.permissions.split(',')
     return this.rolesService.create(createRoleDto);
   }
 

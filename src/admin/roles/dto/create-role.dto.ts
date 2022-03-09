@@ -12,4 +12,9 @@ export class CreateRoleDto {
     description: '描述',
   })
   desc: string;
+
+  @ApiProperty({
+    description: '权限，用,分割的权限id',
+  })
+  permissions: string;
 }

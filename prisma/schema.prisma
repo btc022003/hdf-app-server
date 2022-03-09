@@ -232,10 +232,10 @@ model Manager {
 
 // 角色
 model Role {
-  id          String       @id @default(uuid())
-  name        String       @unique
-  desc        String       @default("")
-  permissions Permission[]
+  id                String               @id @default(uuid())
+  name              String               @unique
+  desc              String               @default("")
+  permissionOnRoles PermissionsOnRoles[]
 
   managers  Manager[]
   createdAt DateTime  @default(now()) @map("created_at")
@@ -245,18 +245,33 @@ model Role {
 
 // 权限
 model Permission {
-  id     String      @id @default(uuid())
-  name   String
-  desc   String      @default("")
-  role   Role?       @relation(fields: [roleId], references: [id])
-  roleId String?     @map("role_id")
+  id   String @id @default(uuid())
+  name String
+  desc String @default("")
+
   parent Permission? @relation("PermissionToPermission", fields: [permissionId], references: [id])
 
-  permissionId String?      @map("permission_id")
-  permissions  Permission[] @relation("PermissionToPermission")
+
+
+  permissionOnRoles PermissionsOnRoles[]
+
   createdAt    DateTime     @default(now()) @map("created_at")
   updatedAt    DateTime     @updatedAt @map("updated_at")
+  permissionId String?
+  permission   Permission[] @relation("PermissionToPermission")
   @@map("permissions")
+}
+
+model PermissionsOnRoles {
+  id           String      @id @default(uuid())
+  role         Role?       @relation(fields: [roleId], references: [id])
+  roleId       String?     @map("role_id")
+  permission   Permission? @relation(fields: [permissionId], references: [id])
+  permissionId String?     @map("permission_id")
+  createdAt    DateTime    @default(now()) @map("created_at")
+  updatedAt    DateTime    @updatedAt @map("updated_at")
+
+  @@map("permissions_on_roles")
 }
 
 // 用户关注的医生
