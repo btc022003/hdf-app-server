@@ -55,7 +55,7 @@ model Doctor {
   doctorComments  DoctorComment[] // 都当前医生的评价
   // 医生所属医院
   hospitalInfo    Hospital?       @relation(fields: [hospitalId], references: [id])
-  hospitalId      String?
+  hospitalId      String?         @map("hospital_id")
 
   consultations     Consultation[]
   doctorCollections DoctorCollection[]
@@ -141,8 +141,8 @@ model Consultation {
   user    User    @relation(fields: [userId], references: [id])
   doctor  Doctor  @relation(fields: [doctorId], references: [id])
 
-  userId   String
-  doctorId String
+  userId   String @map("user_id")
+  doctorId String @map("doctor_id")
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
@@ -176,7 +176,7 @@ model Medicine {
   createdAt          DateTime          @default(now()) @map("created_at")
   updatedAt          DateTime          @updatedAt @map("updated_at")
   category           MedicineCategory? @relation(fields: [medicineCategoryId], references: [id])
-  medicineCategoryId String?           @default("") @map("medicine_category_id")
+  medicineCategoryId String?           @map("medicine_category_id")
 
   @@map("medicines")
 }
@@ -208,7 +208,7 @@ model Article {
   updatedAt DateTime @updatedAt @map("updated_at")
 
   category          ArticleCategory? @relation(fields: [articleCategoryId], references: [id])
-  articleCategoryId String?          @default("") @map("article_category_id")
+  articleCategoryId String?          @map("article_category_id")
 
   articleCollections ArticleCollection[]
   @@map("articles")
