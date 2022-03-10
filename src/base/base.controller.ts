@@ -1,12 +1,26 @@
 import { Body, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
-import { ApiBody, ApiHeader, ApiParam } from '@nestjs/swagger';
+import { ApiBody, ApiHeader, ApiParam, ApiQuery } from '@nestjs/swagger';
 import { BaseService } from './base.service';
 export class BaseController {
   constructor(private readonly service: BaseService) {}
 
-  @ApiHeader({
-    name: '列表',
-    description: '根据条件获取列表数据',
+  @ApiQuery({
+    name: 'page',
+    description: '页码',
+    required: false,
+    schema: {
+      type: 'integer',
+      default: 1,
+    },
+  })
+  @ApiQuery({
+    name: 'per',
+    description: '每页显示的数量',
+    required: false,
+    schema: {
+      type: 'integer',
+      default: 10,
+    },
   })
   @Get()
   index(@Query() query) {

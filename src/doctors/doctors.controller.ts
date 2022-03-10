@@ -1,5 +1,5 @@
 import { Controller, Get, Param, Query } from '@nestjs/common';
-import { ApiTags, ApiHeader } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiQuery } from '@nestjs/swagger';
 import { DoctorsService } from './doctors.service';
 import { QueryInfo } from './dto/create-doctor.dto';
 
@@ -8,8 +8,35 @@ import { QueryInfo } from './dto/create-doctor.dto';
 export class DoctorsController {
   constructor(private readonly doctorsService: DoctorsService) {}
 
-  @ApiHeader({
-    name: '医生信息列表',
+  @ApiOperation({
+    summary: '医生信息列表',
+  })
+  @ApiQuery({
+    name: 'name',
+    description: '名字',
+    schema: {
+      type: 'string',
+      default: '',
+    },
+    required: false,
+  })
+  @ApiQuery({
+    name: 'page',
+    description: '页码',
+    required: false,
+    schema: {
+      type: 'integer',
+      default: 1,
+    },
+  })
+  @ApiQuery({
+    name: 'per',
+    description: '每页显示的数量',
+    required: false,
+    schema: {
+      type: 'integer',
+      default: 10,
+    },
   })
   @Get('')
   doctors(@Query() query: QueryInfo) {
@@ -26,32 +53,32 @@ export class DoctorsController {
     return this.doctorsService.doctors(where); // 所有的医生信息
   }
 
-  @ApiHeader({
-    name: '科室信息',
+  @ApiOperation({
+    summary: '科室信息',
   })
   @Get('departments')
   departments() {
     return this.doctorsService.departments();
   }
 
-  @ApiHeader({
-    name: '职称',
+  @ApiOperation({
+    summary: '职称',
   })
   @Get('titles')
   titles() {
     return this.doctorsService.titles();
   }
 
-  @ApiHeader({
-    name: '医生标签，擅长的疾病',
+  @ApiOperation({
+    summary: '医生标签，擅长的疾病',
   })
   @Get('tags')
   tags() {
     return this.doctorsService.tags();
   }
 
-  @ApiHeader({
-    name: '单个医生信息',
+  @ApiOperation({
+    summary: '单个医生信息',
   })
   @Get(':id')
   findOne(@Param('id') id: string) {

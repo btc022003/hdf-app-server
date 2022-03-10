@@ -12,19 +12,38 @@ export class DoctorsService {
    * @param per
    * @returns
    */
-  doctors(where = {}, page = 1, per = 10) {
-    return this.prisma.doctor.findMany({
+  async doctors(where = {}, page = 1, per = 10) {
+    // return this.prisma.doctor.findMany({
+    //   where,
+    //   orderBy: {
+    //     id: 'desc',
+    //   },
+    //   skip: (page - 1) * per,
+    //   take: per * 1,
+    //   include: {
+    //     departmentInfo: true,
+    //     doctorTitleInfo: true,
+    //   },
+    // });
+    const list = await this.prisma.doctor.findMany({
       where,
       orderBy: {
-        id: 'desc',
+        createdAt: 'desc',
       },
       skip: (page - 1) * per,
-      take: per * 1,
+      take: per,
       include: {
         departmentInfo: true,
         doctorTitleInfo: true,
       },
     });
+    const total = await this.prisma.doctor.count({ where });
+    return {
+      list,
+      current: page,
+      pageSize: per,
+      total,
+    };
   }
 
   /**
