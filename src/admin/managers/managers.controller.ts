@@ -30,8 +30,22 @@ export class ManagersController extends BaseController {
     return this.managersService.update(id, updateManagerDto);
   }
 
+  @ApiHeader({
+    name: '获取用户信息',
+  })
   @Get('info')
   loadInfo(@Req() req) {
-    return this.managersService.findOne(req.user.id);
+    return this.managersService.info(req.user.id);
+  }
+
+  @ApiHeader({
+    name: '重新这是密码',
+  })
+  @Patch('reset_pwd/:id')
+  resetPwd(
+    @Param('id') id: string,
+    @Body() updateManagerDto: UpdateManagerDto,
+  ) {
+    return this.managersService.resetPwd(id, updateManagerDto.password);
   }
 }

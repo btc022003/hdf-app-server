@@ -8,7 +8,7 @@ import { UpdateManagerDto } from './dto/update-manager.dto';
 @Injectable()
 export class ManagersService extends BaseService {
   constructor(private readonly prisma: PrismaService) {
-    super(prisma.manager);
+    super(prisma.manager, { role: true });
   }
 
   /**
@@ -34,12 +34,46 @@ export class ManagersService extends BaseService {
   update(id: string, updateManagerDto: UpdateManagerDto) {
     delete updateManagerDto.userName; // 删除用户名，限制用户名不能修改
     delete updateManagerDto.password;
-    console.log(id, updateManagerDto);
+    // console.log(id, updateManagerDto);
     return this.model.update({
       where: { id },
       data: {
         ...updateManagerDto,
         // updateManagerDto.password?password: encodePwd(updateManagerDto.password),
+      },
+    });
+  }
+
+  /**
+   * 获取用户信息
+   * @param id
+   * @returns
+   */
+  async info(id: string) {
+    const user = await this.prisma.manager.findUnique({
+      where: { id },
+      include: { role: true },
+    });
+    const permissions = this.prisma.permissionsOnRoles.findMany({
+      where: { roleId: user.roleId },
+      include: {
+        permission: true,
+      },
+    });
+    return { ...user, permissions };
+  }
+
+  /**
+   * 重置密码
+   * @param id
+   * @param password
+   * @returns
+   */
+  resetPwd(id, password) {
+    return this.model.update({
+      where: { id },
+      data: {
+        password: encodePwd(password),
       },
     });
   }
