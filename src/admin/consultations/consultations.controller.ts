@@ -7,7 +7,7 @@ import {
   Param,
   Query,
 } from '@nestjs/common';
-import { ApiHeader, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { BaseController } from 'src/base/base.controller';
 import { ConsultationsService } from './consultations.service';
 import { CreateConsultationDto } from './dto/create-consultation.dto';
@@ -28,18 +28,16 @@ export class ConsultationsController extends BaseController {
     });
   }
 
-  @ApiHeader({
-    name: '新增',
-    description: '数据新增',
+  @ApiOperation({
+    summary: '新增',
   })
   @Post()
   create(@Body() createConsultationDto: CreateConsultationDto) {
     return this.consultationsService.create(createConsultationDto);
   }
 
-  @ApiHeader({
-    name: '修改',
-    description: '根据id修改一条数据记录',
+  @ApiOperation({
+    summary: '修改',
   })
   @Patch(':id')
   update(

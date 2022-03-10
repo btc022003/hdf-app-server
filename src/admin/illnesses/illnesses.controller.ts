@@ -1,5 +1,5 @@
 import { Controller, Post, Body, Patch, Param } from '@nestjs/common';
-import { ApiHeader, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { IllnessesService } from './illnesses.service';
 import { CreateIllnessDto } from './dto/create-illness.dto';
 import { UpdateIllnessDto } from './dto/update-illness.dto';
@@ -12,18 +12,16 @@ export class IllnessesController extends BaseController {
     super(illnessesService);
   }
 
-  @ApiHeader({
-    name: '新增',
-    description: '数据新增',
+  @ApiOperation({
+    summary: '新增',
   })
   @Post()
   create(@Body() createIllnessDto: CreateIllnessDto) {
     return this.illnessesService.create(createIllnessDto);
   }
 
-  @ApiHeader({
-    name: '修改',
-    description: '根据id修改一条数据记录',
+  @ApiOperation({
+    summary: '修改',
   })
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateIllnessDto: UpdateIllnessDto) {

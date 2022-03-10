@@ -1,5 +1,5 @@
 import { Controller, Get, Param, Query } from '@nestjs/common';
-import { ApiTags, ApiHeader, ApiQuery, ApiOperation } from '@nestjs/swagger';
+import { ApiTags, ApiQuery, ApiOperation } from '@nestjs/swagger';
 import { MedicinesService } from './medicines.service';
 import { QueryInfo } from './dto/create-medicine.dto';
 

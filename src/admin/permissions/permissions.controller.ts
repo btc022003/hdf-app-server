@@ -11,7 +11,7 @@ import { PermissionsService } from './permissions.service';
 import { CreatePermissionDto } from './dto/create-permission.dto';
 import { UpdatePermissionDto } from './dto/update-permission.dto';
 import { BaseController } from 'src/base/base.controller';
-import { ApiHeader, ApiParam, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('后台-权限信息')
 @Controller('admin/permissions')
@@ -21,18 +21,16 @@ export class PermissionsController extends BaseController {
   }
 
   // 重写默认的分页方法，传递需要关联查询的数据
-  @ApiHeader({
-    name: '获取列表',
-    description: '获取列表信息',
+  @ApiOperation({
+    summary: '获取列表',
   })
   @Get()
   index(@Query() query) {
     return this.permissionsService.findAll({}, query.page, query.per);
   }
 
-  @ApiHeader({
-    name: '获取单条记录',
-    description: '根据id获取单条记录',
+  @ApiOperation({
+    summary: '获取单条记录',
   })
   @ApiParam({
     name: 'id',
@@ -47,18 +45,16 @@ export class PermissionsController extends BaseController {
     });
   }
 
-  @ApiHeader({
-    name: '新增',
-    description: '数据新增',
+  @ApiOperation({
+    summary: '新增',
   })
   @Post()
   create(@Body() createPermissionDto: CreatePermissionDto) {
     return this.permissionsService.create(createPermissionDto);
   }
 
-  @ApiHeader({
-    name: '修改',
-    description: '根据id修改一条数据记录',
+  @ApiOperation({
+    summary: '修改',
   })
   @Patch(':id')
   update(

@@ -1,5 +1,5 @@
 import { Body, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
-import { ApiBody, ApiHeader, ApiParam, ApiQuery } from '@nestjs/swagger';
+import { ApiBody, ApiOperation, ApiParam, ApiQuery } from '@nestjs/swagger';
 import { BaseService } from './base.service';
 export class BaseController {
   constructor(private readonly service: BaseService) {}
@@ -31,9 +31,8 @@ export class BaseController {
     return this.service.findAll(where, query.page, query.per);
   }
 
-  @ApiHeader({
-    name: '获取单条记录',
-    description: '根据id获取单条记录',
+  @ApiOperation({
+    summary: '获取单条记录',
   })
   @ApiParam({
     name: 'id',
@@ -43,9 +42,8 @@ export class BaseController {
     return this.service.findOne(params.id);
   }
 
-  @ApiHeader({
-    name: '新增',
-    description: '数据新增',
+  @ApiOperation({
+    summary: '新增',
   })
   @Post()
   @ApiBody({ type: Object })
@@ -54,9 +52,8 @@ export class BaseController {
     return data;
   }
 
-  @ApiHeader({
-    name: '修改',
-    description: '根据id修改数据',
+  @ApiOperation({
+    summary: '修改',
   })
   @Patch(':id')
   @ApiBody({ type: Object })
@@ -64,9 +61,8 @@ export class BaseController {
     return this.service.update(id, updateData);
   }
 
-  @ApiHeader({
-    name: '删除',
-    description: '根据id删除单条数据',
+  @ApiOperation({
+    summary: '删除',
   })
   @Delete(':id')
   remove(@Param('id') id: string) {
