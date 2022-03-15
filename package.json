@@ -1,8 +1,8 @@
 {
   "name": "hdf-app-server",
-  "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "version": "1.0.0",
+  "description": "hdf add server api",
+  "author": "Arivin",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {

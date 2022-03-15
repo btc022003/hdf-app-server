@@ -1,3 +1,12 @@
+> 好大夫服务器端代码，基于 nest.js 框架开发
+
+## 运行环境
+
+nodejs
+postgresql
+
+如果需要改变运行的数据库，直接修改数据库配置文件`prisma/schema.prisma`
+
 ## 启动项目
 
 ```bash
