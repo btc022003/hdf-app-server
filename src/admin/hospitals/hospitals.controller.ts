@@ -16,6 +16,9 @@ export class HospitalsController extends BaseController {
     super(hospitalsService);
   }
 
+  @ApiOperation({
+    summary: '获取单条记录',
+  })
   @Get(':id')
   one(@Param('id') id: string) {
     return this.prisma.hospital.findUnique({

@@ -5,6 +5,9 @@ import { QueryInfo } from './dto/base.dto';
 export class BaseController {
   constructor(private readonly service: BaseService) {}
 
+  @ApiOperation({
+    summary: '分页形式获取列表数据',
+  })
   @ApiQuery({
     name: 'page',
     description: '页码',
