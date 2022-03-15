@@ -1,6 +1,7 @@
 import { Body, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiParam, ApiQuery } from '@nestjs/swagger';
 import { BaseService } from './base.service';
+import { QueryInfo } from './dto/base.dto';
 export class BaseController {
   constructor(private readonly service: BaseService) {}
 
@@ -22,8 +23,17 @@ export class BaseController {
       default: 10,
     },
   })
+  @ApiQuery({
+    name: 'name',
+    description: '查询关键词，如果用name属性的时候使用',
+    required: false,
+    schema: {
+      type: 'string',
+      default: '',
+    },
+  })
   @Get()
-  index(@Query() query) {
+  index(@Query() query: QueryInfo) {
     const where: any = {};
     if (query.name) {
       where.name = { contains: query.name };

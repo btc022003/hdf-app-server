@@ -6,6 +6,7 @@ import {
   ModifyPWD,
   UserArticleCollection,
   UserDoctorCollection,
+  UserCommentToDoctor,
 } from './dto/create-member.dto';
 
 @ApiTags('会员中心')
@@ -42,14 +43,24 @@ export class MembersController {
     summary: '加入或者取消文章收藏',
   })
   @Post('article_collection')
-  toggleArticleCollection(@Body() createMemberDto: UserArticleCollection) {
-    return this.membersService.toggleArticleCollection(createMemberDto);
+  toggleArticleCollection(@Body() data: UserArticleCollection) {
+    return this.membersService.toggleArticleCollection(data);
   }
 
   @ApiOperation({
     summary: '关注或者取消关注医生',
   })
-  toggleDoctorCollection(@Body() createMemberDto: UserDoctorCollection) {
-    return this.membersService.toggleDoctorCollection(createMemberDto);
+  @Post('doctor_collection')
+  toggleDoctorCollection(@Body() data: UserDoctorCollection) {
+    return this.membersService.toggleDoctorCollection(data);
+  }
+
+  @ApiOperation({
+    summary: '对医生做出评价打分',
+  })
+  @Post('comment_doctor')
+  commentDOctor(@Body() data: UserCommentToDoctor) {
+    //
+    return '评论成功';
   }
 }

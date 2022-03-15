@@ -7,7 +7,7 @@ import {
   Get,
   Query,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import { BaseController } from 'src/base/base.controller';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { DoctorsService } from './doctors.service';
@@ -34,6 +34,9 @@ export class DoctorsController extends BaseController {
     });
   }
 
+  @ApiOperation({
+    summary: '根据id获取当前医生的评价',
+  })
   @Get('comments/:doctor_id')
   comments(@Param('doctor_id') doctor_id: string) {
     // return this.doctorsServic

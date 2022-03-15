@@ -5,6 +5,7 @@ import {
   ModifyPWD,
   UserDoctorCollection,
   UserArticleCollection,
+  UserCommentToDoctor,
 } from './dto/create-member.dto';
 import { encodePwd } from 'src/utils/tools';
 
@@ -90,6 +91,22 @@ export class MembersService {
       data: {
         userId: info.userId,
         doctorId: info.doctorId,
+      },
+    });
+  }
+
+  /**
+   * 对医生进行评价
+   * @param info
+   */
+  async commentDoctor(info: UserCommentToDoctor) {
+    await this.prisma.doctorComment.create({
+      data: {
+        doctorId: info.doctorId,
+        userId: info.userId,
+        level: info.level,
+        content: info.content,
+        image: info.image,
       },
     });
   }

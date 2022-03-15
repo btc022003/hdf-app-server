@@ -1,5 +1,4 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty } from 'class-validator';
 
 export class CreateMemberDto {
   @ApiProperty({
@@ -57,4 +56,31 @@ export class UserDoctorCollection {
     description: '医生id',
   })
   doctorId: string;
+}
+
+export class UserCommentToDoctor {
+  @ApiProperty({
+    description: '用户id',
+  })
+  userId: string;
+
+  @ApiProperty({
+    description: '评论的医生id',
+  })
+  doctorId: string;
+
+  @ApiProperty({
+    description: '内容',
+  })
+  content: string;
+
+  @ApiProperty({
+    description: '评分',
+  })
+  level: number;
+
+  @ApiProperty({
+    description: '附件图片',
+  })
+  image?: string;
 }
