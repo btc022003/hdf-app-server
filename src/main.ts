@@ -31,6 +31,6 @@ async function bootstrap() {
 
   app.useStaticAssets('./public'); // 静态资源目录
 
-  await app.listen(3000);
+  await app.listen(3006);
 }
 bootstrap();
