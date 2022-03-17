@@ -32,6 +32,7 @@ pm2 start dist/src/main.js --name hdf-app-3306
 [使用 acme.sh 给 Nginx 安装 Let’ s Encrypt 提供的免费 SSL 证书](https://ruby-china.org/topics/31983)
 
 ```bash
+# https://github.com/acmesh-official/acme.sh
 # https://ruby-china.org/topics/31983
 # ssl证书
 # 生成证书
@@ -44,6 +45,37 @@ acme.sh --installcert -d hdf-app-server.penkuoer.com  --keypath /yl_data/website
 openssl dhparam -out /yl_data/website/ssl/hdf-app-server-penkuoer.pem 2048
 ```
 
+nginx 配置
+
+```
+upstream hdf_app_server_upstream {
+  server 127.0.0.1:3006;
+  keepalive 64;
+}
+
+server {
+  listen 80;
+  listen 443 ssl;
+  ssl_certificate /yl_data/website/ssl/hdf-app-server.penkuoer.com.key.pem;
+  ssl_certificate_key /yl_data/website/ssl/hdf-app-server.penkuoer.com.key;
+  ssl_dhparam /yl_data/website/ssl/hdf-app-server-penkuoer.pem;
+  server_name hdf-app-server.penkuoer.com;
+  location / {
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header Host $http_host;
+    proxy_set_header X-NginX-Proxy true;
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection "upgrade";
+    proxy_max_temp_file_size 0;
+    proxy_pass http://hdf_app_server_upstream/;
+    proxy_redirect off;
+    proxy_read_timeout 240s;
+  }
+}
+
+```
+
 ## seed 数据生成
 
 ```bash
@@ -54,4 +86,4 @@ npx prisma db seed # 执行编写的数据生成代码
 
 ## 接口文档
 
-[接口文档](http://localhost:3000/docs)
+[接口文档](http://localhost:3006/docs)
