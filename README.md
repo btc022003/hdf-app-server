@@ -1,3 +1,5 @@
+# 项目运行以及发布配置
+
 > 好大夫服务器端代码，基于 nest.js 框架开发
 
 ## 运行环境
@@ -7,7 +9,7 @@ postgresql
 
 如果需要改变运行的数据库，直接修改数据库配置文件`prisma/schema.prisma`
 
-注意事项:本项目不能使用 sqlite 数据库，因为使用了 createMany 方法批量创建数据。建议使用 postgresql
+⚠⚠⚠**注意事项**:本项目不能使用 sqlite 数据库，因为使用了 createMany 方法批量创建数据。建议使用 postgresql
 
 ## 启动项目
 
@@ -47,7 +49,7 @@ openssl dhparam -out /yl_data/website/ssl/hdf-app-server-penkuoer.pem 2048
 
 nginx 配置
 
-```
+```bash
 upstream hdf_app_server_upstream {
   server 127.0.0.1:3006;
   keepalive 64;
