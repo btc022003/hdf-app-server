@@ -11,6 +11,15 @@ postgresql
 
 ⚠⚠⚠**注意事项**:本项目不能使用 sqlite 数据库，因为使用了 createMany 方法批量创建数据。建议使用 postgresql
 
+```sql
+/* 使用默认用户连接数据库 */
+psql postgres
+/* 创建数据库 */
+CREATE DATABASE "hys-app";
+/* 创建角色 */
+CREATE USER postgres with SUPERUSER password '123456';
+```
+
 ## 启动项目
 
 ```bash
