@@ -1,45 +1,29 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-// import { CreateIllnessDto } from './dto/create-illness.dto';
-// import { UpdateIllnessDto } from './dto/update-illness.dto';
 
 @Injectable()
-export class IllnessesService {
+export class ArticlesService {
   constructor(private readonly prisma: PrismaService) {}
+
   /**
-   * 获取疾病分类
+   * 获取文章分类
    * @returns
    */
-  findIllnessCategories() {
-    return this.prisma.illnessCategory.findMany({
+  findArticleCategories() {
+    return this.prisma.articleCategory.findMany({
       where: {},
       orderBy: { createdAt: 'desc' },
     });
   }
 
   /**
-   * 获取常见疾病
-   * @returns
-   */
-  findStandingIllnesses() {
-    return this.prisma.illness.findMany({
-      where: {
-        isStanding: true,
-      },
-      orderBy: {
-        createdAt: 'desc',
-      },
-    });
-  }
-
-  /**
-   * 分页查找药品信息
+   * 分页查找文章信息
    * @param keyword
    * @param page
    * @param per
    * @returns
    */
-  async findIllnesses(keyword = '', page = 1, per = 10) {
+  async findArticles(keyword = '', page = 1, per = 10) {
     page = isNaN(page) ? 1 : page * 1;
     per = isNaN(page) ? 10 : per * 1;
     const where = {
@@ -66,7 +50,7 @@ export class IllnessesService {
         },
       ],
     };
-    const list = await this.prisma.illness.findMany({
+    const list = await this.prisma.article.findMany({
       where,
       orderBy: {
         createdAt: 'desc',
@@ -74,7 +58,7 @@ export class IllnessesService {
       skip: (page - 1) * per,
       take: per,
     });
-    const total = await this.prisma.illness.count({ where });
+    const total = await this.prisma.article.count({ where });
     return {
       list,
       current: page,
@@ -88,11 +72,11 @@ export class IllnessesService {
    * @param id
    * @returns
    */
-  findIllness(id) {
-    return this.prisma.illness.findFirst({
+  findArticle(id) {
+    return this.prisma.article.findFirst({
       where: { id },
       include: {
-        illnessCategory: true,
+        category: true,
       },
     });
   }
