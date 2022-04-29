@@ -36,5 +36,10 @@ export class CreateMedicineDto {
   @ApiProperty({
     description: '分类id',
   })
-  category: string;
+  medicineCategoryId: string;
+
+  @ApiProperty({
+    description: '疾病id',
+  })
+  illnesses: string[];
 }

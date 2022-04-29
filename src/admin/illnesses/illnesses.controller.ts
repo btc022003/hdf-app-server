@@ -1,5 +1,5 @@
-import { Controller, Post, Body, Patch, Param } from '@nestjs/common';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { Controller, Post, Body, Patch, Param, Get } from '@nestjs/common';
+import { ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
 import { IllnessesService } from './illnesses.service';
 import { CreateIllnessDto } from './dto/create-illness.dto';
 import { UpdateIllnessDto } from './dto/update-illness.dto';
@@ -26,5 +26,23 @@ export class IllnessesController extends BaseController {
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateIllnessDto: UpdateIllnessDto) {
     return this.illnessesService.update(id, updateIllnessDto);
+  }
+
+  @ApiOperation({
+    summary: '获取单条记录',
+  })
+  @ApiParam({
+    name: 'id',
+  })
+  @Get(':id')
+  one(@Param() params) {
+    return this.illnessesService.findOne(params.id, {
+      illnessCategory: true,
+      IllnessMedicine: {
+        include: {
+          medicine: true, // 多层关联
+        },
+      },
+    });
   }
 }

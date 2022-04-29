@@ -42,4 +42,9 @@ export class CreateIllnessDto {
     description: '疾病分类id',
   })
   illnessCategoryId: string;
+
+  @ApiProperty({
+    description: '药品id',
+  })
+  medicines: string[];
 }
