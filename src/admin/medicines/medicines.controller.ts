@@ -41,7 +41,7 @@ export class MedicinesController extends BaseController {
   one(@Param() params) {
     return this.medicinesService.findOne(params.id, {
       category: true,
-      IllnessMedicine: {
+      illnessMedicine: {
         include: {
           illness: true, // 多层关联
         },

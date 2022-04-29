@@ -93,7 +93,7 @@ export class IllnessesService {
       where: { id },
       include: {
         illnessCategory: true,
-        IllnessMedicine: {
+        illnessMedicine: {
           include: {
             medicine: true, // 多层关联
           },

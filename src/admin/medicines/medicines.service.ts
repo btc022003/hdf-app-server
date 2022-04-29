@@ -7,7 +7,14 @@ import { UpdateMedicineDto } from './dto/update-medicine.dto';
 @Injectable()
 export class MedicinesService extends BaseService {
   constructor(private readonly prisma: PrismaService) {
-    super(prisma.medicine);
+    super(prisma.medicine, {
+      category: true,
+      illnessMedicine: {
+        include: {
+          illness: true, // 多层关联
+        },
+      },
+    });
   }
 
   // 创建的时候,需要关联下药品表。多对多
@@ -42,7 +49,7 @@ export class MedicinesService extends BaseService {
    */
   async update(id: string, data: UpdateMedicineDto) {
     const { illnesses, ...medicineData } = data;
-    const medicine = await this.prisma.illness.update({
+    const medicine = await this.prisma.medicine.update({
       where: { id },
       data: medicineData,
     });

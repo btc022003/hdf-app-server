@@ -178,7 +178,7 @@ model Medicine {
   category           MedicineCategory? @relation(fields: [medicineCategoryId], references: [id])
   medicineCategoryId String?           @map("medicine_category_id")
 
-  IllnessMedicine IllnessMedicine[]
+  illnessMedicine IllnessMedicine[]
   @@map("medicines")
 }
 
@@ -341,7 +341,7 @@ model Illness {
   illnessCategoryId String?          @map("illness_category_id")
 
 
-  IllnessMedicine IllnessMedicine[]
+  illnessMedicine IllnessMedicine[]
   @@map("illnesses")
 }
 
