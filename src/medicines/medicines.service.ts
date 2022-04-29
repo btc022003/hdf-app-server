@@ -92,6 +92,11 @@ export class MedicinesService {
       where: { id },
       include: {
         category: true,
+        IllnessMedicine: {
+          include: {
+            illness: true, // 多层关联
+          },
+        },
       },
     });
   }
