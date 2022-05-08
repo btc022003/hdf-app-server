@@ -10,15 +10,15 @@ generator client {
 //   url      = env("DATABASE_URL")
 // }
 
-datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_MYSQL_URL")
-}
-
 // datasource db {
-//   provider = "postgresql"
-//   url      = env("DATABASE_PgSQL_URL")
+//   provider = "mysql"
+//   url      = env("DATABASE_MYSQL_URL")
 // }
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_PgSQL_URL")
+}
 
 model User {
   id             String          @id @default(uuid())
