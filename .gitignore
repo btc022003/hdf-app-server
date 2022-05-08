@@ -14,6 +14,9 @@ lerna-debug.log*
 # OS
 .DS_Store
 
+# docker-db-data
+data/
+
 # Tests
 /coverage
 /.nyc_output

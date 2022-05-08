@@ -10,15 +10,15 @@ generator client {
 //   url      = env("DATABASE_URL")
 // }
 
-// datasource db {
-//   provider = "mysql"
-//   url      = env("DATABASE_MYSQL_URL")
-// }
-
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_PgSQL_URL")
+  provider = "mysql"
+  url      = env("DATABASE_MYSQL_URL")
 }
+
+// datasource db {
+//   provider = "postgresql"
+//   url      = env("DATABASE_PgSQL_URL")
+// }
 
 model User {
   id             String          @id @default(uuid())
@@ -42,9 +42,9 @@ model User {
 model Doctor {
   id        String   @id @default(uuid())
   name      String   @default("")
-  desc      String   @default("")
+  desc      String   @default("") @db.Text
   tags      String   @default("")
-  content   String   @default("")
+  content   String   @default("") @db.Text
   avatar    String   @default("")
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
@@ -71,8 +71,8 @@ model Doctor {
 model Department {
   id        String   @id @default(uuid())
   name      String   @default("")
-  desc      String   @default("")
-  content   String   @default("")
+  desc      String   @default("") @db.Text
+  content   String   @default("") @db.Text
   image     String   @default("")
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
@@ -84,7 +84,7 @@ model Department {
 model DoctorTitle {
   id        String   @id @default(uuid())
   name      String   @default("")
-  desc      String   @default("")
+  desc      String   @default("") @db.Text
   image     String   @default("")
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
@@ -97,7 +97,7 @@ model DoctorTitle {
 model DoctorTag {
   id        String   @id @default(uuid())
   name      String   @default("")
-  desc      String   @default("")
+  desc      String   @default("") @db.Text
   image     String   @default("")
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
@@ -124,9 +124,9 @@ model DoctorComment {
 model Hospital {
   id        String   @id @default(uuid())
   name      String   @default("")
-  desc      String   @default("")
+  desc      String   @default("") @db.Text
   image     String   @default("")
-  content   String   @default("")
+  content   String   @default("") @db.Text
   address   String   @default("")
   phone     String   @default("")
   createdAt DateTime @default(now()) @map("created_at")
@@ -159,7 +159,7 @@ model Consultation {
 model MedicineCategory {
   id        String   @id @default(uuid())
   name      String   @default("")
-  desc      String   @default("")
+  desc      String   @default("") @db.Text
   image     String   @default("")
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
@@ -191,7 +191,7 @@ model Medicine {
 model ArticleCategory {
   id        String   @id @default(uuid())
   name      String   @default("")
-  desc      String   @default("")
+  desc      String   @default("") @db.Text
   image     String   @default("")
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
@@ -205,10 +205,10 @@ model ArticleCategory {
 model Article {
   id        String   @id @default(uuid())
   name      String   @default("")
-  desc      String   @default("")
+  desc      String   @default("") @db.Text
   tags      String   @default("") // 主治的症状标签，多个用,分割
   image     String   @default("")
-  content   String   @default("")
+  content   String   @default("") @db.Text
   views     Decimal  @default(0) // 浏览次数
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")

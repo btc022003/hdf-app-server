@@ -20,9 +20,20 @@ CREATE DATABASE "hys-app";
 CREATE USER postgres with SUPERUSER password '123456';
 ```
 
+#### 添加mysql配置🌰
+
+使用docker直接启动mysql环境亦可。配置文件已经添加，修改代码注释就可以
+
+```bash
+docker-compose up
+```
+
 ## 启动项目
 
 ```bash
+npx prisma db push # 初始化数据库
+npx prisma db seed # 初始化数据
+
 # development
 npm run start
 
