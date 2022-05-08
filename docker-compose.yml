@@ -1,18 +1,33 @@
 version: '3'
 services:
-  mysqldb:
-    image: mysql:${MYSQL_VERSION}
-    container_name: ${MYSQL_HOST}
+  # mysqldb:
+  #   image: mysql:${MYSQL_VERSION}
+  #   container_name: ${MYSQL_HOST}
+  #   restart: always
+  #   env_file:
+  #     - '.env'
+  #   environment:
+  #     - MYSQL_DATABASE=${MYSQL_DATABASE}
+  #     - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+  #     - MYSQL_USER=${MYSQL_USER}
+  #     - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+  #   command: mysqld --sql_mode="" --character-set-server=utf8 --collation-server=utf8_slovenian_ci --init-connect='SET NAMES UTF8;' --innodb-flush-log-at-trx-commit=0
+  #   ports:
+  #     - '8989:3306'
+  #   volumes:
+  #     - './data/db/mysql:/var/lib/mysql'
+
+  postgres:
+    image: postgres:latest
+    container_name: pg-hys
     restart: always
-    env_file:
-      - '.env'
     environment:
-      - MYSQL_DATABASE=${MYSQL_DATABASE}
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-      - MYSQL_USER=${MYSQL_USER}
-      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
-    command: mysqld --sql_mode="" --character-set-server=utf8 --collation-server=utf8_slovenian_ci --init-connect='SET NAMES UTF8;' --innodb-flush-log-at-trx-commit=0
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123456
+      PGPASSWORD: 123456
+      POSTGRES_DB: hys-app
+      TZ: "Asia/Shanghai PRC"
     ports:
-      - '8989:3306'
+      - 8988:5432
     volumes:
-      - './data/db/mysql:/var/lib/mysql'
+      - ./postgres:/var/lib/postgresql/data
