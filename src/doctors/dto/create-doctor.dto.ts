@@ -5,4 +5,6 @@ export class QueryInfo {
   department?: string;
   tags?: any;
   title?: string;
+  page?: number;
+  per?: number;
 }
