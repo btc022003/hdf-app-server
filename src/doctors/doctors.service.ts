@@ -25,6 +25,8 @@ export class DoctorsService {
     //     doctorTitleInfo: true,
     //   },
     // });
+    page = isNaN(page) ? 1 : page * 1;
+    per = isNaN(page) ? 10 : per * 1;
     const list = await this.prisma.doctor.findMany({
       where,
       orderBy: {
