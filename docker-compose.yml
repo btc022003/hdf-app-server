@@ -3,7 +3,7 @@ services:
   # mysqldb:
   #   image: mysql:${MYSQL_VERSION}
   #   container_name: ${MYSQL_HOST}
-  #   restart: no
+  #   restart: "no"
   #   env_file:
   #     - '.env'
   #   environment:
@@ -20,7 +20,7 @@ services:
   postgres:
     image: postgres:latest
     container_name: pg-hys
-    restart: no
+    restart: "no"
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: 123456
