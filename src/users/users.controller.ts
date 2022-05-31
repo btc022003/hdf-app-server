@@ -20,7 +20,12 @@ export class UsersController {
       body.password,
     );
     // 写用户id到cookie中，调用接口的时候直接传递cookie就好
-    data.success ? response.cookie('token', data.data, { httpOnly: true }) : '';
+    data.success
+      ? response.cookie('token', data.data, {
+          httpOnly: true,
+          sameSite: 'none',
+        })
+      : '';
     return data;
   }
 
@@ -46,7 +51,12 @@ export class UsersController {
       body.password,
     );
     // 写用户id到cookie中，调用接口的时候直接传递cookie就好
-    data.success ? response.cookie('token', data.data, { httpOnly: true }) : '';
+    data.success
+      ? response.cookie('token', data.data, {
+          httpOnly: true,
+          sameSite: 'none',
+        })
+      : '';
     // console.log(data);
     return data;
   }
