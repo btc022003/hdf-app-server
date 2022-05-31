@@ -24,6 +24,7 @@ export class UsersController {
       ? response.cookie('token', data.data, {
           httpOnly: true,
           sameSite: 'none',
+          secure: true,
         })
       : '';
     return data;
@@ -55,6 +56,7 @@ export class UsersController {
       ? response.cookie('token', data.data, {
           httpOnly: true,
           sameSite: 'none',
+          secure: true,
         })
       : '';
     // console.log(data);
