@@ -1,4 +1,13 @@
-import { Controller, Post, Body, Patch, Param, Get, Req } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Get,
+  Req,
+  Delete,
+} from '@nestjs/common';
 import { ManagersService } from './managers.service';
 import { CreateManagerDto } from './dto/create-manager.dto';
 import { UpdateManagerDto } from './dto/update-manager.dto';
@@ -37,7 +46,7 @@ export class ManagersController extends BaseController {
   }
 
   @ApiOperation({
-    summary: '重新这是密码',
+    summary: '重新设置密码',
   })
   @Patch('reset_pwd/:id')
   resetPwd(
@@ -45,5 +54,17 @@ export class ManagersController extends BaseController {
     @Body() updateManagerDto: UpdateManagerDto,
   ) {
     return this.managersService.resetPwd(id, updateManagerDto.password);
+  }
+
+  @ApiOperation({
+    summary: '删除',
+  })
+  @Delete(':id')
+  async remove(@Param('id') id: string) {
+    const user = await this.managersService.findOne(id);
+    if (user.userName === 'admin') {
+      return '不能删除超级管理员';
+    }
+    return this.managersService.remove(id);
   }
 }
