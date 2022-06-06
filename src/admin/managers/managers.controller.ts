@@ -63,7 +63,7 @@ export class ManagersController extends BaseController {
   async remove(@Param('id') id: string) {
     const user = await this.managersService.findOne(id);
     if (user.userName === 'admin') {
-      return '不能删除超级管理员';
+      return { success: false, errorMessage: '不能删除超级管理员' };
     }
     return this.managersService.remove(id);
   }
