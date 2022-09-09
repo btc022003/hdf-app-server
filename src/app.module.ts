@@ -32,6 +32,7 @@ import { IllnessesModule } from './illnesses/illnesses.module';
 import { ArticlesModule } from './articles/articles.module';
 import { ShopCartsModule } from './shop-carts/shop-carts.module';
 import { OrdersModule } from './orders/orders.module';
+import { AddressesModule } from './addresses/addresses.module';
 
 @Module({
   imports: [
@@ -61,6 +62,7 @@ import { OrdersModule } from './orders/orders.module';
     ArticlesModule,
     ShopCartsModule,
     OrdersModule,
+    AddressesModule,
   ],
   controllers: [AppController, CommonController],
   providers: [AppService, PrismaService],

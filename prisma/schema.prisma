@@ -37,6 +37,7 @@ model User {
   articleCollections ArticleCollection[]
   shopCarts          ShopCart[]
   orders             Order[]
+  Address            Address[]
 
   @@map("users")
 }
@@ -426,4 +427,17 @@ model OrderDetail {
   orderId String? @map("order_id")
 
   @@map("order_details")
+}
+
+// 用户收获地址数据
+model Address {
+  id         String   @id @default(uuid())
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+  region     String?  @default("") // 收货地区信息
+  regionCode String?  @default("") @map("region_code") // 收货地区编码
+  address    String?  @default("") // 详细信息
+  isDefault  Boolean  @default(false) @map("is_default") // 是否默认地址
+  user       User?    @relation(fields: [userId], references: [id])
+  userId     String?  @map("user_id")
 }
