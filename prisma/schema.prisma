@@ -35,6 +35,9 @@ model User {
 
   doctorCollections  DoctorCollection[]
   articleCollections ArticleCollection[]
+  shopCarts          ShopCart[]
+  orders             Order[]
+
   @@map("users")
 }
 
@@ -65,6 +68,7 @@ model Doctor {
   consultations     Consultation[]
   doctorCollections DoctorCollection[]
   ArticleCollection ArticleCollection[]
+
   @@map("doctors")
 }
 
@@ -90,6 +94,7 @@ model DoctorTitle {
   updatedAt DateTime @updatedAt @map("updated_at")
 
   doctors Doctor[]
+
   @@map("doctor_titles")
 }
 
@@ -164,7 +169,12 @@ model MedicineCategory {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  medicines Medicine[]
+  // 添加药品分类关联，做多级关联
+  parent MedicineCategory? @relation("MedicineCategoryToMedicineCategory", fields: [medicineCategoryId], references: [id])
+
+  medicines          Medicine[]
+  medicineCategoryId String?            @map("medicine_category_id") // 父级的id
+  medicineCategories MedicineCategory[] @relation("MedicineCategoryToMedicineCategory")
 
   @@map("medicine_categories")
 }
@@ -184,6 +194,9 @@ model Medicine {
   medicineCategoryId String?           @map("medicine_category_id")
 
   illnessMedicine IllnessMedicine[]
+  ShopCart        ShopCart[]
+  OrderDetail     OrderDetail[]
+
   @@map("medicines")
 }
 
@@ -217,6 +230,7 @@ model Article {
   articleCategoryId String?          @map("article_category_id")
 
   articleCollections ArticleCollection[]
+
   @@map("articles")
 }
 
@@ -246,6 +260,7 @@ model Role {
   managers  Manager[]
   createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime  @updatedAt @map("updated_at")
+
   @@map("roles")
 }
 
@@ -257,14 +272,13 @@ model Permission {
 
   parent Permission? @relation("PermissionToPermission", fields: [permissionId], references: [id])
 
-
-
   permissionOnRoles PermissionsOnRoles[]
 
   createdAt    DateTime     @default(now()) @map("created_at")
   updatedAt    DateTime     @updatedAt @map("updated_at")
-  permissionId String?
+  permissionId String?      @map("permission_id")
   permission   Permission[] @relation("PermissionToPermission")
+
   @@map("permissions")
 }
 
@@ -292,7 +306,6 @@ model DoctorCollection {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-
   @@map("doctor_collections")
 }
 
@@ -310,6 +323,7 @@ model ArticleCollection {
 
   article   Article? @relation(fields: [articleId], references: [id])
   articleId String?  @map("article_id")
+
   @@map("article_collections")
 }
 
@@ -345,8 +359,8 @@ model Illness {
   illnessCategory   IllnessCategory? @relation(fields: [illnessCategoryId], references: [id])
   illnessCategoryId String?          @map("illness_category_id")
 
-
   illnessMedicine IllnessMedicine[]
+
   @@map("illnesses")
 }
 
@@ -360,5 +374,56 @@ model IllnessMedicine {
   medicine   Medicine @relation(fields: [medicineId], references: [id])
   illnessId  String   @map("illness_id")
   medicineId String   @map("medicine_id")
+
   @@map("illnesses_medicines")
+}
+
+model ShopCart {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  medicine   Medicine? @relation(fields: [medicineId], references: [id])
+  medicineId String?   @map("medicine_id")
+  amount     Int       @default(1)
+  user       User?     @relation(fields: [userId], references: [id])
+  userId     String?   @map("user_id")
+  name       String?
+  price      Float?
+
+  @@map("shop_carts")
+}
+
+model Order {
+  id           String        @id @default(uuid())
+  createdAt    DateTime      @default(now()) @map("created_at")
+  updatedAt    DateTime      @updatedAt @map("updated_at")
+  price        Float?        @default(0)
+  isEnd        Boolean       @default(false) @map("is_end") // 是否完成
+  status       Int           @default(0) // 订单状态
+  isPayed      Boolean       @default(false) @map("is_payed")
+  region       String?       @default("") // 收货地区信息
+  regionCode   String?       @default("") @map("region_code") // 收货地区编码
+  address      String?       @default("") // 详细信息
+  expressInfo  String?       @default("") @map("express_info") // 物流信息
+  orderDetails OrderDetail[] // 一个订单可以关联多个商品，使用订单详情实现
+  user         User?         @relation(fields: [userId], references: [id])
+  userId       String?       @map("user_id")
+
+  @@map("orders")
+}
+
+model OrderDetail {
+  id         String    @id @default(uuid())
+  createdAt  DateTime  @default(now()) @map("created_at")
+  updatedAt  DateTime  @updatedAt @map("updated_at")
+  price      Float?    @default(0)
+  medicine   Medicine? @relation(fields: [medicineId], references: [id])
+  medicineId String?   @map("medicine_id")
+  amount     Int       @default(1)
+
+  order   Order?  @relation(fields: [orderId], references: [id])
+  orderId String? @map("order_id")
+
+  @@map("order_details")
 }

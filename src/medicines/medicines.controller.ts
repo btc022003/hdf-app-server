@@ -1,7 +1,7 @@
 import { Controller, Get, Param, Query } from '@nestjs/common';
 import { ApiTags, ApiQuery, ApiOperation } from '@nestjs/swagger';
 import { MedicinesService } from './medicines.service';
-import { QueryInfo } from './dto/create-medicine.dto';
+import { CategoryQueryInfo, QueryInfo } from './dto/create-medicine.dto';
 
 @ApiTags('药品部分')
 @Controller('medicines')
@@ -50,9 +50,19 @@ export class MedicinesController {
   @ApiOperation({
     summary: '获取药品分类',
   })
+  // @ApiQuery({
+  //   name: 'medicineCategoryId',
+  //   description: '药品分类id，父级',
+  //   schema: {
+  //     type: 'string',
+  //     default: '',
+  //   },
+  //   required: false,
+  // })
   @Get('categories')
-  findCategories() {
-    return this.medicinesService.findMedicineCategories();
+  findCategories(@Query() params: CategoryQueryInfo) {
+    console.log(params);
+    return this.medicinesService.findMedicineCategories(params.category);
   }
 
   @ApiOperation({

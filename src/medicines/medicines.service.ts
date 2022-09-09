@@ -9,9 +9,10 @@ export class MedicinesService {
    * 获取药品分类
    * @returns
    */
-  findMedicineCategories() {
+  findMedicineCategories(medicineCategoryId = '') {
+    const where = medicineCategoryId ? { medicineCategoryId } : {};
     return this.prisma.medicineCategory.findMany({
-      where: {},
+      where,
       orderBy: { createdAt: 'desc' },
     });
   }
