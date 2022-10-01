@@ -9,9 +9,10 @@ export class MedicinesService {
    * 获取药品分类
    * @returns
    */
-  findMedicineCategories() {
+  findMedicineCategories(medicineCategoryId = '') {
+    const where = medicineCategoryId ? { medicineCategoryId } : {};
     return this.prisma.medicineCategory.findMany({
-      where: {},
+      where,
       orderBy: { createdAt: 'desc' },
     });
   }
@@ -38,10 +39,10 @@ export class MedicinesService {
    * @param per
    * @returns
    */
-  async findMedicines(keyword = '', page = 1, per = 10) {
+  async findMedicines(keyword = '', page = 1, per = 10, category = '') {
     page = isNaN(page) ? 1 : page * 1;
     per = isNaN(page) ? 10 : per * 1;
-    const where = {
+    const where: any = {
       OR: [
         {
           name: {
@@ -65,17 +66,25 @@ export class MedicinesService {
         },
       ],
     };
+    // console.log('当前的分类id:' + category);
+    if (category) where.medicineCategoryId = category;
     const list = await this.prisma.medicine.findMany({
       where,
       orderBy: {
         createdAt: 'desc',
+      },
+      include: {
+        category: true,
       },
       skip: (page - 1) * per,
       take: per,
     });
     const total = await this.prisma.medicine.count({ where });
     return {
-      list,
+      list: list.map((item) => {
+        delete item.content;
+        return item;
+      }),
       current: page,
       pageSize: per,
       total,
