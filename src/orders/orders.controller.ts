@@ -12,10 +12,11 @@ import {
 } from '@nestjs/common';
 import { OrdersService } from './orders.service';
 import { CreateOrderDto, QueryInfo } from './dto/create-order.dto';
-import { ApiOperation, ApiQuery } from '@nestjs/swagger';
+import { ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
 // import { UpdateOrderDto } from './dto/update-order.dto';
 
-@Controller('orders')
+@ApiTags('订单')
+@Controller('members/orders')
 export class OrdersController {
   constructor(private readonly ordersService: OrdersService) {}
 

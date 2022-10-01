@@ -32,6 +32,8 @@ export class ShopCartsService {
     }
     // end
 
+    if (amount < 0) amount = 1; // 购物车中的商品数量不能少于1
+
     return this.prisma.shopCart.create({
       data: {
         userId: user,
@@ -78,7 +80,12 @@ export class ShopCartsService {
   //   return `This action updates a #${id} shopCart`;
   // }
 
-  remove(id: string) {
-    return this.prisma.shopCart.delete({ where: { id } });
+  /**
+   * 删除多个
+   * @param ids
+   * @returns
+   */
+  remove(ids: string[]) {
+    return this.prisma.shopCart.deleteMany({ where: { id: { in: ids } } });
   }
 }
