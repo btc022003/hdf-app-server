@@ -35,6 +35,15 @@ export class MedicinesController {
       default: 10,
     },
   })
+  @ApiQuery({
+    name: 'category',
+    description: '分类id',
+    required: false,
+    schema: {
+      type: 'string',
+      default: '',
+    },
+  })
   @ApiOperation({
     summary: '获取药品信息列表',
   })
@@ -44,6 +53,7 @@ export class MedicinesController {
       params.keyword,
       params.page,
       params.per,
+      params.category,
     );
   }
 

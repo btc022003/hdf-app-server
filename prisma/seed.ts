@@ -3,10 +3,10 @@ import axios from 'axios';
 import { PrismaClient } from '@prisma/client';
 import { encodePwd } from '../src/utils/tools';
 const prisma = new PrismaClient();
-var departments;
-var doctorTitles;
-var doctors;
-var hospitals;
+let departments;
+let doctorTitles;
+// var doctors;
+// var hospitals;
 
 async function loadHospital(url) {
   const hospital = await axios.get(url).then((res) => res.data);

@@ -193,6 +193,7 @@ model Medicine {
   updatedAt          DateTime          @updatedAt @map("updated_at")
   category           MedicineCategory? @relation(fields: [medicineCategoryId], references: [id])
   medicineCategoryId String?           @map("medicine_category_id")
+  price              Float             @default(0)
 
   illnessMedicine IllnessMedicine[]
   ShopCart        ShopCart[]
