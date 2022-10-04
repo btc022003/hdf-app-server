@@ -30,6 +30,8 @@ async function bootstrap() {
   app.useGlobalFilters(new AnyExceptionFilter()); // 全局异常处理
 
   app.useStaticAssets('./public'); // 静态资源目录
+  app.setBaseViewsDir('./src/views');
+  app.setViewEngine('hbs');
 
   await app.listen(3006);
 }
