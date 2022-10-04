@@ -441,4 +441,6 @@ model Address {
   isDefault  Boolean  @default(false) @map("is_default") // 是否默认地址
   user       User?    @relation(fields: [userId], references: [id])
   userId     String?  @map("user_id")
+
+  @@map("addresses")
 }

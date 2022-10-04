@@ -81,4 +81,17 @@ export class BaseController {
   remove(@Param('id') id: string) {
     return this.service.remove(id);
   }
+
+  @ApiOperation({
+    summary: '删除多个',
+  })
+  @ApiQuery({
+    name: 'ids',
+    description: '需要删除的id，多个用,分割',
+    required: true,
+  })
+  @Delete('remove_many')
+  removeMany(@Query() query) {
+    return this.service.removeMany(query.ids.split(''));
+  }
 }

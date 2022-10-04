@@ -25,6 +25,8 @@ import { RolesModule as AdminRolesModule } from './admin/roles/roles.module';
 import { PermissionsModule as AdminPermissionsModule } from './admin/permissions/permissions.module';
 import { IllnessesModule as AdminIllnessesModule } from './admin/illnesses/illnesses.module';
 import { IllnessCategoriesModule as AdminIllnessCategoriesModule } from './admin/illness-categories/illness-categories.module';
+import { ShopCartsModule as AdminShopCartsModule } from './admin/shop-carts/shop-carts.module';
+import { OrdersModule as AdminOrders } from './admin/orders/orders.module';
 import { MembersModule } from './members/members.module';
 import { DoctorsModule } from './doctors/doctors.module';
 import { MedicinesModule } from './medicines/medicines.module';
@@ -55,6 +57,8 @@ import { AddressesModule } from './addresses/addresses.module';
     AdminPermissionsModule,
     AdminIllnessesModule,
     AdminIllnessCategoriesModule,
+    AdminShopCartsModule,
+    AdminOrders,
     MembersModule,
     DoctorsModule,
     MedicinesModule,

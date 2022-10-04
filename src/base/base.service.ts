@@ -96,4 +96,19 @@ export class BaseService {
   remove(id: string) {
     return this.model.delete({ where: { id } });
   }
+
+  /**
+   * 根据id删除多个，多个id用,分割
+   * @param ids
+   * @returns
+   */
+  removeMany(ids: string[]) {
+    return this.model.deleteMany({
+      where: {
+        id: {
+          in: ids,
+        },
+      },
+    });
+  }
 }

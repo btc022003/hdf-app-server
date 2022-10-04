@@ -21,27 +21,34 @@ export class ShopCartsService {
       },
     });
 
+    // console.log(cartInfo);
     // 处理购物车中商品数量 start
     let amount = 1;
     // 购物车中存在的时候直接修改数量，不存在的时候加入购物车
     if (cartInfo) {
       amount = cartInfo.amount + createShopCartDto.amount;
+      if (amount < 0) amount = 1; // 购物车中的商品数量不能少于1
+      return this.prisma.shopCart.update({
+        data: {
+          amount,
+        },
+        where: {
+          id: cartInfo.id,
+        },
+      });
     } else {
       // 如果不存在判断传递的数量参数，不能小于0.如果小于0 默认设置为1
-      amount = cartInfo.amount > 0 ? cartInfo.amount : 1;
+      // amount = cartInfo.amount > 0 ? cartInfo.amount : 1;
+      return this.prisma.shopCart.create({
+        data: {
+          userId: user,
+          amount: 1,
+          price: createShopCartDto.price,
+          medicineId: createShopCartDto.medicine,
+        },
+      });
     }
     // end
-
-    if (amount < 0) amount = 1; // 购物车中的商品数量不能少于1
-
-    return this.prisma.shopCart.create({
-      data: {
-        userId: user,
-        amount,
-        price: createShopCartDto.price,
-        medicineId: createShopCartDto.medicine,
-      },
-    });
   }
 
   /**
@@ -60,8 +67,14 @@ export class ShopCartsService {
       orderBy: {
         createdAt: 'desc',
       },
+      include: {
+        medicine: true,
+      },
       skip: (page - 1) * per,
       take: per,
+    });
+    list.forEach((item) => {
+      delete item.medicine.content;
     });
     const total = await this.prisma.shopCart.count({ where: { userId: user } });
     return {
