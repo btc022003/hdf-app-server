@@ -372,10 +372,10 @@ model IllnessMedicine {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  illness    Illness  @relation(fields: [illnessId], references: [id])
-  medicine   Medicine @relation(fields: [medicineId], references: [id])
-  illnessId  String   @map("illness_id")
-  medicineId String   @map("medicine_id")
+  illness    Illness?  @relation(fields: [illnessId], references: [id])
+  medicine   Medicine? @relation(fields: [medicineId], references: [id])
+  illnessId  String    @map("illness_id")
+  medicineId String    @map("medicine_id")
 
   @@map("illnesses_medicines")
 }
