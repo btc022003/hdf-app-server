@@ -2,6 +2,7 @@ import { Body, Controller, Get, Post, Res } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 import { CreateUserDto } from 'src/admin/users/dto/create-user.dto';
+import { generateToken } from 'src/utils/tools';
 import { LoginDto } from './dto/login.dto';
 import { UsersService } from './users.service';
 
@@ -21,7 +22,7 @@ export class UsersController {
     );
     // 写用户id到cookie中，调用接口的时候直接传递cookie就好
     data.success
-      ? response.cookie('token', data.data, {
+      ? response.cookie('token', generateToken({ id: data.data }), {
           httpOnly: true,
           sameSite: 'none',
           secure: true,
@@ -37,7 +38,7 @@ export class UsersController {
     response: Response,
   ) {
     const data = await this.usersService.userReg(body);
-    response.cookie('token', data.id);
+    response.cookie('token', generateToken({ id: data.id }));
     return data;
   }
 
@@ -53,7 +54,7 @@ export class UsersController {
     );
     // 写用户id到cookie中，调用接口的时候直接传递cookie就好
     data.success
-      ? response.cookie('token', data.data, {
+      ? response.cookie('token', generateToken({ id: data.data }), {
           httpOnly: true,
           sameSite: 'none',
           secure: true,

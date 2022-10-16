@@ -19,7 +19,7 @@ export class MembersController {
   })
   @Get('info')
   info(@Req() req) {
-    console.log(req.user);
+    // console.log(req.user);
     return this.membersService.info(req.user.id);
   }
 
