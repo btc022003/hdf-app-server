@@ -39,3 +39,5 @@ postgres/
 !.vscode/extensions.json
 
 public/uploads/
+
+deploy.sh

@@ -8,7 +8,9 @@ import { AppModule } from './app.module';
 import { AnyExceptionFilter } from './any-exception.filter';
 
 async function bootstrap() {
-  const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, {
+    // logger: ['error', 'warn'],
+  });
 
   app.enableCors({ origin: true, credentials: true }); // 允许跨域和传递cookie
 

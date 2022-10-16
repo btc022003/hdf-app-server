@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
@@ -10,6 +10,7 @@ export class ArticlesService {
    * @returns
    */
   findArticleCategories() {
+    // Logger.error('1212'); // 使用日志模块输出内容
     return this.prisma.articleCategory.findMany({
       where: {},
       orderBy: { createdAt: 'desc' },
