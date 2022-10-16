@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from 'src/admin/users/dto/create-user.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { encodePwd } from 'src/utils/tools';
+import { encodePwd, generateToken } from 'src/utils/tools';
 
 @Injectable()
 export class UsersService {
@@ -22,12 +22,17 @@ export class UsersService {
    * @returns
    */
   async userReg(user: CreateUserDto) {
-    return this.prisma.user.create({
+    const data = await this.prisma.user.create({
       data: {
         ...user,
         password: encodePwd(user.password),
       },
     });
+    return {
+      success: true,
+      errorMessage: '注册成功',
+      data: generateToken({ id: data.id }),
+    };
   }
 
   /**
@@ -44,7 +49,7 @@ export class UsersService {
         return {
           success: true,
           errorMessage: '登陆成功',
-          data: user.id,
+          data: generateToken({ id: user.id }),
         };
       }
       return {
@@ -74,7 +79,7 @@ export class UsersService {
         return {
           success: true,
           errorMessage: '登陆成功',
-          data: user.id,
+          data: generateToken({ id: user.id }),
         };
       }
       return {

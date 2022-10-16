@@ -22,7 +22,7 @@ export class UsersController {
     );
     // 写用户id到cookie中，调用接口的时候直接传递cookie就好
     data.success
-      ? response.cookie('token', generateToken({ id: data.data }), {
+      ? response.cookie('token', data.data, {
           httpOnly: true,
           sameSite: 'none',
           secure: true,
@@ -38,7 +38,7 @@ export class UsersController {
     response: Response,
   ) {
     const data = await this.usersService.userReg(body);
-    response.cookie('token', generateToken({ id: data.id }));
+    response.cookie('token', data.data);
     return data;
   }
 
@@ -54,7 +54,7 @@ export class UsersController {
     );
     // 写用户id到cookie中，调用接口的时候直接传递cookie就好
     data.success
-      ? response.cookie('token', generateToken({ id: data.data }), {
+      ? response.cookie('token', data.data, {
           httpOnly: true,
           sameSite: 'none',
           secure: true,
