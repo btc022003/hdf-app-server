@@ -42,7 +42,7 @@ export class MedicinesService {
   async findMedicines(keyword = '', page = 1, per = 10, category = '') {
     page = isNaN(page) ? 1 : page * 1;
     per = isNaN(per) ? 10 : per * 1;
-    console.log(per);
+    // console.log(per);
     const where: any = {
       OR: [
         {

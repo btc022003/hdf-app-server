@@ -58,12 +58,13 @@ async function loadInfoFromServer() {
       $('.left-pro').each(function () {
         const m = {};
         m.image = $(this).find('#show-img img').attr('src');
-        m.name = $(this).find('.goodinfo h3 a').text();
+        m.name = $(this).find('.goodinfo h3 a').text().trim();
         m.content =
           'http://www.yfdyf.com' + $(this).find('.goodinfo h3 a').attr('href');
         m.price = $(this).find('.sell-price').text().replace('¥', '') * 1;
         // console.log(m);
         // mc.medicines.unshift(m);
+        m.createdAt = new Date(Date.now() + index + Math.random() * 5000);
         m.medicineCategoryId = allCategories[index].id;
         allMedicine.push(m);
       });
