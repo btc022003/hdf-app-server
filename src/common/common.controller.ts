@@ -11,6 +11,12 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiTags } from '@nestjs/swagger';
 import * as multer from 'multer';
 import * as path from 'path';
+import * as fs from 'fs';
+
+// 如果上传目录不存在，那么自行创建
+if (!fs.existsSync('./public/uploads')) {
+  fs.mkdirSync('./public/uploads');
+}
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
