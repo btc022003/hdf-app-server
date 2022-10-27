@@ -14,10 +14,12 @@ export class ValidateLoginMiddleware implements NestMiddleware {
     // console.log('验证登录');
     // next();
     // console.log(req.cookies?.token);
-    if (req.cookies?.token) {
+    // 在cookie和headers同时判断token
+    const token = req.cookies?.token || req.headers.token;
+    if (token) {
       // console.log(req.cookies.token);
       let user = null;
-      validateToken(req.cookies.token, async (validateResult) => {
+      validateToken(token, async (validateResult) => {
         if (validateResult.code) {
           const userId = validateResult.data.id;
           if (req.originalUrl.startsWith('/admin')) {
