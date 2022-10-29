@@ -40,7 +40,7 @@ export class BaseService {
    */
   async findAll(where = {}, page = 1, per = 10, include = null) {
     page = isNaN(page) ? 1 : page * 1;
-    per = isNaN(page) ? 10 : per * 1;
+    per = isNaN(per) ? 10 : per * 1;
     include = include || this.includes;
     const list = await this.model.findMany({
       where,
