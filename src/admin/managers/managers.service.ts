@@ -54,7 +54,8 @@ export class ManagersService extends BaseService {
       where: { id },
       include: { role: true },
     });
-    const permissions = this.prisma.permissionsOnRoles.findMany({
+    // console.log(user.roleId);
+    const permissions = await this.prisma.permissionsOnRoles.findMany({
       where: { roleId: user.roleId },
       include: {
         permission: true,
