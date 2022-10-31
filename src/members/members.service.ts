@@ -68,15 +68,21 @@ export class MembersService {
    * @param info
    */
   async toggleArticleCollection(info: UserArticleCollection) {
-    await this.prisma.articleCollection.deleteMany({
+    const count = await this.prisma.articleCollection.count({
       where: { userId: info.userId, articleId: info.articleId },
     });
-    await this.prisma.articleCollection.create({
-      data: {
-        userId: info.userId,
-        articleId: info.articleId,
-      },
-    });
+    if (count > 0) {
+      await this.prisma.articleCollection.deleteMany({
+        where: { userId: info.userId, articleId: info.articleId },
+      });
+    } else {
+      await this.prisma.articleCollection.create({
+        data: {
+          userId: info.userId,
+          articleId: info.articleId,
+        },
+      });
+    }
   }
 
   /**
@@ -84,15 +90,22 @@ export class MembersService {
    * @param info
    */
   async toggleDoctorCollection(info: UserDoctorCollection) {
-    await this.prisma.doctorCollection.deleteMany({
+    const count = await this.prisma.doctorCollection.count({
       where: { userId: info.userId, doctorId: info.doctorId },
     });
-    await this.prisma.doctorCollection.create({
-      data: {
-        userId: info.userId,
-        doctorId: info.doctorId,
-      },
-    });
+    // 如果已经收藏过，那么删除，否则加入
+    if (count > 0) {
+      await this.prisma.doctorCollection.deleteMany({
+        where: { userId: info.userId, doctorId: info.doctorId },
+      });
+    } else {
+      await this.prisma.doctorCollection.create({
+        data: {
+          userId: info.userId,
+          doctorId: info.doctorId,
+        },
+      });
+    }
   }
 
   /**
