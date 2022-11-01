@@ -1,5 +1,5 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty } from 'class-validator';
+import { ApiProperty, ApiQuery } from '@nestjs/swagger';
+import { IsNotEmpty, IsNumber } from 'class-validator';
 
 export class CreateArticleDto {
   @ApiProperty({
@@ -32,4 +32,29 @@ export class CreateArticleDto {
     description: '分类id',
   })
   articleCategoryId: string;
+}
+
+export class QueryInfo {
+  @ApiProperty({
+    description: '关键词',
+    required: false,
+  })
+  name: string;
+  @ApiProperty({
+    description: '分类id',
+    required: false,
+  })
+  category: string;
+  @ApiProperty({
+    description: '每页显示的数量',
+    required: false,
+    default: 10,
+  })
+  per: number;
+  @ApiProperty({
+    description: '页码',
+    required: false,
+    default: 1,
+  })
+  page: number;
 }

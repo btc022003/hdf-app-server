@@ -24,10 +24,10 @@ export class ArticlesService {
    * @param per
    * @returns
    */
-  async findArticles(keyword = '', page = 1, per = 10) {
+  async findArticles(keyword = '', page = 1, per = 10, category = '') {
     page = isNaN(page) ? 1 : page * 1;
     per = isNaN(page) ? 10 : per * 1;
-    const where = {
+    const where: any = {
       OR: [
         {
           name: {
@@ -51,6 +51,10 @@ export class ArticlesService {
         },
       ],
     };
+    if (category) {
+      where.articleCategoryId = category;
+    }
+
     const list = await this.prisma.article.findMany({
       where,
       orderBy: {

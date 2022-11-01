@@ -37,11 +37,13 @@ export class BaseController {
   })
   @Get()
   index(@Query() query: QueryInfo) {
+    const { page, per } = query;
     const where: any = {};
     if (query.name) {
       where.name = { contains: query.name };
     }
-    return this.service.findAll(where, query.page, query.per);
+    console.log(this.service.model.name);
+    return this.service.findAll(where, page, per);
   }
 
   @ApiOperation({
@@ -75,14 +77,6 @@ export class BaseController {
   }
 
   @ApiOperation({
-    summary: '删除',
-  })
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.service.remove(id);
-  }
-
-  @ApiOperation({
     summary: '删除多个',
   })
   @ApiQuery({
@@ -93,5 +87,13 @@ export class BaseController {
   @Delete('remove_many')
   removeMany(@Query() query) {
     return this.service.removeMany(query.ids.split(','));
+  }
+
+  @ApiOperation({
+    summary: '删除',
+  })
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.service.remove(id);
   }
 }

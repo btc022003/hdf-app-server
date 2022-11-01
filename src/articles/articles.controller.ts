@@ -44,6 +44,7 @@ export class ArticlesController {
       params.keyword,
       params.page,
       params.per,
+      params.category,
     );
   }
 

@@ -103,6 +103,7 @@ export class BaseService {
    * @returns
    */
   removeMany(ids: string[]) {
+    console.log(ids)
     return this.model.deleteMany({
       where: {
         id: {
