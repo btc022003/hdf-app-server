@@ -92,6 +92,6 @@ export class BaseController {
   })
   @Delete('remove_many')
   removeMany(@Query() query) {
-    return this.service.removeMany(query.ids.split(''));
+    return this.service.removeMany(query.ids.split(','));
   }
 }
