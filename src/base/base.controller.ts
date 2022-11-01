@@ -1,7 +1,7 @@
 import { Body, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiParam, ApiQuery } from '@nestjs/swagger';
 import { BaseService } from './base.service';
-import { QueryInfo } from './dto/base.dto';
+import { QueryInfo, DeleteManyInfo } from './dto/base.dto';
 export class BaseController {
   constructor(private readonly service: BaseService) {}
 
@@ -79,13 +79,13 @@ export class BaseController {
   @ApiOperation({
     summary: '删除多个',
   })
-  @ApiQuery({
-    name: 'ids',
-    description: '需要删除的id，多个用,分割',
-    required: true,
-  })
+  // @ApiQuery({
+  //   name: 'ids',
+  //   description: '需要删除的id，多个用,分割',
+  //   required: true,
+  // })
   @Delete('remove_many')
-  removeMany(@Query() query) {
+  removeMany(@Query() query: DeleteManyInfo) {
     return this.service.removeMany(query.ids.split(','));
   }
 
