@@ -77,7 +77,15 @@ export class ArticlesService {
    * @param id
    * @returns
    */
-  findArticle(id) {
+  async findArticle(id) {
+    await this.prisma.article.update({
+      where: { id },
+      data: {
+        views: {
+          increment: 1,
+        },
+      },
+    });
     return this.prisma.article.findFirst({
       where: { id },
       include: {

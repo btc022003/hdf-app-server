@@ -14,6 +14,16 @@ export class CreateMedicineDto {
   desc: string;
 
   @ApiProperty({
+    description: '价格',
+  })
+  price: number;
+
+  @ApiProperty({
+    description: '库存',
+  })
+  amount: number;
+
+  @ApiProperty({
     description: '主图',
   })
   image: string;

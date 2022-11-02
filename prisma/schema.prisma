@@ -194,6 +194,7 @@ model Medicine {
   category           MedicineCategory? @relation(fields: [medicineCategoryId], references: [id])
   medicineCategoryId String?           @map("medicine_category_id")
   price              Float             @default(0)
+  amount             Int               @default(0)
 
   illnessMedicine IllnessMedicine[]
   ShopCart        ShopCart[]
@@ -224,7 +225,7 @@ model Article {
   tags      String   @default("") // 主治的症状标签，多个用,分割
   image     String   @default("")
   content   String   @default("") @db.Text
-  views     Decimal  @default(0) // 浏览次数
+  views     Decimal  @default(20) // 浏览次数
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 

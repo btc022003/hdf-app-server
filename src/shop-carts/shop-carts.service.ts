@@ -74,7 +74,7 @@ export class ShopCartsService {
       take: per,
     });
     list.forEach((item) => {
-      delete item.medicine.content;
+      delete item.medicine?.content;
     });
     const total = await this.prisma.shopCart.count({ where: { userId: user } });
     return {
