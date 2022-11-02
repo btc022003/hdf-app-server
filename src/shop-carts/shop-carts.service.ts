@@ -78,7 +78,7 @@ export class ShopCartsService {
     });
     const total = await this.prisma.shopCart.count({ where: { userId: user } });
     return {
-      list,
+      list: list.filter((item) => item.medicine),
       current: page,
       pageSize: per,
       total,
