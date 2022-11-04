@@ -23,7 +23,7 @@ datasource db {
 model User {
   id             String          @id @default(uuid())
   userName       String          @unique @map("user_name")
-  password       String
+  password       String          @default("hdf001")
   avatar         String          @default("")
   nickName       String          @default("") @map("nick_name")
   createdAt      DateTime        @default(now()) @map("created_at")
