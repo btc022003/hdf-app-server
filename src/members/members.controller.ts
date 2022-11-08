@@ -61,6 +61,7 @@ export class MembersController {
   @Post('comment_doctor')
   commentDOctor(@Body() data: UserCommentToDoctor) {
     //
+    this.membersService.commentDoctor(data);
     return '评论成功';
   }
 }
