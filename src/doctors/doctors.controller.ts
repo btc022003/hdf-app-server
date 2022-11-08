@@ -50,7 +50,7 @@ export class DoctorsController {
     if (query.tags) {
       where.tags = { contains: query.tags };
     }
-    console.log(query);
+    // console.log(query);
     return this.doctorsService.doctors(where, query.page, query.per); // 所有的医生信息
   }
 

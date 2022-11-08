@@ -37,6 +37,7 @@ export class DoctorsService {
       include: {
         departmentInfo: true,
         doctorTitleInfo: true,
+        hospitalInfo: true,
       },
     });
     const total = await this.prisma.doctor.count({ where });
@@ -98,6 +99,8 @@ export class DoctorsService {
       include: {
         departmentInfo: true,
         doctorTitleInfo: true,
+        hospitalInfo: true,
+        doctorComments: true,
       },
     });
   }
