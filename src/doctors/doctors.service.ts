@@ -100,7 +100,11 @@ export class DoctorsService {
         departmentInfo: true,
         doctorTitleInfo: true,
         hospitalInfo: true,
-        doctorComments: true,
+        doctorComments: {
+          include: {
+            userInfo: true,
+          },
+        },
       },
     });
   }
