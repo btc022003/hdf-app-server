@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Req } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Req, Put } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import { MembersService } from './members.service';
 import {
@@ -26,7 +26,7 @@ export class MembersController {
   @ApiOperation({
     summary: '修改用户信息',
   })
-  @Patch('update_info')
+  @Put('update_info')
   update(@Req() req, @Body() updateMemberDto: CreateMemberDto) {
     return this.membersService.modifyInfo(req.user.id, updateMemberDto);
   }
@@ -34,7 +34,7 @@ export class MembersController {
   @ApiOperation({
     summary: '修改密码',
   })
-  @Patch('modify_password')
+  @Put('modify_password')
   updatePWD(@Req() req, @Body() updateMemberDto: ModifyPWD) {
     return this.membersService.modifyPassword(req.user.id, updateMemberDto);
   }
