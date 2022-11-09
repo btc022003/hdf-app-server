@@ -42,7 +42,7 @@ export class BaseController {
     if (query.name) {
       where.name = { contains: query.name };
     }
-    console.log(this.service.model.name);
+    // console.log(this.service.model.name);
     return this.service.findAll(where, page, per);
   }
 

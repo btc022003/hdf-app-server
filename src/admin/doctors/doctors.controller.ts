@@ -27,7 +27,11 @@ export class DoctorsController extends BaseController {
   // 重写默认的分页方法，传递需要关联查询的数据
   @Get()
   index(@Query() query) {
-    return this.doctorsService.findAll({}, query.page, query.per, {
+    const where: any = {};
+    if (query.name) {
+      where.name = { contains: query.name };
+    }
+    return this.doctorsService.findAll(where, query.page, query.per, {
       doctorTitleInfo: true,
       departmentInfo: true,
       hospitalInfo: true,
