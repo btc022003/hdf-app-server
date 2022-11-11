@@ -8,6 +8,7 @@ import {
   Delete,
   Req,
   Query,
+  Put,
 } from '@nestjs/common';
 import { ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { AddressesService } from './addresses.service';
@@ -47,7 +48,7 @@ export class AddressesController {
   @ApiOperation({
     summary: '修改收货地址',
   })
-  @Patch(':id')
+  @Put(':id')
   update(
     @Req() req,
     @Param('id') id: string,
