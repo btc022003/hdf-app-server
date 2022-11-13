@@ -41,3 +41,4 @@ postgres/
 public/uploads/
 
 deploy.sh
+postgres-data/
