@@ -35,6 +35,7 @@ import { ArticlesModule } from './articles/articles.module';
 import { ShopCartsModule } from './shop-carts/shop-carts.module';
 import { OrdersModule } from './orders/orders.module';
 import { AddressesModule } from './addresses/addresses.module';
+import { DashboardController } from './dashboard/dashboard.controller';
 
 @Module({
   imports: [
@@ -68,7 +69,7 @@ import { AddressesModule } from './addresses/addresses.module';
     OrdersModule,
     AddressesModule,
   ],
-  controllers: [AppController, CommonController],
+  controllers: [AppController, CommonController, DashboardController],
   providers: [AppService, PrismaService],
 })
 export class AppModule implements NestModule {
