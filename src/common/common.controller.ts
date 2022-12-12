@@ -1,6 +1,7 @@
 import {
   BadRequestException,
   Controller,
+  Get,
   Post,
   Res,
   UploadedFile,
@@ -8,10 +9,11 @@ import {
 } from '@nestjs/common';
 import { Response } from 'express';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import * as multer from 'multer';
 import * as path from 'path';
 import * as fs from 'fs';
+import * as svgCaptcha from 'svg-captcha';
 
 // 如果上传目录不存在，那么自行创建
 if (!fs.existsSync('./public/uploads')) {
@@ -75,5 +77,20 @@ export class CommonController {
         },
       });
     }
+  }
+
+  @ApiOperation({
+    summary: '生成验证码,直接返回图片。数据存储在cookie的captcha中',
+  })
+  @Get('captcha')
+  captcha(
+    @Res({ passthrough: false })
+    response: Response,
+  ) {
+    //
+    const captcha = svgCaptcha.create();
+    response.cookie('captcha', captcha.text);
+    response.type('svg');
+    response.status(200).send(captcha.data);
   }
 }

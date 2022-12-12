@@ -27,7 +27,7 @@ export class DashboardController {
 
   @Get('export')
   load(
-    @Res({ passthrough: true })
+    @Res({ passthrough: false })
     response: Response,
   ) {
     // 组织数据
