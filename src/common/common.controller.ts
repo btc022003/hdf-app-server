@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common';
 import { Response } from 'express';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
 import * as multer from 'multer';
 import * as path from 'path';
 import * as fs from 'fs';
@@ -82,6 +82,15 @@ export class CommonController {
 
   @ApiOperation({
     summary: '生成验证码,直接返回图片。数据存储在cookie的captcha中',
+  })
+  @ApiQuery({
+    name: 'captcha',
+    description: '验证码的值',
+    required: false,
+    schema: {
+      type: 'string',
+      default: 10,
+    },
   })
   @Get('captcha')
   captcha(
