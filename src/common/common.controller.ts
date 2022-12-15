@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   Post,
+  Query,
   Res,
   UploadedFile,
   UseInterceptors,
@@ -86,15 +87,18 @@ export class CommonController {
   captcha(
     @Res({ passthrough: false })
     response: Response,
+    @Query() params,
   ) {
     //
-    const captcha = svgCaptcha.create();
-    response.cookie('captcha', captcha.text, {
+
+    const captcha = svgCaptcha.createCaptcha(params.captcha);
+    // console.log(captcha.text);
+    response.cookie('captcha', params.captcha, {
       // httpOnly: true,
       sameSite: 'none',
       secure: true,
     });
     response.type('svg');
-    response.status(200).send(captcha.data);
+    response.status(200).send(captcha);
   }
 }
