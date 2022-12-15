@@ -89,7 +89,11 @@ export class CommonController {
   ) {
     //
     const captcha = svgCaptcha.create();
-    response.cookie('captcha', captcha.text);
+    response.cookie('captcha', captcha.text, {
+      httpOnly: true,
+      sameSite: 'none',
+      secure: true,
+    });
     response.type('svg');
     response.status(200).send(captcha.data);
   }
