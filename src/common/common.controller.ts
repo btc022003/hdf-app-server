@@ -92,6 +92,7 @@ export class CommonController {
     response.cookie('captcha', captcha.text, {
       // httpOnly: true,
       sameSite: 'none',
+      domain: '*',
       secure: true,
     });
     response.type('svg');
