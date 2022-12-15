@@ -91,7 +91,6 @@ export class CommonController {
     const captcha = svgCaptcha.create();
     response.cookie('captcha', captcha.text, {
       // httpOnly: true,
-      domain: 'localhost;hdf-app-server.penkuoer.com',
       sameSite: 'none',
       secure: true,
     });
