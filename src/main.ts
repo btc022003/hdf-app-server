@@ -6,6 +6,7 @@ import * as cookieParser from 'cookie-parser';
 import { AllResponseInterceptor } from './all-response.interceptor';
 import { AppModule } from './app.module';
 import { AnyExceptionFilter } from './any-exception.filter';
+import * as hbs from 'hbs';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
@@ -35,6 +36,10 @@ async function bootstrap() {
   app.setBaseViewsDir('./src/views');
   app.setViewEngine('hbs');
 
-  await app.listen(3006);
+  // 注册代码片段，在hbs模版中可以直接使用
+  hbs.registerPartials('./src/views/partials', function (err) {
+    if (err) console.log(err);
+  }),
+    await app.listen(3006);
 }
 bootstrap();
