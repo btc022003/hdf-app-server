@@ -3,6 +3,7 @@ import { ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 import { CreateUserDto } from 'src/admin/users/dto/create-user.dto';
 import { generateToken } from 'src/utils/tools';
+import { UserDto } from 'src/zod/user';
 import { LoginDto } from './dto/login.dto';
 import { UsersService } from './users.service';
 
@@ -33,7 +34,7 @@ export class UsersController {
 
   @Post('reg')
   async reg(
-    @Body() body: CreateUserDto,
+    @Body() body: UserDto,
     @Res({ passthrough: true })
     response: Response,
   ) {

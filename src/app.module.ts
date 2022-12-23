@@ -1,4 +1,5 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { ZodValidationPipe } from 'nestjs-zod';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { PrismaService } from './prisma/prisma.service';
@@ -36,6 +37,7 @@ import { ShopCartsModule } from './shop-carts/shop-carts.module';
 import { OrdersModule } from './orders/orders.module';
 import { AddressesModule } from './addresses/addresses.module';
 import { DashboardController } from './dashboard/dashboard.controller';
+import { APP_PIPE } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -70,7 +72,15 @@ import { DashboardController } from './dashboard/dashboard.controller';
     AddressesModule,
   ],
   controllers: [AppController, CommonController, DashboardController],
-  providers: [AppService, PrismaService],
+  providers: [
+    AppService,
+    PrismaService,
+    // 使用ZodValidationPipe
+    {
+      provide: APP_PIPE,
+      useClass: ZodValidationPipe,
+    },
+  ],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
