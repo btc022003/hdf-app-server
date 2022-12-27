@@ -8,6 +8,7 @@ export class QueryInfo {
   page?: number;
   per?: number;
   category?: string;
+  name?: string;
 }
 
 export class CategoryQueryInfo {
