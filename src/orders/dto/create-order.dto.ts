@@ -1,8 +1,19 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export class orderDetail {
+export class OrderDetail {
+  @ApiProperty({
+    description: '价格'
+  })
   price: number;
+  
+  @ApiProperty({
+    description: '商品id'
+  })
   medicine: string;
+  
+  @ApiProperty({
+    description: '数量'
+  })
   amount: number;
 }
 
@@ -24,9 +35,9 @@ export class CreateOrderDto {
 
   @ApiProperty({
     description: '订单详情,一个订单可以包含多个商品',
-    type: [orderDetail],
+    type: [OrderDetail],
   })
-  orderDetails: orderDetail[];
+  orderDetails: OrderDetail[];
 
   isEnd: boolean;
   status: number;
