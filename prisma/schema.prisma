@@ -5,6 +5,22 @@ generator client {
   provider = "prisma-client-js"
 }
 
+generator zod {
+  provider = "nestjs-zod-prisma"
+  output   = "../src/zod"
+
+  relationModel = false
+  generateDto   = true
+
+  modelCase             = "PascalCase"
+  modelSuffix           = "Model"
+  dtoCase               = "PascalCase"
+  dtoSuffix             = "Dto"
+  useDecimalJs          = true
+  // imports               = null
+  prismaJsonNullability = true
+}
+
 // datasource db {
 //   provider = "sqlite"
 //   url      = env("DATABASE_URL")
