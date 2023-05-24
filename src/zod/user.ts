@@ -1,19 +1,17 @@
-import * as z from 'nestjs-zod/z';
-import { createZodDto } from 'nestjs-zod/dto';
+import * as z from "nestjs-zod/z"
+import { createZodDto } from "nestjs-zod/dto"
 
 export const UserModel = z.object({
-  id: z.string().optional(),
-  userName: z.string().min(3),
-  password: z.string().min(6),
-  avatar: z.string().url().optional(),
-  nickName: z.string().optional(),
-  createdAt: z.date().optional(),
-  updatedAt: z.date().optional(),
-  address: z.string().optional(),
-  mobile: z.string().optional(),
-});
-// .refine((data) => data.mobile.length < 10, {
-//   message: '手机号码格式错误',
-// });
+  id: z.string(),
+  userName: z.string(),
+  password: z.string(),
+  avatar: z.string(),
+  nickName: z.string(),
+  createdAt: z.date(),
+  updatedAt: z.date(),
+  address: z.string(),
+  mobile: z.string(),
+})
 
-export class UserDto extends createZodDto(UserModel) {}
+export class UserDto extends createZodDto(UserModel) {
+}
