@@ -34,7 +34,7 @@ export class UsersController {
 
   @Post('reg')
   async reg(
-    @Body() body: UserDto,
+    @Body() body: CreateUserDto,
     @Res({ passthrough: true })
     response: Response,
   ) {
