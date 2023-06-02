@@ -12,6 +12,16 @@ export class CreateAddressDto {
   regionCode: string;
 
   @ApiProperty({
+    description: '名字',
+  })
+  name: string;
+
+  @ApiProperty({
+    description: '联系方式',
+  })
+  phone: string;
+
+  @ApiProperty({
     description: '详细地址信息',
   })
   address: string;

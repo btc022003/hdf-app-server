@@ -5,6 +5,8 @@ export const AddressModel = z.object({
   id: z.string(),
   createdAt: z.date(),
   updatedAt: z.date(),
+  name: z.string(),
+  phone: z.string(),
   region: z.string().nullish(),
   regionCode: z.string().nullish(),
   address: z.string().nullish(),

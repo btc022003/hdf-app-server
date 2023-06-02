@@ -22,15 +22,20 @@ export class ValidateLoginMiddleware implements NestMiddleware {
       validateToken(token, async (validateResult) => {
         if (validateResult.code) {
           const userId = validateResult.data.id;
-          if (req.originalUrl.startsWith('/admin')) {
-            user = await this.prisma.manager.findUnique({
-              where: { id: userId },
-            });
-          } else {
-            user = await this.prisma.user.findUnique({
-              where: { id: userId },
-            });
+          try {
+            if (req.originalUrl.startsWith('/admin')) {
+              user = await this.prisma.manager.findFirst({
+                where: { id: userId },
+              });
+            } else {
+              user = await this.prisma.user.findFirst({
+                where: { id: userId },
+              });
+            }
+          } catch (err) {
+            throw new UnauthorizedException();
           }
+
           // console.log(user);
           if (user) {
             req.user = user;

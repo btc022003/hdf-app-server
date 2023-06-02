@@ -452,6 +452,8 @@ model Address {
   id         String   @id @default(uuid())
   createdAt  DateTime @default(now()) @map("created_at")
   updatedAt  DateTime @updatedAt @map("updated_at")
+  name       String   @default("")
+  phone      String   @default("")
   region     String?  @default("") // 收货地区信息
   regionCode String?  @default("") @map("region_code") // 收货地区编码
   address    String?  @default("") // 详细信息
