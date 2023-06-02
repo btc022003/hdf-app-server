@@ -1,7 +1,7 @@
 import {
   Injectable,
   NestMiddleware,
-  UnauthorizedException,
+  // UnauthorizedException,
 } from '@nestjs/common';
 import { PrismaService } from './prisma/prisma.service';
 import { validateToken } from './utils/tools';
@@ -9,6 +9,16 @@ import { validateToken } from './utils/tools';
 @Injectable()
 export class ValidateLoginMiddleware implements NestMiddleware {
   constructor(private readonly prisma: PrismaService) {}
+
+  resUnAuthorized(res) {
+    return res.status(401).json({
+      success: false,
+      errorMessage: '请先登录',
+      data: {},
+      statusCode: 401,
+    });
+  }
+
   async use(req: any, res: any, next: () => void) {
     // 暂时注释验证部分代码
     // console.log('验证登录');
@@ -33,7 +43,8 @@ export class ValidateLoginMiddleware implements NestMiddleware {
               });
             }
           } catch (err) {
-            throw new UnauthorizedException();
+            // throw new UnauthorizedException();
+            return this.resUnAuthorized(res);
           }
 
           // console.log(user);
@@ -41,14 +52,17 @@ export class ValidateLoginMiddleware implements NestMiddleware {
             req.user = user;
             next();
           } else {
-            throw new UnauthorizedException();
+            // throw new UnauthorizedException();
+            return this.resUnAuthorized(res);
           }
         } else {
-          throw new UnauthorizedException();
+          // throw new UnauthorizedException();
+          return this.resUnAuthorized(res);
         }
       });
     } else {
-      throw new UnauthorizedException();
+      // throw new UnauthorizedException();
+      return this.resUnAuthorized(res);
     }
   }
 }
