@@ -39,7 +39,7 @@ async function bootstrap() {
   // 注册代码片段，在hbs模版中可以直接使用
   hbs.registerPartials('./src/views/partials', function (err) {
     if (err) console.log(err);
-  }),
-    await app.listen(3006);
+  });
+  await app.listen(3006);
 }
 bootstrap();
