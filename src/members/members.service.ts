@@ -52,13 +52,23 @@ export class MembersService {
     const user = await this.prisma.user.findFirst({ where: { id } });
     if (user) {
       if (user.password == encodePwd(info.oldPassword)) {
-        this.prisma.user.update({
+        await this.prisma.user.update({
           where: { id },
           data: {
-            password: info.password,
+            password: encodePwd(info.password),
           },
         });
+      } else {
+        return {
+          success: false,
+          errorMessage: '原始密码输入错误',
+        };
       }
+    } else {
+      return {
+        success: false,
+        errorMessage: '用户信息不存在',
+      };
     }
     // this.prisma.user.update({});
   }
