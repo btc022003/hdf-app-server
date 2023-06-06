@@ -18,6 +18,9 @@ export class ShopCartsService extends BaseService {
       where: {
         userId,
       },
+      include: {
+        medicine: true,
+      },
       orderBy: {
         createdAt: 'desc',
       },

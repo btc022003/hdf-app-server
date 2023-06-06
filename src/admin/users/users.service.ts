@@ -109,6 +109,9 @@ export class UsersService extends BaseService {
       where: {
         userId,
       },
+      include: {
+        medicine: true,
+      },
       orderBy: {
         createdAt: 'desc',
       },
