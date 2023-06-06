@@ -62,6 +62,14 @@ export class OrdersService {
       orderBy: {
         createdAt: 'desc',
       },
+      include: {
+        user: true,
+        orderDetails: {
+          include: {
+            medicine: true,
+          },
+        },
+      },
       skip: (page - 1) * per,
       take: per,
     });
@@ -85,7 +93,11 @@ export class OrdersService {
     return this.prisma.order.findFirst({
       where: { id },
       include: {
-        orderDetails: true,
+        orderDetails: {
+          include: {
+            medicine: true,
+          },
+        },
       },
     });
   }
