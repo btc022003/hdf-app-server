@@ -57,16 +57,16 @@ export class ShopCartsController extends BaseController {
   //   return this.shopCartsService.remove(id);
   // }
 
-  @ApiOperation({
-    summary: '删除多个购物车数据,多个用","分割',
-  })
-  @ApiQuery({
-    name: 'id',
-    required: false,
-    description: '需要删除的购物车id,多个用","进行分割',
-  })
-  @Delete('remove_many')
-  remove(@Query('id') id: string) {
-    return this.shopCartsService.removeMany(id.split(','));
-  }
+  // @ApiOperation({
+  //   summary: '删除多个购物车数据,多个用","分割',
+  // })
+  // @ApiQuery({
+  //   name: 'id',
+  //   required: false,
+  //   description: '需要删除的购物车id,多个用","进行分割',
+  // })
+  // @Delete('remove_many')
+  // remove(@Query('id') id: string) {
+  //   return this.shopCartsService.removeMany(id.split(','));
+  // }
 }
