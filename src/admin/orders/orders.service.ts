@@ -23,7 +23,11 @@ export class OrdersService extends BaseService {
       where: { userId },
       include: {
         user: true,
-        orderDetails: true,
+        orderDetails: {
+          include: {
+            medicine: true,
+          },
+        },
       },
       orderBy: {
         createdAt: 'desc',
