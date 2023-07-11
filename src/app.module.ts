@@ -38,6 +38,7 @@ import { OrdersModule } from './orders/orders.module';
 import { AddressesModule } from './addresses/addresses.module';
 import { DashboardController } from './dashboard/dashboard.controller';
 import { APP_PIPE } from '@nestjs/core';
+import { NursingWorkersModule } from './nursing-workers/nursing-workers.module';
 
 @Module({
   imports: [
@@ -70,6 +71,7 @@ import { APP_PIPE } from '@nestjs/core';
     ShopCartsModule,
     OrdersModule,
     AddressesModule,
+    NursingWorkersModule,
   ],
   controllers: [AppController, CommonController, DashboardController],
   providers: [

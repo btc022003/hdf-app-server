@@ -22,13 +22,13 @@ export class AnyExceptionFilter implements ExceptionFilter {
       exception instanceof HttpException
         ? exception.getStatus()
         : HttpStatus.INTERNAL_SERVER_ERROR;
-    this.logger.error(exception); // 打印错误内容
+    // this.logger.error(exception); // 打印错误内容
     response.status(status).json({
       statusCode: status,
       timestamp: new Date().toISOString(),
       path: request.url,
       errorMessage: exception?.message.split('\n').pop().trim(),
-      data: exception.message,
+      data: exception.response?.message,
       success: false,
     });
   }
