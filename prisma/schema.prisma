@@ -54,6 +54,7 @@ model User {
   shopCarts          ShopCart[]
   orders             Order[]
   Address            Address[]
+  ServiceOrder       ServiceOrder[]
 
   @@map("users")
 }
@@ -462,4 +463,89 @@ model Address {
   userId     String?  @map("user_id")
 
   @@map("addresses")
+}
+
+// 护工和陪诊人员信息
+model NursingWorker {
+  id                String          @id @default(uuid())
+  name              String          @default("") // 平台名字
+  mobile            String          @default("") // 手机号
+  password          String          @default("") // 登录的密码，使用手机号进行登录
+  tags              String          @default("") // 标签，特长
+  realName          String          @default("") @map("real_name") // 真实名字
+  address           String          @default("")
+  desc              String          @default("")
+  content           String          @default("")
+  idNums            String          @default("") @map("id_nums") // 身份证号
+  idCardFront       String          @default("") @map("id_card_front") // 身份证正面
+  idCardBack        String          @default("") @map("id_card_back") // 身份证背面
+  avatar            String          @default("") // 证件照
+  licencesImage     String          @default("") // 证书照片，多个用,分割
+  price             Float           @default(0) // 服务价格
+  createdAt         DateTime        @default(now()) @map("created_at")
+  updatedAt         DateTime        @updatedAt @map("updated_at")
+  status            Int             @default(1) // 用户状态。0表示正常
+  serviceCategory   ServiceCategory @relation(fields: [serviceCategoryId], references: [id]) // 服务类型
+  serviceCategoryId String          @map("service_id")
+  serviceOrders     ServiceOrder[]
+
+  @@map("nursing_workers")
+}
+
+// 服务类型，申请入驻平台的时候可以选择，主要供管理人员进行审核之后录入系统
+model ServiceCategory {
+  id             String          @id @default(uuid())
+  createdAt      DateTime        @default(now()) @map("created_at")
+  updatedAt      DateTime        @updatedAt @map("updated_at")
+  name           String          @default("")
+  desc           String          @default("")
+  image          String          @default("")
+  askWorks       AskWork[]
+  nursingWorkers NursingWorker[]
+  ServiceOrder   ServiceOrder[]
+
+  @@map("service_categories")
+}
+
+// 申请入驻平台提供服务的时候，填写的内容，需要后台根据提供的信息进行手动审核之后录入系统
+model AskWork {
+  id                String          @id @default(uuid())
+  createdAt         DateTime        @default(now()) @map("created_at")
+  updatedAt         DateTime        @updatedAt @map("updated_at")
+  name              String          @default("")
+  mobile            String          @default("")
+  avatar            String          @default("")
+  idCardFront       String          @default("") @map("id_card_front") // 身份证正面
+  idCardBack        String          @default("") @map("id_card_back") // 身份证背面
+  desc              String          @default("")
+  serviceCategory   ServiceCategory @relation(fields: [serviceCategoryId], references: [id])
+  serviceCategoryId String          @map("service_id") // 服务类型
+
+  @@map("ask_works")
+}
+
+model ServiceOrder {
+  id String @id @default(uuid())
+
+  user          User          @relation(fields: [userId], references: [id]) // 用户信息
+  nursingWorker NursingWorker @relation(fields: [nursingWorkerId], references: [id]) // 护工id
+
+  startTime DateTime? // 服务开始时间
+  endTime   DateTime? // 服务结束时间
+
+  price   Float? // 服务费用
+  isPayed Boolean   @default(false) // 是否支付
+  payTime DateTime? // 支付时间
+  payType Int       @default(0) // 0 支付宝，1 微信
+  status  Int       @default(0) // 0表示进行中， 1表示完成，5表示投诉，3表示取消
+
+  serviceCategory ServiceCategory @relation(fields: [serviceCategoryId], references: [id]) // 服务类型
+
+  createdAt         DateTime @default(now()) @map("created_at")
+  updatedAt         DateTime @updatedAt @map("updated_at")
+  userId            String   @map("user_id")
+  nursingWorkerId   String   @map("nersing_worker_id")
+  serviceCategoryId String   @map("service_id")
+
+  @@map("service_orders")
 }
