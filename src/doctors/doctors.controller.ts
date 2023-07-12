@@ -63,6 +63,22 @@ export class DoctorsController {
   }
 
   @ApiOperation({
+    summary: '医院信息',
+  })
+  @Get('hospitals')
+  hospitals() {
+    return this.doctorsService.hospitals();
+  }
+
+  @ApiOperation({
+    summary: '医院信息',
+  })
+  @Get('hospitals/:id')
+  hospitalDetailById(@Param('id') id: string) {
+    return this.doctorsService.hospitalById(id);
+  }
+
+  @ApiOperation({
     summary: '职称',
   })
   @Get('titles')

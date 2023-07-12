@@ -63,6 +63,32 @@ export class DoctorsService {
   }
 
   /**
+   * 获取医院信息
+   * @returns
+   */
+  hospitals() {
+    return this.prisma.hospital.findMany({
+      where: {},
+      orderBy: {
+        id: 'desc',
+      },
+    });
+  }
+
+  /**
+   * 根据id获取医院信息
+   * @param id
+   * @returns
+   */
+  hospitalById(id: string) {
+    return this.prisma.hospital.findFirst({
+      where: {
+        id,
+      },
+    });
+  }
+
+  /**
    * 职称信息
    * @returns
    */

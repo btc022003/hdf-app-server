@@ -21,9 +21,9 @@ CREATE DATABASE "hys-app";
 CREATE USER postgres with SUPERUSER password '123456';
 ```
 
-#### 添加mysql配置🌰
+#### 添加 mysql 配置 🌰
 
-使用docker直接启动mysql环境亦可。配置文件已经添加，修改代码注释就可以
+使用 docker 直接启动 mysql 环境亦可。配置文件已经添加，修改代码注释就可以
 
 ```bash
 docker-compose up
