@@ -14,7 +14,9 @@ import { ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
 import * as multer from 'multer';
 import * as path from 'path';
 import * as fs from 'fs';
-import * as svgCaptcha from 'svg-captcha';
+// 验证码部分暂时先注释掉，需要使用自己fork的一个库
+// https://github.com/btc022003/svg-captcha
+// import * as svgCaptcha from 'svg-captcha';
 
 // 如果上传目录不存在，那么自行创建
 if (!fs.existsSync('./public/uploads')) {
@@ -80,6 +82,7 @@ export class CommonController {
     }
   }
 
+  /*
   @ApiOperation({
     summary: '生成验证码,直接返回图片。数据存储在cookie的captcha中',
   })
@@ -110,4 +113,5 @@ export class CommonController {
     response.type('svg');
     response.status(200).send(captcha);
   }
+  */
 }
