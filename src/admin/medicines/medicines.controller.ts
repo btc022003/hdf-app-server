@@ -51,6 +51,15 @@ export class MedicinesController extends BaseController {
       default: '',
     },
   })
+  @ApiQuery({
+    name: 'category',
+    description: '查询的商品的分类id',
+    required: false,
+    schema: {
+      type: 'string',
+      default: '',
+    },
+  })
   @Get()
   index(@Query() query: QueryInfo) {
     const { page, per } = query;
