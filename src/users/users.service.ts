@@ -23,6 +23,16 @@ export class UsersService {
    * @returns
    */
   async userReg(user: any) {
+    const vUser = await this.prisma.user.findUnique({
+      where: { userName: user.userName },
+    });
+    if (vUser) {
+      return {
+        success: false,
+        errorMessage: '用户信息已存在',
+        data: {},
+      };
+    }
     const data = await this.prisma.user.create({
       data: {
         ...user,
