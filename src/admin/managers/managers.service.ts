@@ -78,4 +78,23 @@ export class ManagersService extends BaseService {
       },
     });
   }
+
+  /**
+   * 根据id删除多个，多个id用,分割
+   * @param ids
+   * @returns
+   */
+  removeMany(ids: string[]) {
+    // console.log(ids);
+    return this.model.deleteMany({
+      where: {
+        id: {
+          in: ids,
+        },
+        userName: {
+          not: 'admin',
+        },
+      },
+    });
+  }
 }

@@ -7,12 +7,14 @@ import {
   Get,
   Req,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { ManagersService } from './managers.service';
 import { CreateManagerDto } from './dto/create-manager.dto';
 import { UpdateManagerDto } from './dto/update-manager.dto';
 import { BaseController } from 'src/base/base.controller';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { DeleteManyInfo } from 'src/base/dto/base.dto';
 
 @ApiTags('后台-管理员信息')
 @Controller('admin/managers')
@@ -54,6 +56,14 @@ export class ManagersController extends BaseController {
     @Body() updateManagerDto: UpdateManagerDto,
   ) {
     return this.managersService.resetPwd(id, updateManagerDto.password);
+  }
+
+  @ApiOperation({
+    summary: '删除多个',
+  })
+  @Delete('remove_many')
+  removeMany(@Query() query: DeleteManyInfo) {
+    return this.service.removeMany(query.ids.split(','));
   }
 
   @ApiOperation({
