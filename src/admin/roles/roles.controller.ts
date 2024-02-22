@@ -27,7 +27,11 @@ export class RolesController extends BaseController {
   @Get()
   index(@Query() query) {
     return this.rolesService.findAll({}, query.page, query.per, {
-      permissionOnRoles: true,
+      permissionOnRoles: {
+        include: {
+          permission: true,
+        },
+      },
     });
   }
 
