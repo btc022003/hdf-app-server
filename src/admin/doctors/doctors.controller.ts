@@ -6,6 +6,7 @@ import {
   Param,
   Get,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import { BaseController } from 'src/base/base.controller';
@@ -13,9 +14,11 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { DoctorsService } from './doctors.service';
 import { CreateDoctorDto } from './dto/create-doctor.dto';
 import { UpdateDoctorDto } from './dto/update-doctor.dto';
+import { RolesGuard } from 'src/roles.guard';
 
 @ApiTags('后台-医生信息')
 @Controller('admin/doctors')
+@UseGuards(RolesGuard)
 export class DoctorsController extends BaseController {
   constructor(
     private readonly doctorsService: DoctorsService,
