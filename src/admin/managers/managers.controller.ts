@@ -63,7 +63,7 @@ export class ManagersController extends BaseController {
   })
   @Delete('remove_many')
   removeMany(@Query() query: DeleteManyInfo) {
-    return this.service.removeMany(query.ids.split(','));
+    return this.managersService.removeMany(query.ids.split(','));
   }
 
   @ApiOperation({
