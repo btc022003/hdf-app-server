@@ -165,11 +165,11 @@ model Consultation {
   reply   String  @default("") // 回复
   isPayed Boolean @default(false) @map("is_payed") // 是否支付
   isReply Boolean @default(false) @map("is_replay") // 是否回复
-  user    User    @relation(fields: [userId], references: [id])
-  doctor  Doctor  @relation(fields: [doctorId], references: [id])
+  user    User?   @relation(fields: [userId], references: [id])
+  doctor  Doctor? @relation(fields: [doctorId], references: [id])
 
-  userId   String @map("user_id")
-  doctorId String @map("doctor_id")
+  userId   String? @map("user_id")
+  doctorId String? @map("doctor_id")
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
