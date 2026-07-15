@@ -156,6 +156,64 @@ npx prisma db seed # 执行编写的数据生成代码
 
 [接口文档](http://localhost:3006/docs)
 
+## E2E 测试
+
+测试目录 `test/`，基于 **pytest** + **requests**（API 测试）+ **Playwright**（页面测试）。
+
+### 用到的插件
+
+| 插件 | 作用 |
+|---|---|
+| [pytest](https://docs.pytest.org/) | 测试框架，发现并运行测试 |
+| [requests](https://requests.readthedocs.io/) | 发 HTTP 请求，测 REST API |
+| [playwright](https://playwright.dev/python/) | 启动浏览器，测前端页面交互 |
+| [faker](https://faker.readthedocs.io/) | 随机生成中文假数据（名字、简介等），不用手写 |
+| [allure-pytest](https://docs.qameta.io/allure/) | 生成测试报告（HTML 可视化） |
+
+### 安装和运行
+
+```bash
+cd test
+
+# 安装依赖（需要 Python ≥ 3.13）
+uv sync
+
+# 安装浏览器（仅首次，页面测试需要）
+uv run playwright install chromium
+
+# 确保后端已启动，然后：
+uv run pytest              # 全部测试
+uv run pytest test_auth.py           # 仅 API 测试
+uv run pytest test_manager_pages.py  # 仅页面测试
+uv run pytest test_doctors_crud.py   # 仅医生 CRUD 测试
+```
+
+### 测试文件说明
+
+```
+test/
+├── conftest.py              # 全局 fixtures：登录、客户端、浏览器
+├── pyproject.toml           # 依赖和 pytest 配置
+├── test_auth.py             # 认证接口：登录成功/失败、权限 401/403
+├── test_doctors_crud.py     # 医生增删改查 + 边界异常
+└── test_manager_pages.py    # 管理后台 16 个页面可访问 + 权限拦截
+```
+
+### 关键约定
+
+- **BASE_URL** 只有 `conftest.py` 顶行一处，改环境只改那里
+- **API 测试**用 `BaseSession`，支持相对路径（`"/admin/users"` 不用拼完整 URL）
+- **页面测试**用 `admin_page` / `user_page` fixture，cookie 自动注入免手动登录
+- **假数据**通过 `faker` 随机生成，不需要写死在用例里
+- 发现的 bug 用 `@pytest.mark.xfail` 标记，修好后会自动提示
+
+### 生成 Allure 报告
+
+```bash
+uv run pytest --alluredir=allure-results
+allure serve allure-results   # 浏览器打开可视化报告
+```
+
 ## 初始化药品
 
 药品信息数据可以在第一次使用项目的时候使用脚本进行数据的初始化。这个功能慎重使用，会删除已经存在的所有药品分类和药品信息

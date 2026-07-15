@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>自动化测试入门 — 技术通识</title>
+<style>
+  :root { --accent: #4361ee; --bg: #fafbfc; --card: #fff; --text: #2c3e50; --muted: #6b7280; --border: #e5e7eb }
+  * { margin:0; padding:0; box-sizing:border-box }
+  body { font-family: -apple-system, "Microsoft YaHei", sans-serif; background:var(--bg); color:var(--text); line-height:1.9 }
+  .hero { background: linear-gradient(135deg, #1a1a2e, #16213e); color:#fff; padding:60px 20px 50px; text-align:center }
+  .hero h1 { font-size:2.6em; margin-bottom:10px }
+  .hero .sub { font-size:1.15em; opacity:.75 }
+  .container { max-width:1000px; margin:0 auto; padding:0 20px }
+
+  section { background:var(--card); border-radius:14px; padding:36px 40px; margin:30px 0; box-shadow:0 1px 3px rgba(0,0,0,.05) }
+  section h2 { font-size:1.45em; margin-bottom:20px; display:flex; align-items:center; gap:12px }
+  section p,section li { color:var(--muted) }
+  section ul,section ol { padding-left:22px; margin-top:10px }
+  section li { margin:8px 0 }
+
+  .story { background:#fffbf0; border-left:4px solid #f59e0b; padding:20px 24px; border-radius:0 10px 10px 0; margin:16px 0; font-size:.95em }
+  .story strong { color:#d97706 }
+  .note { background:#f0fdf4; border-left:4px solid #22c55e; padding:20px 24px; border-radius:0 10px 10px 0; margin:16px 0 }
+
+  .cards { display:grid; grid-template-columns:repeat(auto-fill, minmax(290px, 1fr)); gap:20px; margin:20px 0 }
+  .card { background:var(--bg); border-radius:12px; padding:28px; border-left:4px solid var(--accent) }
+  .card .icon { font-size:2em; margin-bottom:8px }
+  .card h4 { font-size:1.1em; margin-bottom:4px }
+  .card p { font-size:.9em; color:var(--muted); margin-bottom:2px }
+  .card .why { margin-top:14px; padding-top:14px; border-top:1px solid var(--border); font-size:.88em; color:#555 }
+  .card .why strong { color:var(--accent) }
+
+  .comparison { display:grid; grid-template-columns:1fr 1fr; gap:20px; margin:16px 0 }
+  .comparison .col { background:var(--bg); border-radius:12px; padding:24px; text-align:center }
+  .comparison .col.bad { border:1px solid #fecaca }
+  .comparison .col.good { border:1px solid #bbf7d0 }
+  .comparison .col h4 { margin-bottom:12px }
+  .comparison .col.bad h4 { color:#dc2626 }
+  .comparison .col.good h4 { color:#16a34a }
+
+  .path { display:flex; flex-wrap:wrap; gap:12px; align-items:center; justify-content:center; margin:20px 0 }
+  .path .node { background:var(--bg); border:2px dashed var(--border); padding:14px 22px; border-radius:10px; font-weight:600; text-align:center }
+  .path .node small { display:block; font-weight:400; color:var(--muted); font-size:.82em; margin-top:2px }
+  .path .arr { font-size:1.3em; color:var(--accent) }
+
+  .bigquote { background:linear-gradient(135deg, #ede9fe, #fae8ff); border-radius:12px; padding:28px 32px; text-align:center; margin:20px 0 }
+  .bigquote .q { font-size:1.15em; font-weight:600; margin-bottom:6px }
+  .bigquote .a { color:var(--muted); font-size:.92em }
+
+  .file-tree { background:#1e1e1e; color:#d4d4d4; border-radius:10px; padding:24px 30px; font-family:"Cascadia Code",Consolas,monospace; font-size:.88em; line-height:2.1; overflow-x:auto; margin:16px 0 }
+  .file-tree .dir { color:#569cd6 }
+  .file-tree .file { color:#9cdcfe }
+  .file-tree span { display:block }
+  .file-tree .comment { color:#6a9955 }
+  .code-block { white-space:pre }
+
+  .tips { background:#fffbe6; border:1px solid #ffe58f; border-radius:12px; padding:24px 30px; margin:20px 0 }
+  .tips h3 { color:#d48806; margin-bottom:12px }
+  .tips li { margin:6px 0; font-size:.93em }
+
+  .steps { background:var(--bg); border-radius:12px; padding:24px 30px; margin:16px 0 }
+  .steps table { width:100%; border-collapse:collapse }
+  .steps td { padding:10px 8px }
+
+  @media (max-width:768px) { .comparison { grid-template-columns:1fr } section { padding:24px 20px } .hero h1 { font-size:1.8em } }
+
+  footer { text-align:center; padding:40px 20px; color:var(--muted); font-size:.85em; border-top:1px solid var(--border); margin-top:40px }
+  a { color:var(--accent); text-decoration:none }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>自动化测试入门</h1>
+  <p class="sub">一个真实项目带你认识"自动测试"到底是什么 · 面向刚入行的测试新人</p>
+</div>
+
+<div class="container">
+
+<!-- ========== 开篇 ========== -->
+<section>
+  <h2>📋 开场：为什么需要自动化</h2>
+
+  <div class="story">
+    <strong>场景：</strong>开发说"医生管理功能做完了"。你去测——打开后台，点新增，填名字，选科室，点保存。再打开列表看看有没有。再编辑、再删。<strong>每次发版你都要重复这些操作。</strong>
+  </div>
+
+  <p>这还只是<strong>一个功能、一个角色、一次</strong>。实际项目有十几个模块、几百个接口。人手点一遍要多久？</p>
+
+  <div class="bigquote">
+    <div class="q">"把人手工点的步骤写成代码，一键运行，自动告诉你过没过。"</div>
+    <div class="a">这就是自动化测试。不是魔法，就是"做事 + 检查"的翻译。</div>
+  </div>
+
+  <p>涉及的工具有：</p>
+  <ul>
+    <li><strong>Docker</strong> — 把项目跑起来</li>
+    <li><strong>PostgreSQL</strong> — 数据存在哪</li>
+    <li><strong>uv</strong> — Python 依赖管理，一条命令装完所有插件</li>
+    <li><strong>pytest</strong> — 测试的骨架，把所有用例组织起来</li>
+    <li><strong>requests</strong> — 调 HTTP 接口</li>
+    <li><strong>Playwright</strong> — 操控浏览器</li>
+    <li><strong>Faker</strong> — 自动生成假数据</li>
+    <li><strong>Allure</strong> — 出报告</li>
+  </ul>
+</section>
+
+<!-- ========== 被测系统 ========== -->
+<section>
+  <h2>🏗️ 先看一眼我们要测的东西</h2>
+
+  <p>这不是模拟项目，是真的上线跑的医院预约系统。</p>
+
+  <div class="path">
+    <div class="node">🖥 管理后台<small>浏览器看到的页面</small></div>
+    <div class="arr">→</div>
+    <div class="node">📡 REST API<small>前端调后端用的接口</small></div>
+    <div class="arr">→</div>
+    <div class="node">⚙️ NestJS<small>后端程序</small></div>
+    <div class="arr">→</div>
+    <div class="node">🗄️ PostgreSQL<small>数据库</small></div>
+  </div>
+
+  <div class="story">
+    <strong>换个生活化的说法：</strong><br>
+    你在餐厅点菜。<br>
+    <strong>菜单</strong> = 管理后台页面<br>
+    <strong>服务员</strong> = API（你把需求告诉他）<br>
+    <strong>后厨</strong> = NestJS（实际做菜的人）<br>
+    <strong>冰柜</strong> = 数据库（食材存放的地方）
+  </div>
+
+  <p>测试也有两个层次：</p>
+  <ul>
+    <li><strong>API 测试</strong> — 绕过"菜单"，直接跟"服务员"对话。快、稳、不需要浏览器</li>
+    <li><strong>UI 测试</strong> — 扮演"顾客"，打开菜单、点菜、看到菜上桌。更像真实用户</li>
+  </ul>
+</section>
+
+<!-- ========== 工具详解 ========== -->
+<section>
+  <h2>📦 每个技术是干什么的</h2>
+
+  <div class="cards">
+    <div class="card">
+      <div class="icon">🐳</div>
+      <h4>Docker</h4>
+      <p>用 <code>docker compose up -d</code> 一条命令启动整个项目（应用 + 数据库），不需要手动装 Node.js、配数据库、改配置文件。</p>
+      <div class="why"><strong>为什么重要：</strong>测试的前提是"被测系统先跑起来"。Docker 让这一步从半天缩短到 1 分钟，且环境一致。</div>
+    </div>
+
+    <div class="card">
+      <div class="icon">⚡</div>
+      <h4>uv</h4>
+      <p>Python 的包管理工具（类似前端的 npm）。<code>uv sync</code> 自动装依赖，<code>uv run</code> 一键执行，比传统 pip 快 10 倍。</p>
+      <div class="why"><strong>为什么重要：</strong>新手最怕配环境。uv 不需要先装 Python 虚拟环境、不需要手动 pip install，两条命令搞定一切。</div>
+    </div>
+
+    <div class="card">
+      <div class="icon">🗄️</div>
+      <h4>PostgreSQL</h4>
+      <p>项目所用的关系型数据库。测试不直接操作数据库——通过 API 增删改查，间接验证数据是否正确落库。</p>
+      <div class="why"><strong>为什么重要：</strong>理解数据模型才能写出有效断言。不需要写 SQL，但要知道哪些字段是必填、哪些是外键。</div>
+    </div>
+
+    <div class="card">
+      <div class="icon">🐍</div>
+      <h4>pytest</h4>
+      <p>Python 最主流的测试框架。自动发现 <code>test_*.py</code> 文件并执行。支持 fixture（前置条件）、parametrize（参数化）、xfail（标记已知 bug）。</p>
+      <div class="why"><strong>为什么重要：</strong>它是整个测试体系的骨架——定义"用例怎么写、怎么组织、怎么运行"，具体操作交给 requests 和 Playwright。</div>
+    </div>
+
+    <div class="card">
+      <div class="icon">📡</div>
+      <h4>requests</h4>
+      <p>Python 里发 HTTP 请求的事实标准。测试中对后端接口做增删改查：<code>get()</code>、<code>post()</code>、<code>patch()</code>、<code>delete()</code>。</p>
+      <div class="why"><strong>为什么重要：</strong>REST API 测试的核心工具。不需要浏览器，直接调接口拿数据，速度最快、最稳定。</div>
+    </div>
+
+    <div class="card">
+      <div class="icon">🌐</div>
+      <h4>Playwright</h4>
+      <p>微软出品的浏览器操控工具。能打开 Chromium，模拟用户点击、输入、翻页，验证页面元素是否正常渲染。</p>
+      <div class="why"><strong>为什么重要：</strong>requests 只能测接口，测不到"用户打开页面看到什么"。Playwright 让测试站在用户视角验证 UI。</div>
+    </div>
+
+    <div class="card">
+      <div class="icon">🎲</div>
+      <h4>Faker</h4>
+      <p>一行 <code>fake.name()</code> 生成随机中文名，不用手写"张三""李四"。支持姓名、地址、手机号等数十种类型。</p>
+      <div class="why"><strong>为什么重要：</strong>测试数据要唯一、不重复。每次跑都是新数据，避免"用户名已存在"这类冲突。</div>
+    </div>
+
+    <div class="card">
+      <div class="icon">📊</div>
+      <h4>Allure</h4>
+      <p>把 pytest 运行结果变成 HTML 可视化报告：通过率、耗时、失败截图、步骤拆解，一目了然。</p>
+      <div class="why"><strong>为什么重要：</strong>测试跑完不是结束，报告才是交付物。让非技术人员也能看懂测试结果。</div>
+    </div>
+
+    <div class="card">
+      <div class="icon">📝</div>
+      <h4>Python</h4>
+      <p>写测试用例用的语言——语法接近自然语言，生态最丰富，测试领域的事实标准。</p>
+      <div class="why"><strong>为什么重要：</strong>不需要学 Java/C# 那套重型框架。Python + pytest + requests 三件套，新手一两周就能上手写用例。</div>
+    </div>
+  </div>
+
+  <h3 style="margin-top:28px">它们的关系</h3>
+  <div class="path">
+    <div class="node">Docker<small>启动环境</small></div>
+    <div class="arr">→</div>
+    <div class="node">uv<small>装依赖</small></div>
+    <div class="arr">→</div>
+    <div class="node">Python + pytest<small>组织测试</small></div>
+    <div class="arr">→</div>
+    <div class="node">requests<small>调接口</small></div>
+    <div class="node">Playwright<small>开浏览器</small></div>
+    <div class="arr">→</div>
+    <div class="node">Faker<small>造数据</small></div>
+    <div class="arr">→</div>
+    <div class="node">Allure<small>出报告</small></div>
+  </div>
+</section>
+
+<!-- ========== 手动 vs 自动 ========== -->
+<section>
+  <h2>⚡ 手动测试 vs 自动化测试</h2>
+
+  <div class="comparison">
+    <div class="col bad">
+      <h4>❌ 手动测试</h4>
+      <p style="font-size:.9em">打开浏览器 → 输密码 → 点登录<br>→ 找到医生管理 → 点新增<br>→ 填表单 → 点保存<br>→ 去列表页确认有没有<br>→ 再点编辑 → 再点删除……<br><br><strong>每次发版重复一遍<br>容易漏、容易忘、慢</strong></p>
+    </div>
+    <div class="col good">
+      <h4>✅ 自动化测试</h4>
+      <p style="font-size:.9em"><code>uv run pytest</code><br>└─ 登录 ✅<br>└─ 创建医生 ✅<br>└─ 查列表 ✅<br>└─ 编辑 ✅<br>└─ 删除 ✅<br>└─ 16 个页面全检查 ✅<br><br><strong>25 秒、38 条用例<br>不遗漏、不出错</strong></p>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 一条用例长什么样 ========== -->
+<section>
+  <h2>👀 一条测试用例实际长什么样</h2>
+
+  <p>拿"创建医生"举例。手动步骤是：登录 → 点新增 → 填表单 → 点保存 → 检查结果。</p>
+  <p>写成自动化代码：</p>
+
+  <div style="background:#1e1e1e; color:#d4d4d4; border-radius:10px; padding:20px 28px; font-family:Consolas,monospace; font-size:.88em; line-height:2; overflow-x:auto; margin:16px 0; white-space:pre">
+<span style="color:#6a9955"># 1. 准备数据（Faker 自动编的，不用手写）</span>
+<span style="color:#9cdcfe">doctor_data</span> = {
+    <span style="color:#ce9178">"name"</span>: <span style="color:#dcdcaa">"刘医生"</span>,
+    <span style="color:#ce9178">"desc"</span>: <span style="color:#dcdcaa">"擅长内科"</span>,
+    <span style="color:#ce9178">"departmentId"</span>: <span style="color:#dcdcaa">"科室编号"</span>,
+    <span style="color:#ce9178">"doctorTitleId"</span>: <span style="color:#dcdcaa">"职称编号"</span>,
+}
+
+<span style="color:#6a9955"># 2. 发请求创建（requests 一行搞定）</span>
+<span style="color:#dcdcaa">r</span> = admin_client.post(<span style="color:#ce9178">"/admin/doctors"</span>, json=doctor_data)
+
+<span style="color:#6a9955"># 3. 检查结果 —— 这就是"断言"，自动化测试的灵魂</span>
+<span style="color:#c586c0">assert</span> r.status_code == <span style="color:#b5cea8">201</span>        <span style="color:#6a9955"># 创建成功</span>
+<span style="color:#c586c0">assert</span> r.json()[<span style="color:#ce9178">"success"</span>] == <span style="color:#569cd6">True</span>  <span style="color:#6a9955"># 返回标记成功</span>
+</div>
+
+  <p><strong><code>assert</code> 就是判断题：</strong>对 → 绿 ✓，错 → 红 ✗。整个项目 38 条用例，越绿越健康。</p>
+</section>
+
+<!-- ========== 文件结构 ========== -->
+<section>
+  <h2>📁 测试代码在哪</h2>
+
+  <div class="file-tree">
+<span class="comment"># 所有测试代码都在这个目录</span>
+<span class="dir">test/</span>
+<span class="dir">├── conftest.py</span>              <span class="comment"># 全局配置：登录、客户端、浏览器启动</span>
+<span class="dir">├── pyproject.toml</span>           <span class="comment"># 依赖声明（用了哪些插件）</span>
+<span class="dir">├── uv.lock</span>                 <span class="comment"># 依赖锁文件（确保团队版本一致）</span>
+<span class="file">├── test_auth.py</span>             <span class="comment"># 认证接口：登录成功/失败、权限 401/403</span>
+<span class="file">├── test_doctors_crud.py</span>     <span class="comment"># 医生增删改查 + 边界异常</span>
+<span class="file">└── test_manager_pages.py</span>    <span class="comment"># 管理后台 16 个页面可访问性 + 权限拦截</span>
+</div>
+</section>
+
+<!-- ========== 5 步跑起来 ========== -->
+<section>
+  <h2>🚀 5 步从零跑起来</h2>
+
+  <div class="steps">
+    <table>
+      <tr><td style="width:80px; font-weight:700; color:var(--accent)">第 1 步</td><td><code>docker compose up -d</code></td><td style="color:var(--muted)">启动项目（等 30 秒）</td></tr>
+      <tr><td style="font-weight:700; color:var(--accent)">第 2 步</td><td>浏览器打开 <code>/docs</code></td><td style="color:var(--muted)">确认 Swagger 接口文档能访问</td></tr>
+      <tr><td style="font-weight:700; color:var(--accent)">第 3 步</td><td><code>cd test && uv sync</code></td><td style="color:var(--muted)">安装 Python 依赖</td></tr>
+      <tr><td style="font-weight:700; color:var(--accent)">第 4 步</td><td><code>uv run playwright install chromium</code></td><td style="color:var(--muted)">安装浏览器（仅首次需要）</td></tr>
+      <tr><td style="font-weight:700; color:var(--accent)">第 5 步</td><td><code>uv run pytest -v</code></td><td style="color:var(--muted)">跑！</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- ========== 常见坑 ========== -->
+<div class="tips">
+  <h3>⚠️ 新人常遇到的两个坑</h3>
+  <ul>
+    <li><strong>测试跑得巨慢（2 分钟 6 个用例）：</strong>代码里用了 <code>localhost</code>，Windows 先走 IPv6 超时再回退。改成 <code>127.0.0.1</code> 就好了——从 146 秒降到 0.16 秒。</li>
+    <li><strong>管理员登录失败：</strong>seed 初始密码是 <code>admin/admin</code>，不是 <code>admin/123456</code>。看 <code>prisma/seed.ts</code> 确认账号。</li>
+  </ul>
+</div>
+
+<!-- ========== 核心原则 ========== -->
+<section>
+  <h2>💡 记住这几条就够了</h2>
+  <ol>
+    <li><strong>"找东西 → 做操作 → 比结果"</strong> — 所有测试不管用什么工具，都是这三步。</li>
+    <li><strong>先 API 后页面</strong> — 接口测试快且稳，先保证接口对，再测页面 UI。</li>
+    <li><strong>数据不手写</strong> — 用 Faker 生成，每次跑都是新数据，互不干扰。</li>
+    <li><strong>测边界不测高兴路径</strong> — 成功创建测一条就行，多测"没传参数会怎样""不存在的 ID 会怎样"。</li>
+    <li><strong>bug 记下来别删</strong> — 用 <code>@pytest.mark.xfail</code> 标记，修好自动提醒。</li>
+  </ol>
+
+  <div class="bigquote">
+    <div class="q">学自动化测试最好的方法：找现成的 → 跑起来 → 改一行看效果 → 自己新写一个</div>
+    <div class="a">别一上来就想"我得全学会"——你会被劝退的。</div>
+  </div>
+</section>
+
+<section style="text-align:center; background:linear-gradient(135deg,#ede9fe,#e0e7ff)">
+  <p style="font-size:1.05em; margin:0">下一步：打开 <code>test/test_auth.py</code>，找到 <code>test_login_success</code></p>
+  <p style="color:var(--muted)">把密码改成错的，看测试结果什么变化。改一行、跑一次，比看十遍文档有用。</p>
+</section>
+
+</div>
+
+<footer>
+  hdf-app-server 培训材料 · <a href="/docs">Swagger 接口文档</a> · <a href="/manager">管理后台</a>
+</footer>
+
+</body>
+</html>
