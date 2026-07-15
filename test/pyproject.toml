@@ -1,0 +1,15 @@
+[project]
+name = "test"
+version = "0.1.0"
+description = "Add your description here"
+requires-python = ">=3.13"
+dependencies = [
+    "allure-pytest>=2.16.0",
+    "pytest>=9.1.1",
+    "requests>=2.34.2",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["."]
+python_files = "test_*.py"
+addopts = "--alluredir=allure-results"

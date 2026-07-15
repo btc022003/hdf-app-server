@@ -43,7 +43,6 @@ docker compose -f docker compose.yml -f docker compose.dev.yml up
 启动后访问：
 
 - **接口文档**: http://localhost:3006/docs
-- **API 服务**: http://localhost:3006
 - **管理系统**: http://localhost:3006/manager
 
 ---
