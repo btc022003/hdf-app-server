@@ -1,5 +1,5 @@
 import { Body, Controller, Param, Patch, Post } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { BaseController } from 'src/base/base.controller';
 import { DoctorTitlesService } from './doctor-titles.service';
 import { CreateDoctorTitleDto } from './dto/create-doctor-title.dto';
@@ -12,11 +12,17 @@ export class DoctorTitlesController extends BaseController {
     super(doctorTitleService);
   }
 
+  @ApiOperation({
+    summary: '新增',
+  })
   @Post()
   create(@Body() createData: CreateDoctorTitleDto) {
     return this.doctorTitleService.create(createData); // 新增的数据进行保存
   }
 
+  @ApiOperation({
+    summary: '修改',
+  })
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateData: UpdateDoctorTitleDto) {
     return this.doctorTitleService.update(id, updateData);

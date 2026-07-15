@@ -20,6 +20,9 @@ import { ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
 export class OrdersController {
   constructor(private readonly ordersService: OrdersService) {}
 
+  @ApiOperation({
+    summary: '创建订单',
+  })
   @Post()
   create(@Req() req, @Body() createOrderDto: CreateOrderDto) {
     return this.ordersService.create(createOrderDto, req.user.id);

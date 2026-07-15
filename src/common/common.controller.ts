@@ -39,6 +39,9 @@ const storage = multer.diskStorage({
 @ApiTags('通用操作')
 @Controller('common')
 export class CommonController {
+  @ApiOperation({
+    summary: '上传文件',
+  })
   @Post('upload')
   @UseInterceptors(
     FileInterceptor('file', {
@@ -56,6 +59,9 @@ export class CommonController {
     }
   }
 
+  @ApiOperation({
+    summary: '上传文件（wangEditor 编辑器）',
+  })
   @Post('upload_wang_editor')
   @UseInterceptors(
     FileInterceptor('file', {

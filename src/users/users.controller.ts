@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Post, Res } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 import { CreateUserDto } from 'src/admin/users/dto/create-user.dto';
 import { generateToken } from 'src/utils/tools';
@@ -11,6 +11,9 @@ import { UsersService } from './users.service';
 @Controller('auth')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
+  @ApiOperation({
+    summary: '用户登录',
+  })
   @Post('login')
   async login(
     @Body() body: LoginDto,
@@ -32,6 +35,9 @@ export class UsersController {
     return data;
   }
 
+  @ApiOperation({
+    summary: '用户注册',
+  })
   @Post('reg')
   async reg(
     @Body() body: CreateUserDto,
@@ -43,6 +49,9 @@ export class UsersController {
     return data;
   }
 
+  @ApiOperation({
+    summary: '管理员登录',
+  })
   @Post('admin_login')
   async adminLogin(
     @Body() body: LoginDto,
@@ -65,6 +74,9 @@ export class UsersController {
     return data;
   }
 
+  @ApiOperation({
+    summary: '管理员退出登录',
+  })
   @Get('manager_logout')
   async adminLogOut(
     @Res({ passthrough: true })

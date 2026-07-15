@@ -39,11 +39,39 @@ export class CreateOrderDto {
   })
   orderDetails: OrderDetail[];
 
+  @ApiProperty({
+    description: '是否完成',
+    default: false,
+  })
   isEnd: boolean;
+
+  @ApiProperty({
+    description: '订单状态',
+    default: 0,
+  })
   status: number;
+
+  @ApiProperty({
+    description: '是否支付',
+    default: false,
+  })
   isPayed: boolean;
-  price: 0;
+
+  @ApiProperty({
+    description: '订单总价',
+    default: 0,
+  })
+  price: number;
+
+  @ApiProperty({
+    description: '物流信息',
+    default: '',
+  })
   expressInfo: string;
+
+  @ApiProperty({
+    description: '用户ID',
+  })
   userId: string;
 }
 
