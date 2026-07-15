@@ -5,6 +5,8 @@ description = "Add your description here"
 requires-python = ">=3.13"
 dependencies = [
     "allure-pytest>=2.16.0",
+    "faker>=30.0.0",
+    "playwright>=1.48.0",
     "pytest>=9.1.1",
     "requests>=2.34.2",
 ]

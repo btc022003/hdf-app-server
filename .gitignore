@@ -26,7 +26,8 @@ postgres/
 __pycache__/
 *.pyc
 .pytest_cache/
-test/.venv/
+.venv/
+*.egg-info/
 test/allure-results/
 test/allure-report/
 
