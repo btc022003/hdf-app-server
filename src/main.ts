@@ -19,7 +19,15 @@ async function bootstrap() {
     .setTitle('HDF')
     .setDescription('好大夫服务器端API接口')
     .setVersion('1.0')
-    // .addTag('cats')
+    .addCookieAuth('token', {
+      type: 'apiKey',
+      in: 'cookie',
+      description: '登录后获取的 token，存储在 cookie 中',
+    })
+    .addApiKey(
+      { type: 'apiKey', in: 'header', name: 'token', description: '登录返回的 token' },
+      'header-token',
+    )
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, document); // localhost:3000/docs 访问接口文档
