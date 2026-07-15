@@ -1,0 +1,16 @@
+# ============================================
+# 开发环境覆盖配置
+# 使用方式: docker-compose -f docker-compose.yml -f docker-compose.dev.yml up
+# ============================================
+
+services:
+  app:
+    # 使用 start:dev 支持文件变更自动重启
+    command: npm run start:dev
+    volumes:
+      # 挂载源码目录，修改代码实时生效
+      - ./src:/app/src
+      - ./prisma:/app/prisma
+      - ./public:/app/public
+      # 用匿名卷保护容器内的 node_modules，避免被宿主机覆盖
+      - /app/node_modules

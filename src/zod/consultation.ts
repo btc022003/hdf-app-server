@@ -7,8 +7,8 @@ export const ConsultationModel = z.object({
   reply: z.string(),
   isPayed: z.boolean(),
   isReply: z.boolean(),
-  userId: z.string(),
-  doctorId: z.string(),
+  userId: z.string().nullish(),
+  doctorId: z.string().nullish(),
   createdAt: z.date(),
   updatedAt: z.date(),
 })
