@@ -71,14 +71,18 @@ async function loadDoctors() {
 
   const hs = [...h1, ...h2];
 
-  hs.forEach(async (item) => {
-    await loadHospitalDetail(
-      item.link
-        .split('/')
-        .filter((item) => item)
-        .slice(-1)[0],
-    );
-  });
+  for (const item of hs) {
+    try {
+      await loadHospitalDetail(
+        item.link
+          .split('/')
+          .filter((item) => item)
+          .slice(-1)[0],
+      );
+    } catch (err) {
+      console.error(`加载医院 "${item.txt}" 失败:`, err.message);
+    }
+  }
   // console.log(hs);
 }
 
