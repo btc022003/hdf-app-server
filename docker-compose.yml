@@ -1,33 +1,61 @@
-version: '3'
-services:
-  # mysqldb:
-  #   image: mysql:${MYSQL_VERSION}
-  #   container_name: ${MYSQL_HOST}
-  #   restart: "no"
-  #   env_file:
-  #     - '.env'
-  #   environment:
-  #     - MYSQL_DATABASE=${MYSQL_DATABASE}
-  #     - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-  #     - MYSQL_USER=${MYSQL_USER}
-  #     - MYSQL_PASSWORD=${MYSQL_PASSWORD}
-  #   command: mysqld --sql_mode="" --character-set-server=utf8 --collation-server=utf8_slovenian_ci --init-connect='SET NAMES UTF8;' --innodb-flush-log-at-trx-commit=0
-  #   ports:
-  #     - '8989:3306'
-  #   volumes:
-  #     - './data/db/mysql:/var/lib/mysql'
+version: '3.8'
 
+services:
+  # ============================================
+  # PostgreSQL 数据库服务
+  # ============================================
   postgres:
-    image: postgres:latest
+    image: postgres:16
     container_name: pg-hys
-    restart: "no"
+    restart: unless-stopped
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: 123456
-      PGPASSWORD: 123456
       POSTGRES_DB: hys-app
-      TZ: "Asia/Shanghai PRC"
+      TZ: "Asia/Shanghai"
     ports:
-      - 8988:5432
+      - "8988:5432"
     volumes:
       - ./data/db/postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d hys-app"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ============================================
+  # NestJS 应用服务
+  # ============================================
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: hdf-app
+    restart: unless-stopped
+    environment:
+      # Prisma 数据库连接 - 指向 compose 中的 postgres 服务
+      DATABASE_PgSQL_URL: "postgresql://postgres:123456@postgres:5432/hys-app"
+      NODE_ENV: production
+    ports:
+      - "3006:3006"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  # ============================================
+  # MySQL 服务（默认关闭，如需使用取消注释）
+  # ============================================
+  # mysqldb:
+  #   image: mysql:8.0.21
+  #   container_name: hys-db
+  #   restart: unless-stopped
+  #   environment:
+  #     MYSQL_DATABASE: hys-app
+  #     MYSQL_ROOT_PASSWORD: 123456
+  #     MYSQL_USER: dev
+  #     MYSQL_PASSWORD: dev
+  #   command: mysqld --sql_mode="" --character-set-server=utf8 --collation-server=utf8_slovenian_ci --init-connect='SET NAMES UTF8;' --innodb-flush-log-at-trx-commit=0
+  #   ports:
+  #     - "8989:3306"
+  #   volumes:
+  #     - ./data/db/mysql:/var/lib/mysql

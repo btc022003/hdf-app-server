@@ -2,6 +2,52 @@
 
 > 好大夫服务器端代码，基于 nest.js 框架开发
 
+## Docker 部署（推荐）
+
+已配置完整的 docker compose，无需手动安装 Node.js 和 PostgreSQL。
+
+### 生产模式
+
+```bash
+# 一键启动（构建镜像 + PostgreSQL + 应用）
+docker compose up -d
+
+# 查看日志
+docker compose logs -f app
+
+# 停止
+docker compose down
+```
+
+- 代码打包在镜像内，不依赖宿主机环境
+- 数据库数据持久化在 `./data/db/postgres`
+- 首次启动自动执行 `prisma db push` 和 `prisma db seed` 初始化数据库
+
+### 开发模式
+
+```bash
+# 源码挂载 + 热更新（修改代码自动重启）
+docker compose -f docker compose.yml -f docker compose.dev.yml up
+```
+
+- `src/`、`prisma/`、`public/` 目录实时挂载，修改立即生效
+- `npm run start:dev` 启动，文件变更自动重启
+
+### 服务端口
+
+| 服务       | 宿主机端口 | 容器内部端口 |
+| ---------- | ---------- | ------------ |
+| API 服务   | `3006`     | `3006`       |
+| PostgreSQL | `8988`     | `5432`       |
+
+启动后访问：
+
+- **接口文档**: http://localhost:3006/docs
+- **API 服务**: http://localhost:3006
+- **管理系统**: http://localhost:3006/manager
+
+---
+
 ## 运行环境
 
 nodejs
@@ -26,7 +72,7 @@ CREATE USER postgres with SUPERUSER password '123456';
 使用 docker 直接启动 mysql 环境亦可。配置文件已经添加，修改代码注释就可以
 
 ```bash
-docker-compose up
+docker compose up
 ```
 
 ## 启动项目
@@ -49,7 +95,7 @@ npm run start:prod
 
 ```bash
 npm run build
-pm2 start dist/src/main.js --name hdf-app-3306
+pm2 start dist/main.js --name hdf-app-3306
 ```
 
 [使用 acme.sh 给 Nginx 安装 Let’ s Encrypt 提供的免费 SSL 证书](https://ruby-china.org/topics/31983)
